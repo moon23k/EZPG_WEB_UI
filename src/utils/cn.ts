@@ -1,5 +1,24 @@
-export function cn(...parts: Array<string | false | null | undefined>): string {
-  return parts.filter(Boolean).join(" ");
+import { clsx, type ClassValue } from "clsx";
+import { extendTailwindMerge } from "tailwind-merge";
+
+// Teach tailwind-merge the `ez:` prefix and the theme keys defined in src/styles/index.css,
+// so a block passing `ez:rounded-button` to a component replaces its `ez:rounded-md`.
+const merge = extendTailwindMerge({
+  prefix: "ez",
+  extend: {
+    theme: {
+      radius: ["button"],
+      spacing: ["gutter", "section", "page"],
+      font: ["display", "body"],
+      "font-weight": ["title"],
+      tracking: ["brand"],
+      aspect: ["photo"],
+    },
+  },
+});
+
+export function cn(...inputs: ClassValue[]): string {
+  return merge(clsx(inputs));
 }
 
 export function won(value: number): string {

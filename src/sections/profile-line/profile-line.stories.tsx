@@ -1,4 +1,4 @@
-import type { Meta } from "@storybook/react-vite";
+import type { Meta } from "@storybook/nextjs-vite";
 
 const meta: Meta = { title: "sections/profile-line" };
 

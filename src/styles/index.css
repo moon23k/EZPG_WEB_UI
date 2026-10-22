@@ -40,7 +40,7 @@
 
   --font-display: var(--ezd-font-display);
   --font-body: var(--ezd-font-body);
-  --font-weight-display: var(--ezd-display-weight);
+  --font-weight-title: var(--ezd-display-weight);
   --tracking-brand: var(--ezd-tracking);
 
   --spacing-gutter: var(--ezd-gutter);

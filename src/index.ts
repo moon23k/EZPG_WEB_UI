@@ -10,6 +10,7 @@ export { EmptyState } from "./components/empty-state";
 export { Photo } from "./components/photo";
 export { Sheet } from "./components/sheet";
 export { Badge } from "./components/badge";
+export { Link } from "./components/link";
 export { SiteHeader } from "./blocks/site-header";
 export { SiteFooter } from "./blocks/site-footer";
 export { ProductCard } from "./blocks/product-card";
