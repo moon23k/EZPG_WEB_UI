@@ -4,10 +4,14 @@
   "type": "module",
   "exports": {
     ".": {
+      "source": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./base.css": "./dist/base.css",
+    "./styles.css": {
+      "source": "./src/styles/index.css",
+      "default": "./dist/styles.css"
+    },
     "./manifest.json": "./manifest.json"
   },
   "files": [
@@ -49,5 +53,8 @@
     "typescript": "~5.9.3",
     "vite": "^8.3.4",
     "vitest": "^5.0.5"
-  }
+  },
+  "sideEffects": [
+    "**/*.css"
+  ]
 }

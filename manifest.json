@@ -1,1 +1,11 @@
-{}
+{
+  "kinds": [
+    "category_menu",
+    "faq",
+    "free_shipping_bar",
+    "hero",
+    "maker_profile",
+    "product_grid",
+    "story"
+  ]
+}

@@ -1,1 +1,1 @@
-export {};
+export { designVars, fontHref } from "./tokens";
