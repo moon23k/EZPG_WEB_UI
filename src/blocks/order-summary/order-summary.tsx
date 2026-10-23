@@ -1,30 +1,20 @@
 import type { Quote } from "../../types";
-import { won } from "../../utils/cn";
+import { SummaryRows, type SummaryRow } from "../parts/summary-rows";
 
 export function OrderSummary({ quote }: { quote: Quote }) {
-  const rows: [string, number, boolean][] = [
-    ["상품 금액", quote.items_total, false],
-    ["상품 할인", quote.product_discount, true],
-    ["쿠폰 할인", quote.coupon_discount, true],
-    ["배송비", quote.delivery_fee, false],
-    ["지역 추가 배송비", quote.region_fee, false],
-    ["배송비 할인", quote.shipping_discount, true],
-    ["적립금 사용", quote.point_used, true],
+  const rows: SummaryRow[] = [
+    { label: "상품 금액", value: quote.items_total },
+    { label: "상품 할인", value: quote.product_discount, minus: true },
+    { label: "쿠폰 할인", value: quote.coupon_discount, minus: true },
+    { label: "배송비", value: quote.delivery_fee },
+    { label: "지역 추가 배송비", value: quote.region_fee },
+    { label: "배송비 할인", value: quote.shipping_discount, minus: true },
+    { label: "적립금 사용", value: quote.point_used, minus: true },
   ];
   return (
-    <dl className="ez-summary">
-      {rows
-        .filter(([label, value]) => value > 0 || label === "배송비")
-        .map(([label, value, minus]) => (
-          <div key={label}>
-            <dt>{label}</dt>
-            <dd>{minus ? `−${won(value)}` : won(value)}</dd>
-          </div>
-        ))}
-      <div className="ez-summary__total">
-        <dt>결제 금액</dt>
-        <dd>{won(quote.total)}</dd>
-      </div>
-    </dl>
+    <SummaryRows
+      rows={rows.filter((row) => row.value > 0 || row.label === "배송비")}
+      total={{ label: "결제 금액", value: quote.total }}
+    />
   );
 }

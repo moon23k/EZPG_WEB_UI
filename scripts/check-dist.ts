@@ -1,5 +1,3 @@
-// Fails the build when dist/ lost what Next.js needs: per-file "use client" directives
-// and a styles.css whose theme variables never point at themselves.
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join, relative } from "node:path";
 
@@ -26,6 +24,10 @@ for (const out of walk(join(root, "dist")).filter((f) => f.endsWith(".js"))) {
 const css = readFileSync(join(root, "dist/styles.css"), "utf8");
 for (const [, name, target] of css.matchAll(/(--[\w-]+):\s*var\((--[\w-]+)\)/g)) {
   if (name === target) errors.push(`self-referencing variable ${name} in dist/styles.css`);
+}
+
+for (const file of ["src/blocks", "src/sections"].flatMap((dir) => walk(join(root, dir))).filter((f) => f.endsWith(".tsx") && !f.endsWith(".stories.tsx"))) {
+  if (/className=["{`][^"}`]*\bez-[a-z]/.test(readFileSync(file, "utf8"))) errors.push(`legacy ez- class in ${relative(root, file)}`);
 }
 
 if (errors.length) {

@@ -1,13 +1,23 @@
+import NextLink from "next/link";
 import type { SectionProps } from "../../renderer/registry";
+import { cn } from "../../utils/cn";
+import { focusRing } from "../../utils/styles";
 
-export function CategoryMenu({ context }: SectionProps) {
+export function CategoryMenu({ context }: SectionProps<"category_menu">) {
   if (!context.categories.length) return null;
   return (
-    <nav className="ez-categories" aria-label="카테고리">
+    <nav data-slot="category-menu" aria-label="카테고리" className="ez:flex ez:flex-wrap ez:gap-2">
       {context.categories.map((c) => (
-        <a key={c.id} href={`/products?category=${c.id}`}>
+        <NextLink
+          key={c.id}
+          href={`/products?category=${c.id}`}
+          className={cn(
+            "ez:rounded-full ez:border ez:border-solid ez:border-primary-border ez:px-3.5 ez:py-2 ez:text-sm ez:text-fg ez:no-underline ez:hover:bg-primary-tint",
+            focusRing,
+          )}
+        >
           {c.name}
-        </a>
+        </NextLink>
       ))}
     </nav>
   );

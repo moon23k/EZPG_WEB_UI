@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { cn } from "../../utils/cn";
 
 export function Photo({
@@ -13,16 +14,12 @@ export function Photo({
   sizes?: string;
   className?: string;
 }) {
-  if (!src) return <div className={cn("ez-photo", "ez-photo--empty", className)} aria-hidden="true" />;
   return (
-    <img
-      className={cn("ez-photo", className)}
-      src={src}
-      alt={alt}
-      sizes={sizes}
-      loading={priority ? "eager" : "lazy"}
-      fetchPriority={priority ? "high" : "auto"}
-      decoding="async"
-    />
+    <div
+      data-slot="photo"
+      className={cn("ez:relative ez:w-full ez:aspect-photo ez:overflow-hidden ez:rounded-md ez:bg-surface-alt", className)}
+    >
+      {src && <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="ez:object-cover" />}
+    </div>
   );
 }

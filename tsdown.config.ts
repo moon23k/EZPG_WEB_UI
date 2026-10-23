@@ -1,7 +1,6 @@
 import { defineConfig } from "tsdown";
 
-// One output file per source module so each "use client" directive stays on its own file
-// and Next.js keeps the server/client boundary.
+// unbundle keeps each "use client" directive on its own file.
 export default defineConfig({
   entry: ["src/index.ts"],
   format: "esm",

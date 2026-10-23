@@ -1,1 +1,16 @@
-{}
+{
+  "shopName": "온기꽃방",
+  "heroTitle": "오늘 묶은 꽃을 오늘 보내드려요",
+  "heroSubtitle": "매일 아침 경매에서 고른 꽃으로 만듭니다.",
+  "productName": "라넌큘러스 핸드타이드",
+  "optionLabel": "M 사이즈",
+  "buttonLabel": "장바구니 담기",
+  "emptyTitle": "장바구니가 비어 있어요",
+  "emptyBody": "마음에 드는 꽃을 담아 보세요.",
+  "errorTitle": "불러오지 못했어요",
+  "errorBody": "잠시 후 다시 시도해 주세요.",
+  "faqQuestion": "당일 배송이 되나요?",
+  "faqAnswer": "오후 2시 전 주문은 당일 배송됩니다.",
+  "address": "서울특별시 마포구 월드컵북로 12",
+  "reviewBody": "사진보다 실물이 더 예뻐요."
+}

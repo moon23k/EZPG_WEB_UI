@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Button } from "../../components/button";
 import { Field, Input } from "../../components/field";
+import { cn } from "../../utils/cn";
+import { fieldset, legend } from "../parts/choice";
 
 type Picked = { zonecode: string; roadAddress: string };
 
@@ -60,19 +62,19 @@ export function AddressForm({
     }
   };
   return (
-    <fieldset className="ez-address">
-      <legend>배송지</legend>
+    <fieldset data-slot="address-form" className={cn(fieldset, "ez:gap-3.5")}>
+      <legend className={legend}>배송지</legend>
       <Field label="받는 분">
         <Input name="recipient" defaultValue={initial?.recipient} required maxLength={100} autoComplete="name" />
       </Field>
       <Field label="휴대폰 번호">
         <Input name="phone" defaultValue={initial?.phone} required inputMode="tel" autoComplete="tel" />
       </Field>
-      <div className="ez-address__postal">
+      <div className="ez:grid ez:grid-cols-[1fr_auto] ez:items-start ez:gap-2">
         <Field label="우편번호" error={failed ? "우편번호 검색을 불러오지 못했어요. 잠시 후 다시 눌러 주세요." : undefined}>
           <Input name="postal_code" value={postal} readOnly required placeholder="검색으로 입력" />
         </Field>
-        <Button variant="secondary" onClick={search}>
+        <Button variant="secondary" onClick={search} className="ez:mt-6.5">
           우편번호 검색
         </Button>
       </div>

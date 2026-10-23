@@ -16,9 +16,22 @@ export type SiteContext = {
   flags: Record<string, boolean>;
 };
 
-export type SectionProps = { data: Record<string, unknown>; context: SiteContext };
+// Mirrors EZPG_API app/brand/site/service.py `_section()`. Kinds without generated copy read only from context.
+export type SectionData = {
+  hero: { title?: string | null; sub?: string | null; button?: string | null };
+  story: { title?: string | null; body?: string[]; strengths?: { title: string; body: string }[] };
+  product_grid: { title?: string | null; lines?: Record<string, string> };
+  maker_profile: { line?: string | null };
+  faq: Record<string, never>;
+  category_menu: Record<string, never>;
+  free_shipping_bar: Record<string, never>;
+};
 
-export const sections: Record<string, ComponentType<SectionProps>> = {
+export type SectionKind = keyof SectionData;
+
+export type SectionProps<K extends SectionKind = SectionKind> = { data: SectionData[K]; context: SiteContext };
+
+export const sections: { [K in SectionKind]: ComponentType<SectionProps<K>> } = {
   hero: Hero,
   story: BrandStory,
   product_grid: ProductList,

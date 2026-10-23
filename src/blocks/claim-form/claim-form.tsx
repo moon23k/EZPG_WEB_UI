@@ -5,55 +5,52 @@ import { Button } from "../../components/button";
 import { Field, TextArea } from "../../components/field";
 import type { FormAction, FormState } from "../../types";
 import type { OrderItemView } from "../order-detail/order-detail";
+import { Choice, fieldset, legend } from "../parts/choice";
+import { form } from "../parts/form";
+import { Notice } from "../parts/notice";
+
+const LABEL = { return: "반품", exchange: "교환", cancel: "취소" } as const;
 
 export function ClaimForm({
   kind,
   items,
   action,
 }: {
-  kind: "return" | "exchange" | "cancel";
+  kind: keyof typeof LABEL;
   items: OrderItemView[];
   action: FormAction;
 }) {
   const [state, submit, pending] = useActionState<FormState, FormData>(action, {});
   const [reason, setReason] = useState("");
-  if (state.ok) return <p className="ez-muted">{state.message ?? "요청을 접수했어요."}</p>;
-  const label = kind === "return" ? "반품" : kind === "exchange" ? "교환" : "취소";
+  if (state.ok) return <Notice>{state.message ?? "요청을 접수했어요."}</Notice>;
+  const label = LABEL[kind];
   return (
-    <form action={submit} className="ez-form">
+    <form data-slot="claim-form" action={submit} className={form}>
       <input type="hidden" name="kind" value={kind} />
-      <fieldset>
-        <legend>{label}할 상품</legend>
+      <fieldset className={fieldset}>
+        <legend className={legend}>{label}할 상품</legend>
         {items.map((item) => (
-          <label key={item.id} className="ez-check">
-            <input type="checkbox" name="item" value={`${item.id}:${item.quantity}`} defaultChecked />
-            <span>
-              {item.product_name} {item.option_label ?? ""} · {item.quantity}개
-              {item.non_returnable && kind !== "cancel" ? " (단순 변심 불가)" : ""}
-            </span>
-          </label>
+          <Choice
+            key={item.id}
+            type="checkbox"
+            name="item"
+            value={`${item.id}:${item.quantity}`}
+            defaultChecked
+            label={`${item.product_name} ${item.option_label ?? ""} · ${item.quantity}개`}
+            description={item.non_returnable && kind !== "cancel" ? "단순 변심 불가 상품" : undefined}
+          />
         ))}
       </fieldset>
-      <fieldset>
-        <legend>사유</legend>
-        <label className="ez-check">
-          <input type="radio" name="fault" value="customer" defaultChecked /> 단순 변심
-        </label>
-        {kind !== "cancel" && (
-          <label className="ez-check">
-            <input type="radio" name="fault" value="seller" /> 상품 문제(파손·오배송)
-          </label>
-        )}
+      <fieldset className={fieldset}>
+        <legend className={legend}>사유</legend>
+        <Choice type="radio" name="fault" value="customer" defaultChecked label="단순 변심" />
+        {kind !== "cancel" && <Choice type="radio" name="fault" value="seller" label="상품 문제(파손·오배송)" />}
       </fieldset>
       <Field label="자세한 사유">
         <TextArea name="reason" required minLength={2} maxLength={500} value={reason} onChange={(e) => setReason(e.target.value)} />
       </Field>
-      {state.error && (
-        <p className="ez-error" role="alert">
-          {state.error}
-        </p>
-      )}
-      <Button type="submit" disabled={pending}>
+      {state.error && <Notice tone="error">{state.error}</Notice>}
+      <Button type="submit" disabled={pending} className="ez:justify-self-start">
         {label} 요청
       </Button>
     </form>

@@ -4,6 +4,9 @@ import { useActionState, useState } from "react";
 import { Button } from "../../components/button";
 import { Field, TextArea } from "../../components/field";
 import type { FormAction, FormState } from "../../types";
+import { Choice, fieldset, legend } from "../parts/choice";
+import { form } from "../parts/form";
+import { Notice } from "../parts/notice";
 
 export function ReviewForm({
   orderItemId,
@@ -16,29 +19,24 @@ export function ReviewForm({
 }) {
   const [state, submit, pending] = useActionState<FormState, FormData>(action, {});
   const [body, setBody] = useState("");
-  if (state.ok) return <p className="ez-muted">{productName} 후기를 남겼어요.</p>;
+  if (state.ok) return <Notice>{productName} 후기를 남겼어요.</Notice>;
   return (
-    <form action={submit} className="ez-form ez-review-form">
+    <form data-slot="review-form" action={submit} className={form}>
       <input type="hidden" name="order_item_id" value={orderItemId} />
       <strong>{productName}</strong>
-      <fieldset className="ez-rating">
-        <legend>별점</legend>
-        {[5, 4, 3, 2, 1].map((n) => (
-          <label key={n}>
-            <input type="radio" name="rating" value={n} defaultChecked={n === 5} />
-            {n}점
-          </label>
-        ))}
+      <fieldset className={fieldset}>
+        <legend className={legend}>별점</legend>
+        <div className="ez:flex ez:flex-wrap ez:gap-4">
+          {[5, 4, 3, 2, 1].map((n) => (
+            <Choice key={n} type="radio" name="rating" value={n} defaultChecked={n === 5} label={`${n}점`} />
+          ))}
+        </div>
       </fieldset>
       <Field label="후기">
         <TextArea name="body" required minLength={5} maxLength={2000} value={body} onChange={(e) => setBody(e.target.value)} />
       </Field>
-      {state.error && (
-        <p className="ez-error" role="alert">
-          {state.error}
-        </p>
-      )}
-      <Button type="submit" disabled={pending}>
+      {state.error && <Notice tone="error">{state.error}</Notice>}
+      <Button type="submit" disabled={pending} className="ez:justify-self-start">
         후기 등록
       </Button>
     </form>

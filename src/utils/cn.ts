@@ -1,8 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { extendTailwindMerge } from "tailwind-merge";
 
-// Teach tailwind-merge the `ez:` prefix and the theme keys defined in src/styles/index.css,
-// so a block passing `ez:rounded-button` to a component replaces its `ez:rounded-md`.
+// Theme keys must match src/styles/index.css.
 const merge = extendTailwindMerge({
   prefix: "ez",
   extend: {

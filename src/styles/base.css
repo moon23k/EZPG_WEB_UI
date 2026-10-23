@@ -1,0 +1,44 @@
+/* --ezd-*: runtime shop design values. --ez-*: Tailwind theme vars (prefix), which only point at --ezd-*. */
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme) prefix(ez);
+@import "tailwindcss/utilities.css" layer(components) source(none);
+
+
+@theme {
+  --color-*: initial;
+  --color-danger: #b42318;
+  --color-danger-tint: #fde8e7;
+  --color-overlay: rgb(0 0 0 / 0.35);
+}
+
+@theme inline {
+  --color-primary: var(--ezd-primary);
+  --color-on-primary: var(--ezd-on-primary);
+  --color-primary-hover: var(--ezd-primary-hover);
+  --color-primary-tint: var(--ezd-primary-tint);
+  --color-primary-border: var(--ezd-primary-border);
+  --color-surface: var(--ezd-surface);
+  --color-surface-alt: var(--ezd-surface-alt);
+  --color-fg: var(--ezd-text);
+  --color-muted: var(--ezd-muted);
+
+  --radius-sm: var(--ezd-radius-sm);
+  --radius-md: var(--ezd-radius-md);
+  --radius-lg: var(--ezd-radius-lg);
+  --radius-button: var(--ezd-button-radius);
+
+  --font-display: var(--ezd-font-display);
+  --font-body: var(--ezd-font-body);
+  --font-weight-title: var(--ezd-display-weight);
+  --tracking-brand: var(--ezd-tracking);
+
+  --spacing-gutter: var(--ezd-gutter);
+  --spacing-section: var(--ezd-section-gap);
+  --spacing-page: var(--ezd-pad);
+
+  --aspect-photo: var(--ezd-photo-ratio);
+  --default-transition-duration: var(--ezd-duration);
+}
+
+@import "./legacy.css" layer(components) source(none);

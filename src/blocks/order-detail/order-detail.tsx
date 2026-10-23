@@ -1,8 +1,13 @@
 import type { ReactNode } from "react";
 import { Badge } from "../../components/badge";
+import type { OrderStatus, Schemas } from "../../types";
 import { kstDate, won } from "../../utils/cn";
+import { OrderSummary } from "../order-summary";
+import { AddressText } from "../parts/address-text";
+import { LineItem, lineList } from "../parts/line-item";
+import { Notice } from "../parts/notice";
 
-export const STATUS_LABEL: Record<string, string> = {
+export const STATUS_LABEL: Record<OrderStatus, string> = {
   pending_payment: "결제 대기",
   paid: "결제 완료",
   preparing: "상품 준비 중",
@@ -22,76 +27,87 @@ export const ORDER_ACTIONS: Record<string, OrderAction[]> = {
   delivered: ["return", "exchange", "complete"],
   completed: ["review"],
   canceled: [],
-};
+} satisfies Record<OrderStatus, OrderAction[]>;
 
-export type OrderItemView = {
-  id: string;
-  product_name: string;
-  option_label: string | null;
-  quantity: number;
-  paid_amount: number;
-  refunded_amount: number;
-  non_returnable: boolean;
-};
+export type OrderItemView = Pick<
+  Schemas["OrderItemOut"],
+  "id" | "product_name" | "option_label" | "quantity" | "paid_amount" | "refunded_amount" | "non_returnable"
+>;
 
-export type OrderView = {
-  number: string;
-  status: string;
-  created_at: string;
-  total: number;
-  delivery_fee: number;
-  region_fee: number;
-  ship_recipient: string;
-  ship_address: string;
-  ship_address_detail: string | null;
+export type OrderView = Pick<
+  Schemas["OrderOut"],
+  | "number"
+  | "status"
+  | "created_at"
+  | "items_total"
+  | "product_discount"
+  | "coupon_discount"
+  | "delivery_fee"
+  | "region_fee"
+  | "shipping_discount"
+  | "point_used"
+  | "total"
+  | "ship_recipient"
+  | "ship_postal_code"
+  | "ship_address"
+  | "ship_address_detail"
+> & {
   items: OrderItemView[];
-  shipments: { carrier: string; tracking_no: string; status: string }[];
+  shipments: Pick<Schemas["ShipmentOut"], "carrier" | "tracking_no">[];
 };
 
-export function OrderDetail({ order, actions }: { order: OrderView; actions?: ReactNode }) {
+const section = "ez:grid ez:gap-2";
+const heading = "ez:m-0 ez:font-body ez:text-base ez:font-semibold";
+
+export function OrderDetail({
+  order,
+  actions,
+  labels = STATUS_LABEL,
+}: {
+  order: OrderView;
+  actions?: ReactNode;
+  labels?: Record<OrderStatus, string>;
+}) {
   return (
-    <article className="ez-order">
-      <header className="ez-order__head">
-        <h1>주문 {order.number}</h1>
-        <Badge tone="primary">{STATUS_LABEL[order.status] ?? order.status}</Badge>
-        <span className="ez-muted">{kstDate(order.created_at)}</span>
+    <article data-slot="order-detail" className="ez:grid ez:gap-6 ez:text-fg">
+      <header className="ez:flex ez:flex-wrap ez:items-center ez:gap-x-3 ez:gap-y-1">
+        <h1 className="ez:m-0 ez:font-body ez:text-xl ez:font-semibold">주문 {order.number}</h1>
+        <Badge tone="primary">{labels[order.status]}</Badge>
+        <span className="ez:text-sm ez:text-muted">{kstDate(order.created_at)}</span>
       </header>
-      <ul className="ez-lines">
+      <ul className={lineList}>
         {order.items.map((item) => (
-          <li key={item.id} className="ez-line">
-            <div className="ez-line__info">
-              <span className="ez-line__name">{item.product_name}</span>
-              {item.option_label && <span className="ez-line__option">{item.option_label}</span>}
-              <span className="ez-muted">{item.quantity}개</span>
-              {item.non_returnable && <span className="ez-muted">교환·반품 불가 상품</span>}
-              {item.refunded_amount > 0 && <span className="ez-muted">환불 {won(item.refunded_amount)}</span>}
-            </div>
-            <strong className="ez-line__total">{won(item.paid_amount)}</strong>
-          </li>
+          <LineItem
+            key={item.id}
+            name={item.product_name}
+            option={item.option_label}
+            amount={won(item.paid_amount)}
+            meta={
+              <>
+                <Notice>{item.quantity}개</Notice>
+                {item.non_returnable && <Notice>교환·반품 불가 상품</Notice>}
+                {item.refunded_amount > 0 && <Notice>환불 {won(item.refunded_amount)}</Notice>}
+              </>
+            }
+          />
         ))}
       </ul>
-      <dl className="ez-summary">
-        <div>
-          <dt>배송비</dt>
-          <dd>{won(order.delivery_fee + order.region_fee)}</dd>
-        </div>
-        <div className="ez-summary__total">
-          <dt>결제 금액</dt>
-          <dd>{won(order.total)}</dd>
-        </div>
-      </dl>
-      <section className="ez-order__ship">
-        <h2>배송지</h2>
-        <p>
-          {order.ship_recipient} · {order.ship_address} {order.ship_address_detail ?? ""}
-        </p>
+      <OrderSummary quote={order} />
+      <section className={section}>
+        <h2 className={heading}>배송지</h2>
+        <AddressText
+          recipient={order.ship_recipient}
+          postalCode={order.ship_postal_code}
+          address={order.ship_address}
+          detail={order.ship_address_detail}
+        />
         {order.shipments.map((s) => (
-          <p key={s.tracking_no} className="ez-muted">
+          <Notice key={s.tracking_no}>
             {s.carrier} {s.tracking_no}
-          </p>
+          </Notice>
         ))}
       </section>
-      {actions && <div className="ez-order__actions">{actions}</div>}
+      {actions && <div className="ez:flex ez:flex-wrap ez:gap-2">{actions}</div>}
     </article>
   );
 }

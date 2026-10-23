@@ -1,34 +1,13 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { OverlayFrame, type OverlayProps } from "../dialog/dialog";
 
-export function Sheet({
-  open,
-  title,
-  onClose,
-  children,
-}: {
-  open: boolean;
-  title: string;
-  onClose: () => void;
-  children: ReactNode;
-}) {
-  const ref = useRef<HTMLDialogElement>(null);
-  useEffect(() => {
-    const dialog = ref.current;
-    if (!dialog) return;
-    if (open && !dialog.open) dialog.showModal();
-    if (!open && dialog.open) dialog.close();
-  }, [open]);
+export function Sheet(props: OverlayProps) {
   return (
-    <dialog ref={ref} className="ez-sheet" aria-label={title} onClose={onClose}>
-      <div className="ez-sheet__head">
-        <strong>{title}</strong>
-        <button type="button" className="ez-sheet__close" aria-label="닫기" onClick={onClose}>
-          ×
-        </button>
-      </div>
-      {children}
-    </dialog>
+    <OverlayFrame
+      {...props}
+      slot="sheet"
+      className="ez:inset-x-0 ez:bottom-0 ez:mx-auto ez:w-full ez:max-w-140 ez:max-h-[85dvh] ez:overflow-y-auto ez:rounded-t-lg ez:px-page ez:pt-5 ez:pb-7"
+    />
   );
 }

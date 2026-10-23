@@ -44,6 +44,7 @@ export function designVars(design: Design | null | undefined): Record<string, st
     "--ezd-radius-lg": `${d.shape?.radius_lg ?? 14}px`,
     "--ezd-button-radius": buttonRadius(d),
     "--ezd-section-gap": `${Math.min(d.density?.section_gap ?? 72, 120)}px`,
+    "--ezd-pad": "16px",
     "--ezd-gutter": `${d.density?.grid_gutter ?? 20}px`,
     "--ezd-font-display": family(d.font?.display),
     "--ezd-font-body": family(d.font?.body),
@@ -51,6 +52,7 @@ export function designVars(design: Design | null | undefined): Record<string, st
     "--ezd-tracking": `${d.font?.letter_spacing_em ?? 0}em`,
     "--ezd-duration": `${d.motion?.duration_ms ?? 180}ms`,
     "--ezd-photo-ratio": ratio,
+    "--ezd-overlay": String(d.imagery?.overlay_opacity ?? 0.35),
   };
 }
 

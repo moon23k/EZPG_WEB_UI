@@ -1,36 +1,56 @@
-import type { AnchorHTMLAttributes, ButtonHTMLAttributes } from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import NextLink from "next/link";
+import type { ButtonHTMLAttributes, ComponentProps } from "react";
 import { cn } from "../../utils/cn";
+import { focusRing } from "../../utils/styles";
 
-type Variant = "primary" | "secondary" | "ghost";
+export const buttonVariants = cva(
+  [
+    "ez:inline-flex ez:items-center ez:justify-center ez:gap-1.5 ez:box-border ez:m-0",
+    "ez:rounded-button ez:border ez:border-solid ez:border-transparent",
+    "ez:font-body ez:font-semibold ez:no-underline ez:cursor-pointer ez:select-none",
+    "ez:transition-colors ez:disabled:cursor-not-allowed ez:disabled:opacity-45",
+    focusRing,
+  ],
+  {
+    variants: {
+      variant: {
+        primary: "ez:bg-primary ez:text-on-primary ez:hover:bg-primary-hover",
+        secondary: "ez:bg-transparent ez:border-primary-border ez:text-fg ez:hover:bg-primary-tint",
+        ghost: "ez:bg-transparent ez:text-fg ez:hover:bg-primary-tint",
+      },
+      size: {
+        md: "ez:min-h-12 ez:px-5 ez:text-base",
+        sm: "ez:min-h-9 ez:px-3 ez:text-sm",
+      },
+      block: { true: "ez:w-full" },
+    },
+    defaultVariants: { variant: "primary", size: "md" },
+  },
+);
 
-type Common = { variant?: Variant; block?: boolean };
+type Variants = VariantProps<typeof buttonVariants>;
 
 export function Button({
-  variant = "primary",
+  variant,
+  size,
   block,
   className,
   type = "button",
   ...rest
-}: Common & ButtonHTMLAttributes<HTMLButtonElement>) {
+}: Variants & ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button
       type={type}
-      className={cn("ez-btn", `ez-btn--${variant}`, block && "ez-btn--block", className)}
+      data-slot="button"
+      className={cn(buttonVariants({ variant, size, block }), className)}
       {...rest}
     />
   );
 }
 
-export function ButtonLink({
-  variant = "primary",
-  block,
-  className,
-  ...rest
-}: Common & AnchorHTMLAttributes<HTMLAnchorElement>) {
+export function ButtonLink({ variant, size, block, className, ...rest }: Variants & ComponentProps<typeof NextLink>) {
   return (
-    <a
-      className={cn("ez-btn", `ez-btn--${variant}`, block && "ez-btn--block", className)}
-      {...rest}
-    />
+    <NextLink data-slot="button" className={cn(buttonVariants({ variant, size, block }), className)} {...rest} />
   );
 }

@@ -1,15 +1,11 @@
 import { Badge } from "../../components/badge";
+import { buttonVariants } from "../../components/button";
 import { EmptyState } from "../../components/empty-state";
+import type { Schemas } from "../../types";
+import { AddressText } from "../parts/address-text";
+import { lineList } from "../parts/line-item";
 
-export type AddressRow = {
-  id: string;
-  recipient: string;
-  phone: string;
-  postal_code: string;
-  address: string;
-  address_detail: string | null;
-  is_default: boolean;
-};
+export type AddressRow = Schemas["AddressOut"];
 
 export function AddressBook({
   addresses,
@@ -20,19 +16,25 @@ export function AddressBook({
 }) {
   if (!addresses.length) return <EmptyState title="저장한 배송지가 없어요." />;
   return (
-    <ul className="ez-addresses">
+    <ul data-slot="address-book" className={lineList}>
       {addresses.map((a) => (
-        <li key={a.id}>
-          <div>
-            <strong>{a.recipient}</strong> {a.is_default && <Badge tone="primary">기본</Badge>}
-            <p>
-              ({a.postal_code}) {a.address} {a.address_detail ?? ""}
-            </p>
-            <p className="ez-muted">{a.phone}</p>
+        <li
+          key={a.id}
+          className="ez:flex ez:items-start ez:justify-between ez:gap-3 ez:border-0 ez:border-b ez:border-solid ez:border-primary-border ez:py-3.5"
+        >
+          <div className="ez:grid ez:gap-1">
+            {a.is_default && <Badge tone="primary" className="ez:justify-self-start">기본</Badge>}
+            <AddressText
+              recipient={a.recipient}
+              phone={a.phone}
+              postalCode={a.postal_code}
+              address={a.address}
+              detail={a.address_detail}
+            />
           </div>
           <form action={removeAction}>
             <input type="hidden" name="id" value={a.id} />
-            <button type="submit" className="ez-link">
+            <button type="submit" className={buttonVariants({ variant: "ghost", size: "sm" })} aria-label={`${a.recipient} 배송지 삭제`}>
               삭제
             </button>
           </form>

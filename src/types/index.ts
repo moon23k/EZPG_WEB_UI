@@ -1,6 +1,10 @@
+import type { Schemas } from "./contract";
+
+export type { Schemas };
+
 export type Design = {
   font?: { display?: string; body?: string; display_weight?: number; letter_spacing_em?: number };
-  shape?: { radius_sm?: number; radius_md?: number; radius_lg?: number; button_shape?: string };
+  shape?: { radius_sm?: number; radius_md?: number; radius_lg?: number; button_shape?: "rounded" | "pill" | "square" };
   density?: { section_gap?: number; grid_gutter?: number };
   motion?: { duration_ms?: number };
   imagery?: { photo_ratio?: string; overlay_opacity?: number };
@@ -22,23 +26,17 @@ export type Design = {
 
 export type Section = { kind: string; v?: number; when?: string; data: Record<string, unknown> };
 
-export type ProductSummary = {
-  id: string;
-  name: string;
-  list_price: number;
-  sale_price: number;
-  cover_url: string | null;
-  sold_out: boolean;
-};
+export type ProductSummary = Schemas["CustomerProductSummary"];
 
-export type Variant = { id: string; label: string | null; price: number; in_stock: boolean };
+export type Variant = Schemas["CustomerVariant"];
 
-export type ProductDetail = ProductSummary & {
-  option_name: string | null;
-  variants: Variant[];
-  images: string[];
-  non_returnable?: boolean;
-};
+export type ProductDetail = ProductSummary &
+  Pick<Schemas["CustomerProduct"], "option_name" | "variants" | "images"> &
+  Partial<Pick<Schemas["CustomerProduct"], "non_returnable">>;
+
+export type OrderStatus = Schemas["OrderStatus"];
+
+export type CustomerProvider = Schemas["CustomerProvider"];
 
 export type Business = {
   name: string;
@@ -58,29 +56,19 @@ export type Shipping = {
   return_days: number;
 };
 
-export type CartLine = {
-  variant_id: string;
-  product_id: string;
-  name: string;
-  option_label: string | null;
-  list_price: number;
-  unit_price: number;
-  quantity: number;
-  line_total: number;
-  sellable: boolean;
-  enough_stock: boolean;
-};
+export type CartLine = Schemas["CartLineOut"];
 
-export type Quote = {
-  items_total: number;
-  product_discount: number;
-  coupon_discount: number;
-  delivery_fee: number;
-  region_fee: number;
-  shipping_discount: number;
-  point_used: number;
-  total: number;
-};
+export type Quote = Pick<
+  Schemas["OrderOut"],
+  | "items_total"
+  | "product_discount"
+  | "coupon_discount"
+  | "delivery_fee"
+  | "region_fee"
+  | "shipping_discount"
+  | "point_used"
+  | "total"
+>;
 
 export type Faq = { id: string; question: string; answer: string };
 
