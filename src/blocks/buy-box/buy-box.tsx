@@ -9,6 +9,7 @@ import type { FormAction, FormState, ProductDetail } from "../../types";
 import { cn, won } from "../../utils/cn";
 import { fieldset, legend } from "../parts/choice";
 import { Notice } from "../parts/notice";
+import { Status } from "../parts/status";
 
 export function BuyBox({
   product,
@@ -71,13 +72,14 @@ export function BuyBox({
         <span className="ez:text-sm ez:font-semibold">수량</span>
         <Quantity value={quantity} onChange={setQuantity} />
       </div>
-      <p className="ez:m-0 ez:flex ez:items-baseline ez:justify-between ez:tabular-nums">
-        합계 <strong className="ez:text-xl">{won(unit * quantity)}</strong>
+      <p className="ez:m-0 ez:flex ez:items-center ez:justify-between ez:gap-3">
+        {product.non_returnable ? <Status icon="ban">교환·반품 불가</Status> : <span>합계</span>}
+        <strong className="ez:text-xl ez:font-semibold ez:tracking-[-0.02em] ez:tabular-nums">
+          {(unit * quantity).toLocaleString("ko-KR")}
+          <span className="ez:text-base">원</span>
+        </strong>
       </p>
-      {product.non_returnable && (
-        <Notice tone="info">이 상품은 주문 제작 등의 이유로 단순 변심에 의한 교환·반품이 불가합니다.</Notice>
-      )}
-      {!selling && <Notice tone="info">지금은 주문을 받지 않는 상점입니다.</Notice>}
+      {!selling && <Status icon="alert">주문을 받지 않는 상점이에요</Status>}
       {state.error && <Notice tone="error">{state.error}</Notice>}
       <div className="ez:grid ez:grid-cols-2 ez:gap-2">
         <Button type="submit" variant="secondary" disabled={blocked || pending}>

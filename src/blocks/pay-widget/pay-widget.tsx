@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "../../components/button";
 import { won } from "../../utils/cn";
 import { Notice } from "../parts/notice";
+import { Status } from "../parts/status";
 
 type Widgets = {
   setAmount: (amount: { currency: "KRW"; value: number }) => Promise<void>;
@@ -84,11 +85,11 @@ export function PayWidget({ request, mock }: { request: PayRequest; mock?: boole
     <div data-slot="pay-widget" className="ez:grid ez:gap-3">
       <div id="ez-pay-methods" />
       <div id="ez-pay-agreement" />
-      <Notice>결제는 토스페이먼츠 구매안전 서비스로 처리됩니다.</Notice>
       {error && <Notice tone="error">{error}</Notice>}
       <Button block onClick={pay} disabled={!ready}>
         {won(request.amount)} 결제하기
       </Button>
+      <Status icon="shield" className="ez:justify-self-center">토스페이먼츠 구매안전 서비스</Status>
     </div>
   );
 }

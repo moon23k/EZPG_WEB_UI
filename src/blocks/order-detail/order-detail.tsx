@@ -6,6 +6,7 @@ import { OrderSummary } from "../order-summary";
 import { AddressText } from "../parts/address-text";
 import { LineItem, lineList } from "../parts/line-item";
 import { Notice } from "../parts/notice";
+import { Status } from "../parts/status";
 import { HomeIcon, TruckIcon } from "../parts/empty-icons";
 
 export const STATUS_LABEL: Record<OrderStatus, string> = {
@@ -83,11 +84,11 @@ export function OrderDetail({
             name={item.product_name}
             option={item.option_label}
             amount={won(item.paid_amount)}
+            amountNote={item.refunded_amount > 0 ? `환불 ${won(item.refunded_amount)}` : undefined}
             meta={
               <>
-                <Notice>{item.quantity}개</Notice>
-                {item.non_returnable && <Notice>교환·반품 불가 상품</Notice>}
-                {item.refunded_amount > 0 && <Notice>환불 {won(item.refunded_amount)}</Notice>}
+                <span className="ez:text-[13px] ez:text-muted">{item.quantity}개</span>
+                {item.non_returnable && <Status icon="ban">교환·반품 불가</Status>}
               </>
             }
           />

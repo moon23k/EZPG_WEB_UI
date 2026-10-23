@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import axe from "axe-core";
 import { useState } from "react";
 import { describe, expect, it } from "vitest";
-import { AddressForm, BuyBox, Button, Checkbox, Dialog, Quantity, type ProductDetail } from "../src";
+import { AddressForm, BuyBox, Button, CartView, Checkbox, Dialog, Quantity, type ProductDetail } from "../src";
 
 // jsdom has no layout or canvas, so contrast is not checked here.
 async function expectNoA11yViolations(container: HTMLElement) {
@@ -73,7 +73,7 @@ describe("BuyBox", () => {
   it("updates the total for the chosen option and opens the sheet after adding", async () => {
     const { container } = render(<BuyBox product={product} addAction={async () => ({ ok: true, message: "담았어요" })} />);
     await userEvent.click(screen.getByLabelText(/^M/));
-    expect(screen.getByText("합계").querySelector("strong")).toHaveTextContent("52,000원");
+    expect(screen.getByText("합계").parentElement?.querySelector("strong")).toHaveTextContent("52,000원");
     expect(screen.getByRole("link", { name: "바로 구매" })).toHaveAttribute("href", "/checkout?item=v2&qty=1");
     await expectNoA11yViolations(container);
     await userEvent.click(screen.getByRole("button", { name: "장바구니 담기" }));
@@ -95,5 +95,26 @@ describe("AddressForm", () => {
     expect(group.getByRole("textbox", { name: "우편번호" })).toHaveValue("06236");
     expect(group.getByRole("textbox", { name: "주소" })).toHaveValue("서울 강남구 테헤란로 152");
     await expectNoA11yViolations(container);
+  });
+});
+
+describe("CartView", () => {
+  const base = { product_id: "p", option_label: null, image_key: null, list_price: 10000, sellable: true, enough_stock: true };
+  const lines = [
+    { ...base, variant_id: "a", name: "튤립", unit_price: 10000, quantity: 1, line_total: 10000 },
+    { ...base, variant_id: "b", name: "장미", unit_price: 20000, quantity: 1, line_total: 20000 },
+    { ...base, variant_id: "c", name: "작약", unit_price: 30000, quantity: 2, line_total: 60000, enough_stock: false },
+  ];
+  const noop = async () => {};
+
+  it("leaves out lines that cannot be bought and follows the selection", async () => {
+    render(<CartView lines={lines} updateAction={noop} removeAction={noop} />);
+    const order = screen.getByRole("link", { name: /주문하기/ });
+    expect(order).toHaveTextContent("30,000원 주문하기");
+    expect(order).toHaveAttribute("href", "/checkout?items=a,b");
+    expect(screen.getByRole("checkbox", { name: "작약 선택" })).toBeDisabled();
+    await userEvent.click(screen.getByRole("checkbox", { name: "튤립 선택" }));
+    expect(screen.getByRole("link", { name: /주문하기/ })).toHaveAttribute("href", "/checkout?items=b");
+    expect(screen.getByRole("button", { name: "작약 수량 늘리기" })).toBeDisabled();
   });
 });
