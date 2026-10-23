@@ -20,6 +20,7 @@ const copies = { normal, longest };
 export type Copy = typeof normal;
 
 const preview: Preview = {
+  tags: ["autodocs"],
   globalTypes: {
     theme: {
       description: "상점 테마",

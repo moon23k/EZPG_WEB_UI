@@ -6,7 +6,6 @@ import { Quantity } from "./quantity";
 const meta: Meta<typeof Quantity> = {
   title: "components/quantity",
   component: Quantity,
-  tags: ["autodocs"],
   decorators: [padded],
   args: { min: 1, max: 5 },
 };

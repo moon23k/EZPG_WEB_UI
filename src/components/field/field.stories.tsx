@@ -6,7 +6,6 @@ import { Field, Input, TextArea } from "./field";
 const meta: Meta<typeof Field> = {
   title: "components/field",
   component: Field,
-  tags: ["autodocs"],
   decorators: [padded],
 };
 

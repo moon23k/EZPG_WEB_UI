@@ -9,7 +9,6 @@ import { Sheet } from "./sheet";
 const meta: Meta<typeof Sheet> = {
   title: "components/sheet",
   component: Sheet,
-  tags: ["autodocs"],
   decorators: [padded],
 };
 

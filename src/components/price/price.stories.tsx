@@ -5,7 +5,6 @@ import { Price } from "./price";
 const meta: Meta<typeof Price> = {
   title: "components/price",
   component: Price,
-  tags: ["autodocs"],
   decorators: [padded],
   args: { value: 52000, list: 58000 },
 };

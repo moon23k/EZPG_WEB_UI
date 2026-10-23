@@ -11,7 +11,6 @@ const sample =
 const meta: Meta<typeof Photo> = {
   title: "components/photo",
   component: Photo,
-  tags: ["autodocs"],
   decorators: [padded],
   args: { src: sample, alt: "라넌큘러스 핸드타이드" },
 };

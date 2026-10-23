@@ -9,7 +9,6 @@
       "import": "./dist/index.js"
     },
     "./styles.css": {
-      "source": "./src/styles/index.css",
       "default": "./dist/styles.css"
     },
     "./manifest.json": "./manifest.json"
@@ -28,7 +27,8 @@
     "dev:css": "tailwindcss -i src/styles/index.css -o dist/styles.css --watch",
     "test": "vitest run --project unit",
     "test:stories": "vitest run --project storybook --passWithNoTests",
-    "sync:contracts": "tsx scripts/sync-contracts.ts"
+    "sync:contracts": "tsx scripts/sync-contracts.ts",
+    "check:consumer": "scripts/check-consumer.sh"
   },
   "peerDependencies": {
     "next": ">=16",

@@ -6,7 +6,6 @@ import { Button, ButtonLink } from "./button";
 const meta: Meta<typeof Button> = {
   title: "components/button",
   component: Button,
-  tags: ["autodocs"],
   decorators: [padded],
   args: { variant: "primary", size: "md", block: false, disabled: false },
   argTypes: {

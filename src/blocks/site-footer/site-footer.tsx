@@ -9,12 +9,16 @@ export function SiteFooter({
   hosting,
   policies,
   closing,
+  policyHref = (key) => `/policy/${key}`,
+  lookupHref = "/orders/lookup",
 }: {
   storeName: string;
   business: Business | null;
   hosting: string;
   policies: { key: string; title: string }[];
   closing?: string | null;
+  policyHref?: (key: string) => string;
+  lookupHref?: string;
 }) {
   const legal: [string, string][] = business
     ? [
@@ -33,11 +37,11 @@ export function SiteFooter({
       {closing && <p className="ez:m-0 ez:text-sm ez:text-fg">{closing}</p>}
       <nav aria-label="약관" className="ez:flex ez:flex-wrap ez:gap-x-4 ez:gap-y-1">
         {policies.map((p) => (
-          <NextLink key={p.key} href={`/policy/${p.key}`} className={link}>
+          <NextLink key={p.key} href={policyHref(p.key)} className={link}>
             {p.title}
           </NextLink>
         ))}
-        <NextLink href="/orders/lookup" className={link}>
+        <NextLink href={lookupHref} className={link}>
           비회원 주문 조회
         </NextLink>
       </nav>
