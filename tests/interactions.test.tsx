@@ -3,7 +3,14 @@ import userEvent from "@testing-library/user-event";
 import axe from "axe-core";
 import { useState } from "react";
 import { describe, expect, it } from "vitest";
-import { AddressForm, BuyBox, Button, CartView, Checkbox, Dialog, Quantity, type ProductDetail } from "../src";
+import { AddressForm, BuyBox, Button, CartView, Checkbox, ClaimForm, Dialog, OrderSummary, Quantity, ReviewForm, type ProductDetail } from "../src";
+
+// Radix measures form-bound checkboxes; jsdom lacks the observer.
+globalThis.ResizeObserver ??= class {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+} as unknown as typeof ResizeObserver;
 
 // jsdom has no layout or canvas, so contrast is not checked here.
 async function expectNoA11yViolations(container: HTMLElement) {
@@ -73,17 +80,20 @@ describe("BuyBox", () => {
   it("updates the total for the chosen option and opens the sheet after adding", async () => {
     const { container } = render(<BuyBox product={product} addAction={async () => ({ ok: true, message: "담았어요" })} />);
     await userEvent.click(screen.getByLabelText(/^M/));
-    expect(screen.getByText("합계").parentElement?.querySelector("strong")).toHaveTextContent("52,000원");
+    expect(screen.getByText("부터").parentElement).toHaveTextContent("42,000원부터");
+    expect(screen.queryByText(/%$/)).toBeNull();
+    expect(screen.getByText("총 상품금액").parentElement?.querySelector("strong")).toHaveTextContent("52,000원");
     expect(screen.getByRole("link", { name: "바로 구매" })).toHaveAttribute("href", "/checkout?item=v2&qty=1");
     await expectNoA11yViolations(container);
     await userEvent.click(screen.getByRole("button", { name: "장바구니 담기" }));
     expect(await screen.findByRole("dialog", { name: "장바구니에 담았어요" })).toBeInTheDocument();
   });
 
-  it("blocks buying when sold out", () => {
-    render(<BuyBox product={{ ...product, sold_out: true }} addAction={async () => ({})} />);
-    expect(screen.getByRole("button", { name: "품절" })).toBeDisabled();
-    expect(screen.getByRole("button", { name: "바로 구매" })).toBeDisabled();
+  it("offers only a restock alert when sold out", () => {
+    render(<BuyBox product={{ ...product, sold_out: true }} addAction={async () => ({})} restockAction={async () => {}} />);
+    expect(screen.getByRole("button", { name: "재입고 알림" })).toBeEnabled();
+    expect(screen.queryByRole("button", { name: "장바구니 담기" })).toBeNull();
+    expect(screen.queryByText("바로 구매")).toBeNull();
   });
 });
 
@@ -109,12 +119,53 @@ describe("CartView", () => {
 
   it("leaves out lines that cannot be bought and follows the selection", async () => {
     render(<CartView lines={lines} updateAction={noop} removeAction={noop} />);
-    const order = screen.getByRole("link", { name: /주문하기/ });
-    expect(order).toHaveTextContent("30,000원 주문하기");
+    const order = screen.getByRole("link", { name: "주문하기" });
     expect(order).toHaveAttribute("href", "/checkout?items=a,b");
+    expect(screen.getByText("2/2")).toBeInTheDocument();
+    expect(screen.getByText("결제 예정 금액").nextElementSibling).toHaveTextContent("30,000원");
+    expect(screen.getByText("구매할 수 없는 상품 1개")).toBeInTheDocument();
     expect(screen.getByRole("checkbox", { name: "작약 선택" })).toBeDisabled();
     await userEvent.click(screen.getByRole("checkbox", { name: "튤립 선택" }));
-    expect(screen.getByRole("link", { name: /주문하기/ })).toHaveAttribute("href", "/checkout?items=b");
+    expect(screen.getByRole("link", { name: "주문하기" })).toHaveAttribute("href", "/checkout?items=b");
+    expect(screen.getByText("1/2")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "작약 수량 늘리기" })).toBeDisabled();
+  });
+});
+
+describe("OrderSummary", () => {
+  it("adds up from the list-price sum to the total", () => {
+    const quote = { items_total: 136000, product_discount: 6000, coupon_discount: 5000, delivery_fee: 3500, region_fee: 3000, shipping_discount: 0, point_used: 1000, total: 136500 };
+    render(<OrderSummary quote={quote} />);
+    expect(screen.getByText("상품 금액").nextElementSibling).toHaveTextContent("142,000원");
+    expect(142000 - 6000 - 5000 + 3500 + 3000 - 1000).toBe(quote.total);
+  });
+});
+
+describe("ReviewForm", () => {
+  it("starts with no rating and waits for one", async () => {
+    const { container } = render(<ReviewForm orderItemId="i1" productName="튤립" action={async () => ({})} />);
+    for (const n of [1, 2, 3, 4, 5]) expect(screen.getByRole("radio", { name: `${n}점` })).not.toBeChecked();
+    await userEvent.type(screen.getByRole("textbox", { name: "후기" }), "향이 좋아요");
+    expect(screen.getByRole("button", { name: "후기 등록" })).toBeDisabled();
+    await userEvent.click(screen.getByRole("radio", { name: "4점" }));
+    expect(screen.getByRole("button", { name: "후기 등록" })).toBeEnabled();
+    await expectNoA11yViolations(container);
+  });
+});
+
+describe("ClaimForm", () => {
+  const item = { option_label: null, line_total: 0, paid_amount: 0, refunded_amount: 0 };
+  const items = [
+    { ...item, id: "t", product_name: "튤립", quantity: 2, returned_quantity: 1, non_returnable: false },
+    { ...item, id: "r", product_name: "라넌큘러스", quantity: 1, returned_quantity: 0, non_returnable: true },
+  ];
+
+  it("locks non-returnable items unless the seller is at fault", async () => {
+    render(<ClaimForm kind="return" items={items} action={async () => ({})} />);
+    expect(screen.getByText("반품 가능 1개")).toBeInTheDocument();
+    expect(screen.getByRole("checkbox", { name: "라넌큘러스 선택" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "반품 신청" })).toBeDisabled();
+    await userEvent.click(screen.getByRole("radio", { name: /상품 문제/ }));
+    expect(screen.getByRole("checkbox", { name: "라넌큘러스 선택" })).toBeEnabled();
   });
 });

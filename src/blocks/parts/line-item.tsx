@@ -1,5 +1,6 @@
 import NextLink from "next/link";
 import type { ReactNode } from "react";
+import { cn } from "../../utils/cn";
 import { Notice } from "./notice";
 
 export const lineList = "ez:m-0 ez:p-0 ez:list-none";
@@ -12,6 +13,7 @@ export function LineItem({
   problem,
   amount,
   amountNote,
+  media,
   children,
 }: {
   name: string;
@@ -21,14 +23,19 @@ export function LineItem({
   problem?: string | null;
   amount: ReactNode;
   amountNote?: ReactNode;
+  media?: ReactNode;
   children?: ReactNode;
 }) {
   return (
     <li
       data-slot="line-item"
       data-problem={problem ?? undefined}
-      className="ez:grid ez:grid-cols-[1fr_auto] ez:items-start ez:gap-x-3 ez:gap-y-2 ez:border-0 ez:border-b ez:border-solid ez:border-primary-border ez:py-4"
+      className={cn(
+        "ez:grid ez:items-start ez:gap-x-3 ez:gap-y-2 ez:border-0 ez:border-b ez:border-solid ez:border-primary-border ez:py-4",
+        media ? "ez:grid-cols-[auto_1fr_auto]" : "ez:grid-cols-[1fr_auto]",
+      )}
     >
+      {media}
       <div className="ez:grid ez:gap-0.5 ez:min-w-0">
         {href ? (
           <NextLink href={href} className="ez:text-base ez:font-semibold ez:tracking-[-0.01em] ez:text-fg ez:no-underline ez:hover:underline">
@@ -45,7 +52,7 @@ export function LineItem({
         <strong className="ez:text-base ez:font-semibold ez:tabular-nums ez:text-fg">{amount}</strong>
         {amountNote && <span className="ez:text-[13px] ez:tabular-nums ez:text-muted">{amountNote}</span>}
       </div>
-      {children && <div className="ez:col-span-2 ez:flex ez:items-center ez:gap-3">{children}</div>}
+      {children && <div className="ez:col-span-full ez:flex ez:items-center ez:gap-3">{children}</div>}
     </li>
   );
 }

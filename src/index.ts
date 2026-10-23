@@ -22,8 +22,9 @@ export { CartLine } from "./blocks/cart-line";
 export { CartView } from "./blocks/cart-view";
 export { OrderSummary } from "./blocks/order-summary";
 export { AddressForm, type AddressValue } from "./blocks/address-form";
-export { ConsentForm, GUEST_PRIVACY_TEXT } from "./blocks/consent-form";
+export { ConsentForm, GUEST_PRIVACY_TEXT, type ConsentTerm } from "./blocks/consent-form";
 export { CheckoutLayout } from "./blocks/checkout-layout";
+export { CheckoutItems, type CheckoutLine } from "./blocks/checkout-items";
 export { PayWidget, type PayRequest } from "./blocks/pay-widget";
 export { OrderList, type OrderRow } from "./blocks/order-list";
 export {

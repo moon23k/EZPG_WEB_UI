@@ -13,11 +13,13 @@ export function AddressText({
 }) {
   return (
     <address data-slot="address" className="ez:grid ez:gap-0.5 ez:not-italic ez:text-fg">
-      <span className="ez:font-semibold">
-        {recipient}
-        {phone && <span className="ez:ml-2 ez:font-normal ez:text-muted">{phone}</span>}
-      </span>
-      <span>
+      {recipient && (
+        <span className="ez:font-semibold">
+          {recipient}
+          {phone && <span className="ez:ml-2 ez:font-normal ez:text-muted">{phone}</span>}
+        </span>
+      )}
+      <span className="ez:text-[13px]">
         {postalCode && <span className="ez:text-muted">({postalCode}) </span>}
         {address} {detail ?? ""}
       </span>

@@ -5,11 +5,12 @@ import { useMemo, useState } from "react";
 import { Button, ButtonLink } from "../../components/button";
 import { EmptyState } from "../../components/empty-state";
 import type { CartLineData as Line } from "../../types";
-import { cn, won } from "../../utils/cn";
+import { cn } from "../../utils/cn";
 import { focusRing } from "../../utils/styles";
 import { CartLine } from "../cart-line";
-import { ArrowIcon, BagIcon, emptyAction } from "../parts/empty-icons";
+import { BagIcon, emptyAction } from "../parts/empty-icons";
 import { lineList } from "../parts/line-item";
+import { SummaryRows } from "../parts/summary-rows";
 
 const boxClass = cn(
   "ez:size-5 ez:shrink-0 ez:box-border ez:p-0 ez:rounded-sm ez:border-2 ez:border-solid ez:border-muted ez:bg-surface ez:text-on-primary ez:cursor-pointer",
@@ -36,7 +37,27 @@ function Box(props: { checked: boolean; disabled?: boolean; onChange?: (v: boole
   );
 }
 
-// Lines that cannot be bought are left out automatically; the order button always reflects what will be bought.
+function RemoveMany({ ids, action, children }: { ids: string[]; action: (data: FormData) => void | Promise<void>; children: string }) {
+  return (
+    <form action={action}>
+      {ids.map((id) => (
+        <input key={id} type="hidden" name="variant_id" value={id} />
+      ))}
+      <button
+        type="submit"
+        disabled={!ids.length}
+        className={cn(
+          "ez:-mr-2 ez:h-11 ez:border-0 ez:bg-transparent ez:px-2 ez:text-[13px] ez:text-muted ez:cursor-pointer ez:disabled:cursor-not-allowed ez:disabled:opacity-45",
+          focusRing,
+        )}
+      >
+        {children}
+      </button>
+    </form>
+  );
+}
+
+// Lines that cannot be bought sit apart and never count as selectable. removeAction may receive several variant_id values.
 export function CartView({
   lines,
   updateAction,
@@ -51,21 +72,25 @@ export function CartView({
   checkoutHref?: string;
   imageSrc?: Record<string, string | null>;
 }) {
-  const buyable = useMemo(() => lines.filter((l) => l.sellable && l.enough_stock).map((l) => l.variant_id), [lines]);
   const [unchecked, setUnchecked] = useState<Set<string>>(new Set());
+  const [buyable, blocked] = useMemo(() => {
+    const ok = lines.filter((l) => l.sellable && l.enough_stock);
+    return [ok, lines.filter((l) => !ok.includes(l))];
+  }, [lines]);
   if (!lines.length) {
     return (
-      <EmptyState icon={<BagIcon />} count={0} title="장바구니에 담긴 상품이 없어요">
+      <EmptyState icon={<BagIcon />} title="장바구니가 비어 있어요">
         <ButtonLink href="/products" className={emptyAction}>
           쇼핑하기
-          <ArrowIcon />
         </ButtonLink>
       </EmptyState>
     );
   }
-  const selected = buyable.filter((id) => !unchecked.has(id));
-  const total = lines.filter((l) => selected.includes(l.variant_id)).reduce((sum, l) => sum + l.line_total, 0);
-  const allChecked = selected.length > 0 && selected.length === buyable.length;
+  const picked = buyable.filter((l) => !unchecked.has(l.variant_id));
+  const ids = picked.map((l) => l.variant_id);
+  const list = picked.reduce((sum, l) => sum + l.list_price * l.quantity, 0);
+  const total = picked.reduce((sum, l) => sum + l.line_total, 0);
+  const allChecked = picked.length > 0 && picked.length === buyable.length;
   const toggle = (id: string, on: boolean) =>
     setUnchecked((prev) => {
       const next = new Set(prev);
@@ -73,60 +98,74 @@ export function CartView({
       else next.add(id);
       return next;
     });
-  const href = `${checkoutHref}?items=${selected.map(encodeURIComponent).join(",")}`;
+  const row = (line: Line, available: boolean) => (
+    <CartLine
+      key={line.variant_id}
+      line={line}
+      updateAction={updateAction}
+      removeAction={removeAction}
+      imageSrc={imageSrc?.[line.variant_id] ?? null}
+      selector={
+        <Box
+          checked={available && !unchecked.has(line.variant_id)}
+          disabled={!available}
+          onChange={(on) => toggle(line.variant_id, on)}
+          label={`${line.name} 선택`}
+        />
+      }
+    />
+  );
   return (
     <div data-slot="cart-view" className="ez:grid ez:gap-6 ez:md:grid-cols-[2fr_1fr] ez:md:items-start ez:text-fg">
       <div>
-        <label className="ez:flex ez:h-13 ez:cursor-pointer ez:items-center ez:gap-2.5 ez:border-0 ez:border-b ez:border-solid ez:border-primary-border ez:text-base">
-          <Box
-            checked={allChecked}
-            disabled={!buyable.length}
-            onChange={(on) => setUnchecked(on ? new Set() : new Set(buyable))}
-            label="전체 선택"
-          />
-          전체 선택
-          <span className="ez:tabular-nums ez:text-muted">
-            {selected.length}/{lines.length}
-          </span>
-        </label>
-        <ul className={lineList}>
-          {lines.map((line) => {
-            const available = buyable.includes(line.variant_id);
-            return (
-              <CartLine
-                key={line.variant_id}
-                line={line}
-                updateAction={updateAction}
-                removeAction={removeAction}
-                imageSrc={imageSrc?.[line.variant_id] ?? null}
-                selector={
-                  <Box
-                    checked={available && !unchecked.has(line.variant_id)}
-                    disabled={!available}
-                    onChange={(on) => toggle(line.variant_id, on)}
-                    label={`${line.name} 선택`}
-                  />
-                }
-              />
-            );
-          })}
-        </ul>
+        <div className="ez:flex ez:h-13 ez:items-center ez:justify-between ez:border-0 ez:border-b ez:border-solid ez:border-primary-border">
+          <label className="ez:flex ez:cursor-pointer ez:items-center ez:gap-2.5 ez:text-base">
+            <Box
+              checked={allChecked}
+              disabled={!buyable.length}
+              onChange={(on) => setUnchecked(on ? new Set() : new Set(buyable.map((l) => l.variant_id)))}
+              label="전체선택"
+            />
+            전체선택
+            <span className="ez:tabular-nums ez:text-muted">
+              {picked.length}/{buyable.length}
+            </span>
+          </label>
+          <RemoveMany ids={ids} action={removeAction}>
+            선택삭제
+          </RemoveMany>
+        </div>
+        <ul className={lineList}>{buyable.map((line) => row(line, true))}</ul>
+        {blocked.length > 0 && (
+          <>
+            <div className="ez:flex ez:h-11 ez:items-center ez:justify-between ez:border-0 ez:border-b ez:border-solid ez:border-primary-border ez:text-[13px] ez:text-muted">
+              <span>구매할 수 없는 상품 {blocked.length}개</span>
+              <RemoveMany ids={blocked.map((l) => l.variant_id)} action={removeAction}>
+                삭제
+              </RemoveMany>
+            </div>
+            <ul className={lineList}>{blocked.map((line) => row(line, false))}</ul>
+          </>
+        )}
       </div>
-      <div className="ez:grid ez:gap-4 ez:md:rounded-md ez:md:bg-surface-alt ez:md:p-5">
-        <p className="ez:m-0 ez:flex ez:items-baseline ez:justify-between">
-          <span className="ez:text-base">상품 합계</span>
-          <strong className="ez:text-xl ez:font-semibold ez:tracking-[-0.02em] ez:tabular-nums">
-            {total.toLocaleString("ko-KR")}
-            <span className="ez:text-base">원</span>
-          </strong>
-        </p>
-        {selected.length ? (
-          <ButtonLink href={href} block>
-            {won(total)} 주문하기
+      <div className="ez:grid ez:gap-4">
+        <div className="ez:rounded-md ez:bg-surface-alt ez:p-4 ez:md:p-5">
+          <SummaryRows
+            rows={[
+              { label: "상품 금액", value: list },
+              ...(list > total ? [{ label: "상품 할인", value: list - total, minus: true }] : []),
+              { label: "배송비", value: "주문서에서 계산" },
+            ]}
+            total={{ label: "결제 예정 금액", value: total }}
+          />
+        </div>
+        {picked.length ? (
+          <ButtonLink href={`${checkoutHref}?items=${ids.map(encodeURIComponent).join(",")}`} block>
+            주문하기
           </ButtonLink>
         ) : (
           <Button block disabled>
-            {won(0)} 주문하기
+            주문하기
           </Button>
         )}
       </div>

@@ -12,24 +12,27 @@ export type ReviewItem = {
   created_at: string;
 };
 
+// count and average come from the items unless the server knows more (paged lists).
 export function ReviewList({
-  count,
+  count = 0,
   average,
   items,
   notice,
   writeHref,
 }: {
-  count: number;
-  average: number | null;
+  count?: number;
+  average?: number | null;
   items: ReviewItem[];
   notice?: { title?: string; body?: string }[];
   writeHref?: string;
 }) {
+  const total = Math.max(count, items.length);
+  const mean = !total ? null : (average ?? (items.length ? items.reduce((sum, r) => sum + r.rating, 0) / items.length : null));
   return (
     <section data-slot="review-list" aria-label="후기" className="ez:grid ez:gap-3 ez:text-fg">
       <h2 className="ez:m-0 ez:font-body ez:text-lg ez:font-semibold">
-        후기{count > 0 && ` ${count}`}
-        {average !== null && <span className="ez:text-sm ez:font-normal ez:text-muted"> · 평균 {average.toFixed(1)}점</span>}
+        후기{total > 0 && ` ${total}`}
+        {mean !== null && <span className="ez:text-sm ez:font-normal ez:text-muted"> · 평균 {mean.toFixed(1)}점</span>}
       </h2>
       {!items.length && (
         <div className="ez:flex ez:flex-wrap ez:items-center ez:justify-between ez:gap-4">

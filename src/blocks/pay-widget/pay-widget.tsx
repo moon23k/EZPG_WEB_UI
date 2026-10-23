@@ -39,7 +39,18 @@ export type PayRequest = {
   failUrl: string;
 };
 
-export function PayWidget({ request, mock }: { request: PayRequest; mock?: boolean }) {
+// agreement=false skips the PG's own terms block when the order form already took consent.
+export function PayWidget({
+  request,
+  mock,
+  agreement = true,
+  caption = "구매안전 서비스 가입 상점",
+}: {
+  request: PayRequest;
+  mock?: boolean;
+  agreement?: boolean;
+  caption?: string | null;
+}) {
   const widgets = useRef<Widgets | null>(null);
   const [ready, setReady] = useState(Boolean(mock));
   const [error, setError] = useState<string | null>(null);
@@ -54,7 +65,7 @@ export function PayWidget({ request, mock }: { request: PayRequest; mock?: boole
         const w = toss(request.clientKey).widgets({ customerKey: "ANONYMOUS" });
         await w.setAmount({ currency: "KRW", value: request.amount });
         await w.renderPaymentMethods({ selector: "#ez-pay-methods" });
-        await w.renderAgreement({ selector: "#ez-pay-agreement" });
+        if (agreement) await w.renderAgreement({ selector: "#ez-pay-agreement" });
         widgets.current = w;
         if (alive) setReady(true);
       })
@@ -62,7 +73,7 @@ export function PayWidget({ request, mock }: { request: PayRequest; mock?: boole
     return () => {
       alive = false;
     };
-  }, [mock, request.clientKey, request.amount]);
+  }, [mock, agreement, request.clientKey, request.amount]);
 
   const pay = async () => {
     if (mock) {
@@ -84,12 +95,16 @@ export function PayWidget({ request, mock }: { request: PayRequest; mock?: boole
   return (
     <div data-slot="pay-widget" className="ez:grid ez:gap-3">
       <div id="ez-pay-methods" />
-      <div id="ez-pay-agreement" />
+      {agreement && <div id="ez-pay-agreement" />}
       {error && <Notice tone="error">{error}</Notice>}
       <Button block onClick={pay} disabled={!ready}>
         {won(request.amount)} 결제하기
       </Button>
-      <Status icon="shield" className="ez:justify-self-center">토스페이먼츠 구매안전 서비스</Status>
+      {caption && (
+        <Status icon="shield" className="ez:justify-self-center">
+          {caption}
+        </Status>
+      )}
     </div>
   );
 }
