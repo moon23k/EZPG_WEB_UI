@@ -2,7 +2,7 @@
 
 import { useActionState, useState } from "react";
 import { Button } from "../../components/button";
-import { TextArea } from "../../components/field";
+import { Field, TextArea } from "../../components/field";
 import { Photo } from "../../components/photo";
 import type { FormAction, FormState } from "../../types";
 import { cn } from "../../utils/cn";
@@ -12,7 +12,7 @@ import { Notice } from "../parts/notice";
 
 const star = "M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9L12 3z";
 
-// The rating starts empty and is required, so no score is given on the buyer's behalf.
+// The rating starts empty and is required, so no score is given on the buyer's behalf. The hint shows why the button waits.
 export function ReviewForm({
   orderItemId,
   productName,
@@ -61,16 +61,9 @@ export function ReviewForm({
           ))}
         </div>
       </fieldset>
-      <TextArea
-        name="body"
-        aria-label="후기"
-        placeholder="후기"
-        required
-        minLength={5}
-        maxLength={2000}
-        value={body}
-        onChange={(e) => setBody(e.target.value)}
-      />
+      <Field label="후기" hint={`5자 이상 · ${body.length.toLocaleString("ko-KR")} / 2,000`}>
+        <TextArea name="body" required minLength={5} maxLength={2000} value={body} onChange={(e) => setBody(e.target.value)} />
+      </Field>
       {state.error && <Notice tone="error">{state.error}</Notice>}
       <Button type="submit" block disabled={pending || !rating || body.trim().length < 5}>
         후기 등록

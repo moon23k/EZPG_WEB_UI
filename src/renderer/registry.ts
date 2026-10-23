@@ -18,7 +18,7 @@ export type SiteContext = {
 
 // Mirrors EZPG_API app/brand/site/service.py `_section()`. Kinds without generated copy read only from context.
 export type SectionData = {
-  hero: { title?: string | null; sub?: string | null; button?: string | null; href?: string | null };
+  hero: { title?: string | null; sub?: string | null; button?: string | null; href?: string | null; image?: string | null };
   story: { title?: string | null; body?: string[]; strengths?: { title: string; body: string }[] };
   product_grid: { title?: string | null; lines?: Record<string, string> };
   maker_profile: { line?: string | null };

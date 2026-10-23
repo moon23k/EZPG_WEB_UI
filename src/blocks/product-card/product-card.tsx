@@ -1,12 +1,12 @@
 import NextLink from "next/link";
 import { Photo } from "../../components/photo";
-import { Price } from "../../components/price";
 import type { ProductSummary } from "../../types";
 import { cn, won } from "../../utils/cn";
 import { focusRing } from "../../utils/styles";
 
 // Sold out: the photo is dimmed under a label and the price stays, without the sale mark.
 export function ProductCard({ product, priority }: { product: ProductSummary; priority?: boolean }) {
+  const sale = product.list_price > product.sale_price ? Math.floor(((product.list_price - product.sale_price) / product.list_price) * 100) : 0;
   return (
     <NextLink
       href={`/products/${product.id}`}
@@ -23,11 +23,17 @@ export function ProductCard({ product, priority }: { product: ProductSummary; pr
         )}
       </span>
       <span className="ez:line-clamp-2 ez:text-sm ez:group-hover:underline">{product.name}</span>
-      {product.sold_out ? (
-        <span className="ez:font-bold ez:tabular-nums ez:text-muted">{won(product.sale_price)}</span>
-      ) : (
-        <Price value={product.sale_price} list={product.list_price} />
-      )}
+      {/* The list price takes its own small line, kept even when empty, so sale prices line up across a row. */}
+      <span className="ez:grid ez:tabular-nums ez:whitespace-nowrap">
+        <s className={cn("ez:text-[13px] ez:text-muted", !(sale > 0 && !product.sold_out) && "ez:invisible")}>
+          <span className="ez:sr-only">정가 </span>
+          {won(product.list_price)}
+        </s>
+        <span className="ez:flex ez:items-baseline ez:gap-1.5">
+          {sale > 0 && !product.sold_out && <strong className="ez:font-bold ez:text-primary">{sale}%</strong>}
+          <strong className={cn("ez:font-bold", product.sold_out ? "ez:text-muted" : "ez:text-fg")}>{won(product.sale_price)}</strong>
+        </span>
+      </span>
     </NextLink>
   );
 }

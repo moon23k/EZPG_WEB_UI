@@ -13,6 +13,7 @@ const stepButton = cn(
 );
 
 // One cart row. Quantity buttons submit the new quantity directly, so the row needs no client JS.
+// A row that cannot be bought shows its problem and quantity only; CartView removes those rows together.
 export function CartLine({
   line,
   updateAction,
@@ -50,18 +51,20 @@ export function CartLine({
           >
             {line.name}
           </NextLink>
-          <form action={removeAction}>
-            <input type="hidden" name="variant_id" value={line.variant_id} />
-            <button
-              type="submit"
-              aria-label={`${line.name} 삭제`}
-              className={cn("ez:-my-[11px] ez:-mr-3.5 ez:flex ez:size-11 ez:items-center ez:justify-center ez:border-0 ez:bg-transparent ez:p-0 ez:text-muted ez:cursor-pointer", focusRing)}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-                <path d="M6 6l12 12M18 6L6 18" />
-              </svg>
-            </button>
-          </form>
+          {available && (
+            <form action={removeAction}>
+              <input type="hidden" name="variant_id" value={line.variant_id} />
+              <button
+                type="submit"
+                aria-label={`${line.name} 삭제`}
+                className={cn("ez:-my-[11px] ez:-mr-3.5 ez:flex ez:size-11 ez:items-center ez:justify-center ez:border-0 ez:bg-transparent ez:p-0 ez:text-muted ez:cursor-pointer", focusRing)}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                  <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+              </button>
+            </form>
+          )}
         </div>
         <div className="ez:mt-1 ez:flex ez:items-baseline ez:justify-between ez:gap-2 ez:text-[13px] ez:leading-[18px] ez:whitespace-nowrap">
           {!line.sellable ? (
@@ -82,21 +85,25 @@ export function CartLine({
           )}
         </div>
         <div className="ez:mt-auto ez:flex ez:items-end ez:justify-between ez:pt-3">
-          <form action={updateAction} className="ez:inline-flex ez:h-8 ez:items-center ez:rounded-md ez:border ez:border-solid ez:border-primary-border">
-            <input type="hidden" name="variant_id" value={line.variant_id} />
-            <button type="submit" name="quantity" value={line.quantity - 1} disabled={line.quantity <= 1} aria-label={`${line.name} 수량 줄이기`} className={stepButton}>
-              −
-            </button>
-            <span
-              aria-label={`수량 ${line.quantity}개`}
-              className={cn("ez:w-8 ez:text-center ez:text-base ez:tabular-nums", line.enough_stock ? "ez:text-fg" : "ez:font-semibold ez:text-danger")}
-            >
-              {line.quantity}
-            </span>
-            <button type="submit" name="quantity" value={line.quantity + 1} disabled={!available} aria-label={`${line.name} 수량 늘리기`} className={stepButton}>
-              +
-            </button>
-          </form>
+          {available ? (
+            <form action={updateAction} className="ez:inline-flex ez:h-8 ez:items-center ez:rounded-md ez:border ez:border-solid ez:border-primary-border">
+              <input type="hidden" name="variant_id" value={line.variant_id} />
+              <button type="submit" name="quantity" value={line.quantity - 1} disabled={line.quantity <= 1} aria-label={`${line.name} 수량 줄이기`} className={stepButton}>
+                −
+              </button>
+              <span
+                aria-label={`수량 ${line.quantity}개`}
+                className={cn("ez:w-8 ez:text-center ez:text-base ez:tabular-nums", line.enough_stock ? "ez:text-fg" : "ez:font-semibold ez:text-danger")}
+              >
+                {line.quantity}
+              </span>
+              <button type="submit" name="quantity" value={line.quantity + 1} disabled={!available} aria-label={`${line.name} 수량 늘리기`} className={stepButton}>
+                +
+              </button>
+            </form>
+          ) : (
+            <span className="ez:text-[13px] ez:tabular-nums ez:text-muted">{line.quantity}개</span>
+          )}
           <strong className={cn("ez:text-base ez:font-semibold ez:leading-[22px] ez:tracking-[-0.01em] ez:tabular-nums", available ? "ez:text-fg" : "ez:text-muted")}>
             {discount > 0 && available && <span className="ez:sr-only">할인가 </span>}
             {won(line.line_total)}

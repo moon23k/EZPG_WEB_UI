@@ -7,6 +7,9 @@
   font-family: var(--ezd-font-body);
   letter-spacing: var(--ezd-tracking);
   line-height: 1.6;
+  /* Korean wraps between words, not syllables. */
+  word-break: keep-all;
+  overflow-wrap: break-word;
   -webkit-font-smoothing: antialiased;
 }
 :where(.ez-root) *,

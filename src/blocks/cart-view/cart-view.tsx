@@ -57,7 +57,7 @@ function RemoveMany({ ids, action, children }: { ids: string[]; action: (data: F
   );
 }
 
-// Lines that cannot be bought sit apart and never count as selectable. removeAction may receive several variant_id values.
+// Lines that cannot be bought sit apart with no checkbox and are removed together. removeAction may receive several variant_id values.
 export function CartView({
   lines,
   updateAction,
@@ -106,17 +106,16 @@ export function CartView({
       removeAction={removeAction}
       imageSrc={imageSrc?.[line.variant_id] ?? null}
       selector={
-        <Box
-          checked={available && !unchecked.has(line.variant_id)}
-          disabled={!available}
-          onChange={(on) => toggle(line.variant_id, on)}
-          label={`${line.name} 선택`}
-        />
+        available ? (
+          <Box checked={!unchecked.has(line.variant_id)} onChange={(on) => toggle(line.variant_id, on)} label={`${line.name} 선택`} />
+        ) : (
+          <span className="ez:w-5 ez:shrink-0" />
+        )
       }
     />
   );
   return (
-    <div data-slot="cart-view" className="ez:grid ez:gap-6 ez:md:grid-cols-[2fr_1fr] ez:md:items-start ez:text-fg">
+    <div data-slot="cart-view" className="ez:grid ez:gap-6 ez:lg:grid-cols-[minmax(0,1fr)_340px] ez:lg:items-start ez:text-fg">
       <div>
         <div className="ez:flex ez:h-13 ez:items-center ez:justify-between ez:border-0 ez:border-b ez:border-solid ez:border-primary-border">
           <label className="ez:flex ez:cursor-pointer ez:items-center ez:gap-2.5 ez:text-base">
@@ -141,7 +140,7 @@ export function CartView({
             <div className="ez:flex ez:h-11 ez:items-center ez:justify-between ez:border-0 ez:border-b ez:border-solid ez:border-primary-border ez:text-[13px] ez:text-muted">
               <span>구매할 수 없는 상품 {blocked.length}개</span>
               <RemoveMany ids={blocked.map((l) => l.variant_id)} action={removeAction}>
-                삭제
+                모두 삭제
               </RemoveMany>
             </div>
             <ul className={lineList}>{blocked.map((line) => row(line, false))}</ul>
@@ -149,7 +148,7 @@ export function CartView({
         )}
       </div>
       <div className="ez:grid ez:gap-4">
-        <div className="ez:rounded-md ez:bg-surface-alt ez:p-4 ez:md:p-5">
+        <div className="ez:rounded-md ez:bg-surface-alt ez:p-4 ez:lg:p-5">
           <SummaryRows
             rows={[
               { label: "상품 금액", value: list },

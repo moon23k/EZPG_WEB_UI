@@ -100,10 +100,10 @@ describe("BuyBox", () => {
 describe("AddressForm", () => {
   it("fills the postal code from the (mock) search", async () => {
     const { container } = render(<AddressForm mock />);
-    await userEvent.click(screen.getByRole("button", { name: "우편번호 검색" }));
+    await userEvent.click(screen.getByRole("button", { name: "주소 검색" }));
     const group = within(container);
-    expect(group.getByRole("textbox", { name: "우편번호" })).toHaveValue("06236");
-    expect(group.getByRole("textbox", { name: "주소" })).toHaveValue("서울 강남구 테헤란로 152");
+    expect(group.getByRole("textbox", { name: "주소" })).toHaveValue("(06236) 서울 강남구 테헤란로 152");
+    expect(container.querySelector<HTMLInputElement>('input[name="postal_code"]')?.value).toBe("06236");
     await expectNoA11yViolations(container);
   });
 });
@@ -124,11 +124,12 @@ describe("CartView", () => {
     expect(screen.getByText("2/2")).toBeInTheDocument();
     expect(screen.getByText("결제 예정 금액").nextElementSibling).toHaveTextContent("30,000원");
     expect(screen.getByText("구매할 수 없는 상품 1개")).toBeInTheDocument();
-    expect(screen.getByRole("checkbox", { name: "작약 선택" })).toBeDisabled();
+    expect(screen.queryByRole("checkbox", { name: "작약 선택" })).toBeNull();
+    expect(screen.getByRole("button", { name: "모두 삭제" })).toBeEnabled();
     await userEvent.click(screen.getByRole("checkbox", { name: "튤립 선택" }));
     expect(screen.getByRole("link", { name: "주문하기" })).toHaveAttribute("href", "/checkout?items=b");
     expect(screen.getByText("1/2")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "작약 수량 늘리기" })).toBeDisabled();
+    expect(screen.queryByRole("button", { name: "작약 수량 늘리기" })).toBeNull();
   });
 });
 
@@ -162,10 +163,10 @@ describe("ClaimForm", () => {
 
   it("locks non-returnable items unless the seller is at fault", async () => {
     render(<ClaimForm kind="return" items={items} action={async () => ({})} />);
-    expect(screen.getByText("반품 가능 1개")).toBeInTheDocument();
-    expect(screen.getByRole("checkbox", { name: "라넌큘러스 선택" })).toBeDisabled();
+    expect(screen.getByText(/반품 가능 1개/)).toBeInTheDocument();
+    expect(screen.getByRole("checkbox", { name: /라넌큘러스/ })).toBeDisabled();
     expect(screen.getByRole("button", { name: "반품 신청" })).toBeDisabled();
     await userEvent.click(screen.getByRole("radio", { name: /상품 문제/ }));
-    expect(screen.getByRole("checkbox", { name: "라넌큘러스 선택" })).toBeEnabled();
+    expect(screen.getByRole("checkbox", { name: /라넌큘러스/ })).toBeEnabled();
   });
 });

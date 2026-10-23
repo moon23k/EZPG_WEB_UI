@@ -19,6 +19,7 @@ export const buttonVariants = cva(
         secondary: "ez:bg-transparent ez:border-primary-border ez:text-fg ez:hover:bg-primary-tint",
         ghost: "ez:bg-transparent ez:text-fg ez:hover:bg-primary-tint",
         outline: "ez:bg-transparent ez:border-[1.5px] ez:border-primary ez:text-primary ez:hover:bg-primary-tint",
+        danger: "ez:bg-danger ez:text-[#ffffff] ez:hover:bg-danger/90",
       },
       size: {
         md: "ez:min-h-12 ez:px-5 ez:text-base",

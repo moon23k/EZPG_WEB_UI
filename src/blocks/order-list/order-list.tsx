@@ -9,6 +9,7 @@ import { emptyAction, ReceiptIcon } from "../parts/empty-icons";
 import { lineList } from "../parts/line-item";
 
 // first_item / item_count / image_url name the order by what was bought; without them the number stands in.
+// The name may take two lines; "외 N건" moves to the date line so it never pushes the name out.
 export type OrderRow = {
   number: string;
   status: OrderStatus;
@@ -41,7 +42,7 @@ export function OrderList({
     );
   }
   return (
-    <ul data-slot="order-list" className={lineList}>
+    <ul data-slot="order-list" className={cn(lineList, "ez:max-w-180")}>
       {orders.map((o) => {
         const canceled = o.status === "canceled";
         const more = (o.item_count ?? 1) - 1;
@@ -49,19 +50,15 @@ export function OrderList({
           <li key={o.number}>
             <NextLink
               href={orderHref(o.number)}
-              className="ez:flex ez:items-center ez:gap-3 ez:border-0 ez:border-b ez:border-solid ez:border-primary-border ez:py-3.5 ez:text-fg ez:no-underline ez:hover:bg-surface-alt"
+              className="ez:flex ez:items-start ez:gap-3 ez:border-0 ez:border-b ez:border-solid ez:border-primary-border ez:py-3.5 ez:text-fg ez:no-underline ez:hover:bg-surface-alt"
             >
               {o.first_item && (
-                <Photo src={o.image_url} alt="" sizes="48px" className={cn("ez:w-12 ez:shrink-0 ez:aspect-[4/5]", canceled && "ez:opacity-45")} />
+                <Photo src={o.image_url} alt="" sizes="48px" className={cn("ez:w-14 ez:shrink-0 ez:aspect-[4/5]", canceled && "ez:opacity-45")} />
               )}
               <span className="ez:grid ez:min-w-0 ez:flex-1 ez:gap-0.5">
-                <strong className={cn("ez:flex ez:min-w-0 ez:gap-1 ez:font-semibold ez:whitespace-nowrap", canceled && "ez:text-muted")}>
-                  <span className="ez:min-w-0 ez:truncate">{o.first_item ?? o.number}</span>
-                  {more > 0 && <span className="ez:shrink-0 ez:font-normal ez:text-muted">외 {more}건</span>}
-                </strong>
+                <strong className={cn("ez:line-clamp-2 ez:font-semibold", canceled && "ez:text-muted")}>{o.first_item ?? o.number}</strong>
                 <span className="ez:text-[13px] ez:tabular-nums ez:text-muted">
-                  {shortDate(o.created_at)}
-                  {o.first_item && ` · ${o.number}`}
+                  {[shortDate(o.created_at), more > 0 && `외 ${more}건`].filter(Boolean).join(" · ")}
                 </span>
               </span>
               <span className="ez:grid ez:shrink-0 ez:justify-items-end ez:gap-0.5">

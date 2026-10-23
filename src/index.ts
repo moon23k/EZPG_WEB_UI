@@ -29,6 +29,7 @@ export { PayWidget, type PayRequest } from "./blocks/pay-widget";
 export { OrderList, type OrderRow } from "./blocks/order-list";
 export {
   OrderDetail,
+  OrderActionBar,
   ORDER_ACTIONS,
   STATUS_LABEL,
   type OrderAction,

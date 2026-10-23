@@ -15,24 +15,27 @@ export function Field({
   className?: string;
   children: ReactNode;
 }) {
+  // Hint and error sit outside the label so they don't become part of the control's name.
   return (
-    <label data-slot="field" className={cn("ez:grid ez:gap-1.5 ez:text-fg", className)}>
-      <span className="ez:text-sm ez:font-semibold">{label}</span>
-      {children}
+    <div data-slot="field" className={cn("ez:grid ez:gap-1.5 ez:text-fg", className)}>
+      <label className="ez:grid ez:gap-1.5">
+        <span className="ez:text-sm ez:font-semibold">{label}</span>
+        {children}
+      </label>
       {hint && !error && <span className="ez:text-xs ez:text-muted">{hint}</span>}
       {error && (
         <span className="ez:text-xs ez:text-danger" role="alert">
           {error}
         </span>
       )}
-    </label>
+    </div>
   );
 }
 
 const control = cn(
   "ez:box-border ez:w-full ez:m-0 ez:px-3 ez:py-2.5 ez:rounded-sm ez:border ez:border-solid ez:border-primary-border",
-  "ez:bg-surface ez:text-fg ez:font-body ez:text-base ez:placeholder:text-muted",
-  "ez:read-only:bg-surface-alt ez:disabled:opacity-45 ez:aria-invalid:border-danger",
+  "ez:bg-surface ez:text-fg ez:font-body ez:text-base ez:placeholder:text-muted/65",
+  "ez:disabled:bg-surface-alt ez:disabled:opacity-45 ez:aria-invalid:border-danger",
   focusRing,
 );
 

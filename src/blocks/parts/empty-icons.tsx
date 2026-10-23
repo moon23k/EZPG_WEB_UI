@@ -23,13 +23,6 @@ function Icon({ children, size = 40 }: { children: ReactNode; size?: number }) {
   );
 }
 
-const house = (
-  <>
-    <path d="M3 11l9-6.75L21 11v10H3z" />
-    <path d="M10.5 21v-4h3v4" />
-  </>
-);
-
 export const ProductsIcon = () => (
   <Icon>
     <path d="M3.5 7.5L12 3l8.5 4.5v9L12 21l-8.5-4.5z" />
@@ -58,23 +51,6 @@ export const AddressIcon = () => (
     <path d="M6.5 21v-3h3v3" className={detail} />
     <path d="M15.5 17s-5-4.3-5-8a5 5 0 0 1 10 0c0 3.7-5 8-5 8z" className="ez:fill-[color-mix(in_oklab,var(--ezd-primary)_10%,var(--ezd-surface))]" />
     <circle cx="15.5" cy="9" r="1.8" />
-  </Icon>
-);
-
-export const TruckIcon = () => (
-  <Icon size={24}>
-    <path d="M4.5 7h8a1.5 1.5 0 0 1 1.5 1.5V16H3V8.5A1.5 1.5 0 0 1 4.5 7z" />
-    <path d="M14 10h3.4a1.5 1.5 0 0 1 1.1.5l2.1 2.3a1.5 1.5 0 0 1 .4 1V16h-7z" />
-    <circle cx="7" cy="17.5" r="1.5" />
-    <circle cx="17" cy="17.5" r="1.5" />
-  </Icon>
-);
-
-export const HomeIcon = () => <Icon size={24}>{house}</Icon>;
-
-export const StarIcon = () => (
-  <Icon size={24}>
-    <path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9L12 3z" />
   </Icon>
 );
 

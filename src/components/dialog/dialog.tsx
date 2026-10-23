@@ -11,10 +11,12 @@ export type OverlayProps = {
   description?: string;
   onClose: () => void;
   children?: ReactNode;
+  // Confirm dialogs carry their own dismiss button, so the corner X is left out.
+  closeButton?: boolean;
 };
 
-// Portaled content sits outside .ez-root, so it sets its own box-sizing, font and colors.
-const surface = "ez:box-border ez:bg-surface ez:text-fg ez:font-body ez:shadow-xl";
+// Portaled content sits outside .ez-root, so it sets its own box-sizing, font, colors and wrapping.
+const surface = "ez:box-border ez:bg-surface ez:text-fg ez:font-body ez:break-keep ez:shadow-xl";
 
 export function OverlayFrame({
   open,
@@ -22,6 +24,7 @@ export function OverlayFrame({
   description,
   onClose,
   children,
+  closeButton = true,
   slot,
   className,
 }: OverlayProps & { slot: string; className: string }) {
@@ -41,15 +44,17 @@ export function OverlayFrame({
                 <DialogPrimitive.Description className="ez:m-0 ez:text-sm ez:text-muted">{description}</DialogPrimitive.Description>
               )}
             </div>
-            <DialogPrimitive.Close
-              aria-label="닫기"
-              className={cn(
-                "ez:-m-2 ez:size-11 ez:shrink-0 ez:p-0 ez:border-0 ez:bg-transparent ez:text-2xl ez:leading-none ez:text-muted ez:cursor-pointer ez:rounded-sm",
-                focusRing,
-              )}
-            >
-              ×
-            </DialogPrimitive.Close>
+            {closeButton && (
+              <DialogPrimitive.Close
+                aria-label="닫기"
+                className={cn(
+                  "ez:-m-2 ez:size-11 ez:shrink-0 ez:p-0 ez:border-0 ez:bg-transparent ez:text-2xl ez:leading-none ez:text-muted ez:cursor-pointer ez:rounded-sm",
+                  focusRing,
+                )}
+              >
+                ×
+              </DialogPrimitive.Close>
+            )}
           </div>
           {children}
         </DialogPrimitive.Content>

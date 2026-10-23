@@ -1,7 +1,9 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import { Badge } from "../../components/badge";
 import { Button, ButtonLink } from "../../components/button";
+import { Photo } from "../../components/photo";
 import { Price } from "../../components/price";
 import { Quantity } from "../../components/quantity";
 import { Sheet } from "../../components/sheet";
@@ -47,12 +49,19 @@ export function BuyBox({
   const unit = variant?.price ?? product.sale_price;
   const prices = product.variants.map((v) => v.price);
   const from = new Set(prices).size > 1 ? Math.min(...prices) : null;
+  const options = product.variants.length > 1;
   return (
-    <form data-slot="buy-box" action={add} className="ez:grid ez:gap-4 ez:text-fg">
+    <form data-slot="buy-box" action={add} className="ez:grid ez:max-w-120 ez:gap-4 ez:text-fg">
       <div className="ez:grid ez:gap-1">
         <h1 className="ez:m-0 ez:font-display ez:font-title ez:text-2xl ez:tracking-brand">{product.name}</h1>
         {soldOut ? (
-          <span className="ez:text-lg ez:tabular-nums ez:text-muted">{won(from ?? product.sale_price)}{from !== null && "부터"}</span>
+          <span className="ez:flex ez:items-center ez:gap-2">
+            <strong className="ez:text-lg ez:font-bold ez:tabular-nums ez:text-muted">
+              {won(from ?? product.sale_price)}
+              {from !== null && <span className="ez:font-normal">부터</span>}
+            </strong>
+            <Badge tone="warn">품절</Badge>
+          </span>
         ) : from !== null ? (
           <span className="ez:text-lg ez:tabular-nums">
             <strong className="ez:font-bold">{won(from)}</strong>
@@ -62,9 +71,14 @@ export function BuyBox({
           <Price value={unit} list={product.list_price > unit ? product.list_price : undefined} className="ez:text-lg" />
         )}
       </div>
-      {product.variants.length > 1 || soldOut ? (
-        <fieldset className={fieldset}>
-          <legend className={cn(legend, product.variants.length === 1 && "ez:sr-only")}>{product.option_name ?? "옵션"}</legend>
+      {!selling && !soldOut && (
+        <p className="ez:m-0 ez:flex ez:items-center ez:gap-2 ez:rounded-md ez:bg-surface-alt ez:p-3 ez:text-sm">
+          <Status icon="alert">지금은 주문을 받지 않는 상점이에요</Status>
+        </p>
+      )}
+      {options ? (
+        <fieldset disabled={!selling} className={cn(fieldset, !selling && "ez:opacity-50")}>
+          <legend className={legend}>{product.option_name ?? "옵션"}</legend>
           {product.variants.map((v) => (
             <label
               key={v.id}
@@ -78,16 +92,16 @@ export function BuyBox({
                 type="radio"
                 name="variant_id"
                 value={v.id}
-                checked={!soldOut && variantId === v.id}
+                checked={selling && !soldOut && variantId === v.id}
                 disabled={!v.in_stock}
                 onChange={() => setVariantId(v.id)}
                 className="ez:sr-only"
               />
-              <span>
+              <span className="ez:min-w-0">
                 {!v.in_stock && "(품절) "}
                 {v.label ?? "기본"}
               </span>
-              <span className="ez:text-sm ez:tabular-nums">{won(v.price)}</span>
+              <span className="ez:shrink-0 ez:whitespace-nowrap ez:text-sm ez:tabular-nums">{won(v.price)}</span>
             </label>
           ))}
         </fieldset>
@@ -105,7 +119,7 @@ export function BuyBox({
             품절
           </Button>
         )
-      ) : (
+      ) : selling ? (
         <>
           <div className="ez:flex ez:items-center ez:justify-between">
             <span className="ez:text-sm ez:font-semibold">수량</span>
@@ -114,14 +128,13 @@ export function BuyBox({
           <div className="ez:grid ez:gap-1.5">
             <p className="ez:m-0 ez:flex ez:items-baseline ez:justify-between ez:gap-3">
               <span>총 상품금액</span>
-              <strong className="ez:text-xl ez:font-semibold ez:tracking-[-0.02em] ez:tabular-nums">
+              <strong className="ez:text-xl ez:font-semibold ez:tracking-[-0.02em] ez:tabular-nums ez:whitespace-nowrap">
                 {(unit * quantity).toLocaleString("ko-KR")}
                 <span className="ez:text-base">원</span>
               </strong>
             </p>
             {product.non_returnable && <Status icon="ban">교환·반품 불가</Status>}
           </div>
-          {!selling && <Status icon="alert">주문을 받지 않는 상점이에요</Status>}
           {state.error && <Notice tone="error">{state.error}</Notice>}
           <div className="ez:grid ez:grid-cols-2 ez:gap-2">
             <Button type="submit" variant="outline" disabled={blocked || pending}>
@@ -134,8 +147,18 @@ export function BuyBox({
             )}
           </div>
         </>
-      )}
-      <Sheet open={sheetOpen} title="장바구니에 담았어요" description={state.message} onClose={() => setSheetOpen(false)}>
+      ) : null}
+      <Sheet open={sheetOpen} title="장바구니에 담았어요" onClose={() => setSheetOpen(false)}>
+        <div className="ez:flex ez:items-center ez:gap-3">
+          <Photo src={product.cover_url} alt="" sizes="64px" className="ez:w-16 ez:shrink-0 ez:aspect-[4/5]" />
+          <div className="ez:grid ez:gap-0.5">
+            <span>{product.name}</span>
+            <span className="ez:text-[13px] ez:text-muted">
+              {[options ? variant?.label : null, `${quantity}개`].filter(Boolean).join(" · ")}
+            </span>
+            <strong className="ez:font-semibold ez:tabular-nums">{won(unit * quantity)}</strong>
+          </div>
+        </div>
         <div className="ez:grid ez:grid-cols-2 ez:gap-2">
           <Button variant="secondary" onClick={() => setSheetOpen(false)}>
             계속 쇼핑하기
