@@ -6,6 +6,7 @@ import { OrderSummary } from "../order-summary";
 import { AddressText } from "../parts/address-text";
 import { LineItem, lineList } from "../parts/line-item";
 import { Notice } from "../parts/notice";
+import { HomeIcon, TruckIcon } from "../parts/empty-icons";
 
 export const STATUS_LABEL: Record<OrderStatus, string> = {
   pending_payment: "결제 대기",
@@ -101,11 +102,24 @@ export function OrderDetail({
           address={order.ship_address}
           detail={order.ship_address_detail}
         />
-        {order.shipments.map((s) => (
-          <Notice key={s.tracking_no}>
-            {s.carrier} {s.tracking_no}
-          </Notice>
-        ))}
+        {order.shipments.length ? (
+          order.shipments.map((s) => (
+            <Notice key={s.tracking_no}>
+              {s.carrier} {s.tracking_no}
+            </Notice>
+          ))
+        ) : (
+          <div role="img" aria-label="배송 시작 전" className="ez:mt-2 ez:flex ez:items-center ez:gap-2.5">
+            <span className="ez:flex ez:size-10 ez:shrink-0 ez:items-center ez:justify-center ez:rounded-lg ez:bg-primary/10 ez:text-primary">
+              <TruckIcon />
+            </span>
+            <span className="ez:size-2 ez:shrink-0 ez:rounded-full ez:bg-primary" />
+            <span className="ez:h-0.75 ez:flex-1 ez:rounded-full ez:bg-muted/25" />
+            <span className="ez:shrink-0 ez:text-muted/75">
+              <HomeIcon />
+            </span>
+          </div>
+        )}
       </section>
       {actions && <div className="ez:flex ez:flex-wrap ez:gap-2">{actions}</div>}
     </article>

@@ -3,6 +3,8 @@ import { EmptyState } from "../../components/empty-state";
 import type { OrderStatus } from "../../types";
 import { kstDate, won } from "../../utils/cn";
 import { STATUS_LABEL } from "../order-detail/order-detail";
+import { ButtonLink } from "../../components/button";
+import { ArrowIcon, ReceiptIcon } from "../parts/empty-icons";
 import { lineList } from "../parts/line-item";
 
 export type OrderRow = { number: string; status: OrderStatus; total: number; created_at: string };
@@ -16,7 +18,16 @@ export function OrderList({
   labels?: Record<OrderStatus, string>;
   orderHref?: (number: string) => string;
 }) {
-  if (!orders.length) return <EmptyState title="주문 내역이 없어요." />;
+  if (!orders.length) {
+    return (
+      <EmptyState icon={<ReceiptIcon />} count={0} title="주문 내역이 없어요">
+        <ButtonLink href="/products" variant="outline" className="ez:min-w-30">
+          쇼핑하기
+          <ArrowIcon />
+        </ButtonLink>
+      </EmptyState>
+    );
+  }
   return (
     <ul data-slot="order-list" className={lineList}>
       {orders.map((o) => (

@@ -5,6 +5,7 @@ import { won } from "../../utils/cn";
 import { CartLine } from "../cart-line";
 import { lineList } from "../parts/line-item";
 import { Notice } from "../parts/notice";
+import { ArrowIcon, BagIcon } from "../parts/empty-icons";
 
 export function CartView({
   lines,
@@ -19,8 +20,11 @@ export function CartView({
 }) {
   if (!lines.length) {
     return (
-      <EmptyState title="장바구니가 비어 있어요.">
-        <ButtonLink href="/products">상품 보러 가기</ButtonLink>
+      <EmptyState icon={<BagIcon />} count={0} title="장바구니에 담긴 상품이 없어요">
+        <ButtonLink href="/products" className="ez:min-w-30">
+          쇼핑하기
+          <ArrowIcon />
+        </ButtonLink>
       </EmptyState>
     );
   }
