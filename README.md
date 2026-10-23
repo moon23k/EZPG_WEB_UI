@@ -21,7 +21,7 @@ import { ThemeRoot } from "@ezpg/web-ui";
 <ThemeRoot design={site.frame.design}>{children}</ThemeRoot>;
 ```
 
-- 필요 peer: `next >=16`, `react >=19`, `radix-ui ^1.4`.
+- 필요 peer: `next >=16`, `react >=19`. 그 밖에 따로 설치할 것은 없다.
 - `styles.css`는 빌드된 CSS(`dist/styles.css`)다. 쓰는 앱에 Tailwind가 없어도 된다. 패키지를 고치면서 앱을 띄울 때는 `npm run dev:css`를 켜 둔다.
 - 패키지 클래스는 `ez:` 접두사(`ez:bg-primary`)라 앱의 Tailwind 클래스와 섞이지 않는다. 패키지 CSS는 `components` 레이어에 있어 앱의 `utilities`가 항상 이긴다.
 - 컴포넌트는 `className`으로 덮어쓸 수 있고, 각 요소에 `data-slot`이 붙어 있다.
@@ -65,3 +65,7 @@ import { SiteRenderer } from "@ezpg/web-ui";
 
 - 클래스 이름을 조립하지 않는다(`` `ez:bg-${x}` `` 금지). Tailwind가 찾지 못한다.
 - `src/styles/legacy.css`는 EZPG_WEB 앱 코드가 직접 쓰는 옛 `.ez-*` 클래스다. 새 코드는 쓰지 않고, 앱이 컴포넌트로 옮기면 지운다.
+
+## 배포
+
+변경을 올릴 때 `npx changeset`으로 변경 종류(patch·minor)와 한 줄 설명을 남긴다. main에 push하면 버전 PR이 열리고, 그 PR을 머지하면 npm에 배포된다.

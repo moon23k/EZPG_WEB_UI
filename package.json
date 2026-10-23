@@ -1,6 +1,6 @@
 {
   "name": "@ezpg/web-ui",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "type": "module",
   "exports": {
     ".": {
@@ -18,25 +18,27 @@
     "manifest.json"
   ],
   "scripts": {
-    "build": "tsdown && npm run build:css && tsx scripts/check-dist.ts",
+    "build": "npm run manifest && tsdown && npm run build:css && tsx scripts/check-dist.ts",
     "typecheck": "tsc --noEmit",
     "manifest": "tsx scripts/build-manifest.ts",
     "build:css": "tailwindcss -i src/styles/index.css -o dist/styles.css --minify",
     "dev:css": "tailwindcss -i src/styles/index.css -o dist/styles.css --watch",
     "test": "vitest run",
     "sync:contracts": "tsx scripts/sync-contracts.ts",
-    "check:consumer": "scripts/check-consumer.sh"
+    "check:consumer": "scripts/check-consumer.sh",
+    "lint": "eslint",
+    "release": "npm run build && changeset publish"
   },
   "peerDependencies": {
     "next": ">=16",
-    "radix-ui": "^1.4.0",
     "react": ">=19",
     "react-dom": ">=19"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "access": "public"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.31.1",
     "@tailwindcss/cli": "^4.3.3",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^6.9.1",
@@ -46,9 +48,10 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "axe-core": "^4.14.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.4.2",
     "jsdom": "^26.1.0",
     "next": "^16.4.2",
-    "radix-ui": "^1.8.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "tailwindcss": "^4.3.3",
@@ -64,6 +67,12 @@
   "dependencies": {
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "tailwind-merge": "^3.7.0"
+    "tailwind-merge": "^3.7.0",
+    "radix-ui": "^1.8.1"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moon23k/EZPG_WEB_UI.git"
   }
 }

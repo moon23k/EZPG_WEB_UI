@@ -21,7 +21,13 @@ export function SiteHeader({
     >
       <div className="ez:mx-auto ez:flex ez:max-w-270 ez:items-center ez:justify-between ez:gap-3 ez:px-page ez:py-3">
         <NextLink href="/" className="ez:truncate ez:font-display ez:font-title ez:text-lg ez:text-fg ez:no-underline">
-          {logoUrl ? <img src={logoUrl} alt={name} className="ez:block ez:h-9 ez:w-auto" /> : name}
+          {logoUrl ? (
+            // Shop logos have no known width, so a fixed-height plain img is used instead of next/image.
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={logoUrl} alt={name} className="ez:block ez:h-9 ez:w-auto" />
+          ) : (
+            name
+          )}
         </NextLink>
         <nav aria-label="주요 메뉴" className="ez:flex ez:shrink-0 ez:gap-4 ez:text-[0.95rem]">
           <NextLink href="/products" className={nav}>
