@@ -42,6 +42,8 @@ export function designVars(design: Design | null | undefined): Record<string, st
     "--ezd-radius-sm": `${d.shape?.radius_sm ?? 4}px`,
     "--ezd-radius-md": `${d.shape?.radius_md ?? 8}px`,
     "--ezd-radius-lg": `${d.shape?.radius_lg ?? 14}px`,
+    // Empty-state halo: square themes drop it so tile and halo do not read as a frame.
+    "--ezd-halo": (d.shape?.radius_lg ?? 14) === 0 ? "0%" : "5%",
     "--ezd-button-radius": buttonRadius(d),
     "--ezd-section-gap": `${Math.min(d.density?.section_gap ?? 72, 120)}px`,
     "--ezd-pad": "16px",

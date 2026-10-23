@@ -109,13 +109,13 @@ export function OrderDetail({
             </Notice>
           ))
         ) : (
-          <div role="img" aria-label="배송 시작 전" className="ez:mt-2 ez:flex ez:items-center ez:gap-2.5">
-            <span className="ez:flex ez:size-10 ez:shrink-0 ez:items-center ez:justify-center ez:rounded-lg ez:bg-primary/10 ez:text-primary">
+          <div role="img" aria-label="배송 시작 전" className="ez:mt-3 ez:flex ez:h-6 ez:items-center ez:gap-2.5">
+            <span className="ez:text-primary">
               <TruckIcon />
             </span>
             <span className="ez:size-2 ez:shrink-0 ez:rounded-full ez:bg-primary" />
-            <span className="ez:h-0.75 ez:flex-1 ez:rounded-full ez:bg-muted/25" />
-            <span className="ez:shrink-0 ez:text-muted/75">
+            <span className="ez:h-0.75 ez:flex-1 ez:rounded-full ez:bg-muted/40" />
+            <span className="ez:text-muted">
               <HomeIcon />
             </span>
           </div>

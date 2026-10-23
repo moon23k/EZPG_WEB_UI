@@ -34,7 +34,7 @@ export function SiteFooter({
     ] as [string, string | null | undefined][]
   ).filter((row): row is [string, string] => Boolean(row[1]));
   return (
-    <footer data-slot="site-footer" className="ez:grid ez:gap-4 ez:bg-surface-alt ez:px-page ez:py-8 ez:text-[0.8rem] ez:text-muted">
+    <footer data-slot="site-footer" className="ez:grid ez:gap-4 ez:bg-surface-alt ez:px-6 ez:py-8 ez:text-[0.8rem] ez:text-muted">
       {closing && <p className="ez:m-0 ez:text-sm ez:text-fg">{closing}</p>}
       <nav aria-label="약관" className="ez:flex ez:flex-wrap ez:gap-x-4 ez:gap-y-1">
         {policies.map((p) => (

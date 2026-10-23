@@ -2,7 +2,7 @@ import { ButtonLink } from "../../components/button";
 import { kstDate } from "../../utils/cn";
 import { lineList } from "../parts/line-item";
 import { Notice } from "../parts/notice";
-import { PencilIcon, StarIcon } from "../parts/empty-icons";
+import { emptyAction, PencilIcon, StarIcon } from "../parts/empty-icons";
 
 export type ReviewItem = {
   id: string;
@@ -33,18 +33,13 @@ export function ReviewList({
       </h2>
       {!items.length && (
         <div className="ez:flex ez:flex-wrap ez:items-center ez:justify-between ez:gap-4">
-          <div role="img" aria-label="후기 0개, 평점 없음" className="ez:flex ez:items-center ez:gap-1">
-            <span className="ez:text-primary">
-              <StarIcon filled />
-            </span>
-            {[1, 2, 3, 4].map((n) => (
-              <span key={n} className="ez:text-muted/75">
-                <StarIcon />
-              </span>
+          <div role="img" aria-label="후기 0개, 평점 없음" className="ez:-ml-0.5 ez:flex ez:items-center ez:gap-1 ez:text-muted">
+            {[1, 2, 3, 4, 5].map((n) => (
+              <StarIcon key={n} />
             ))}
           </div>
           {writeHref && (
-            <ButtonLink href={writeHref} variant="outline">
+            <ButtonLink href={writeHref} variant="outline" className={emptyAction}>
               <PencilIcon />첫 후기 쓰기
             </ButtonLink>
           )}

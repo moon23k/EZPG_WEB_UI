@@ -4,7 +4,7 @@ import type { OrderStatus } from "../../types";
 import { kstDate, won } from "../../utils/cn";
 import { STATUS_LABEL } from "../order-detail/order-detail";
 import { ButtonLink } from "../../components/button";
-import { ArrowIcon, ReceiptIcon } from "../parts/empty-icons";
+import { ArrowIcon, emptyAction, ReceiptIcon } from "../parts/empty-icons";
 import { lineList } from "../parts/line-item";
 
 export type OrderRow = { number: string; status: OrderStatus; total: number; created_at: string };
@@ -20,8 +20,8 @@ export function OrderList({
 }) {
   if (!orders.length) {
     return (
-      <EmptyState icon={<ReceiptIcon />} count={0} title="주문 내역이 없어요">
-        <ButtonLink href="/products" variant="outline" className="ez:min-w-30">
+      <EmptyState icon={<ReceiptIcon />} title="주문 내역이 없어요">
+        <ButtonLink href="/products" variant="outline" className={emptyAction}>
           쇼핑하기
           <ArrowIcon />
         </ButtonLink>

@@ -4,7 +4,7 @@ import { EmptyState } from "../../components/empty-state";
 import type { Schemas } from "../../types";
 import { AddressText } from "../parts/address-text";
 import { lineList } from "../parts/line-item";
-import { AddressIcon, PlusIcon } from "../parts/empty-icons";
+import { AddressIcon, emptyAction, PlusIcon } from "../parts/empty-icons";
 
 export type AddressRow = Schemas["AddressOut"];
 
@@ -21,7 +21,7 @@ export function AddressBook({
     return (
       <EmptyState icon={<AddressIcon />} title="저장한 배송지가 없어요">
         {addHref && (
-          <ButtonLink href={addHref} variant="outline" className="ez:min-w-30">
+          <ButtonLink href={addHref} variant="outline" className={emptyAction}>
             <PlusIcon />
             배송지 추가
           </ButtonLink>

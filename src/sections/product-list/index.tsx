@@ -3,6 +3,7 @@ import { ProductGrid } from "../../blocks/product-grid";
 import type { SectionProps } from "../../renderer/registry";
 
 export function ProductList({ data, context }: SectionProps<"product_grid">) {
+  if (!context.products.length) return null;
   return (
     <section data-slot="product-grid-section" className="ez:grid ez:gap-4 ez:text-fg">
       <div className="ez:flex ez:items-baseline ez:justify-between ez:gap-3">
