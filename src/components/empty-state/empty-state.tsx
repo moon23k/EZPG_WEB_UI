@@ -34,11 +34,19 @@ export function EmptyState({
       <div className="ez:relative ez:flex ez:size-28 ez:items-center ez:justify-center ez:rounded-[calc(var(--ezd-radius-lg)*1.4)] ez:bg-primary/5">
         <div className="ez:flex ez:size-20 ez:items-center ez:justify-center ez:rounded-lg ez:bg-primary/10 ez:text-primary">{icon}</div>
         {count !== undefined && (
+          // Single-digit centre sits on the tile corner curve (0.29 × radius in, radius capped at half the tile); longer counts grow left.
           <span
             aria-hidden="true"
-            className="ez:absolute ez:top-3 ez:right-3 ez:flex ez:h-5.5 ez:min-w-5.5 ez:box-border ez:items-center ez:justify-center ez:rounded-full ez:border-[1.5px] ez:border-solid ez:border-muted/75 ez:bg-surface ez:px-1.5 ez:text-xs ez:font-bold ez:text-muted"
+            data-slot="empty-state-count"
+            className={cn(
+              "ez:absolute ez:top-[calc(min(var(--ezd-radius-lg),40px)*0.29+4px)] ez:right-[calc(min(var(--ezd-radius-lg),40px)*0.29+4px)]",
+              "ez:flex ez:h-6 ez:min-w-6 ez:box-border ez:items-center ez:justify-center ez:rounded-full ez:px-[7px]",
+              "ez:bg-muted ez:text-[#ffffff] ez:text-xs ez:font-bold",
+              "ez:shadow-[0_0_0_2px_color-mix(in_oklab,var(--ezd-primary)_5%,var(--ezd-surface))]",
+            )}
           >
-            {count}
+            {/* Trimmed to cap height so the digit is optically centred. */}
+            <span className="ez:block ez:leading-none ez:tabular-nums ez:[text-box:trim-both_cap_alphabetic]">{count}</span>
           </span>
         )}
       </div>
