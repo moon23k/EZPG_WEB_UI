@@ -4,10 +4,12 @@ const nav = "ez:inline-flex ez:min-h-11 ez:items-center ez:text-fg ez:no-underli
 
 export function SiteHeader({
   name,
+  logoUrl,
   cartCount,
   signedIn,
 }: {
   name: string;
+  logoUrl?: string | null;
   cartCount?: number;
   signedIn?: boolean;
 }) {
@@ -17,7 +19,7 @@ export function SiteHeader({
       className="ez:sticky ez:top-0 ez:z-10 ez:flex ez:items-center ez:justify-between ez:gap-3 ez:border-0 ez:border-b ez:border-solid ez:border-primary-border ez:bg-surface ez:px-page ez:py-3"
     >
       <NextLink href="/" className="ez:truncate ez:font-display ez:font-title ez:text-lg ez:text-fg ez:no-underline">
-        {name}
+        {logoUrl ? <img src={logoUrl} alt={name} className="ez:block ez:h-9 ez:w-auto" /> : name}
       </NextLink>
       <nav aria-label="주요 메뉴" className="ez:flex ez:shrink-0 ez:gap-4 ez:text-[0.95rem]">
         <NextLink href="/products" className={nav}>
