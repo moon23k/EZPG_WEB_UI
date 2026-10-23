@@ -1,6 +1,6 @@
 import { ButtonLink } from "../../components/button";
 import { EmptyState } from "../../components/empty-state";
-import type { CartLine as Line } from "../../types";
+import type { CartLineData as Line } from "../../types";
 import { won } from "../../utils/cn";
 import { CartLine } from "../cart-line";
 import { lineList } from "../parts/line-item";

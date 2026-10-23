@@ -1,6 +1,6 @@
 import { buttonVariants } from "../../components/button";
 import { Price } from "../../components/price";
-import type { CartLine as Line } from "../../types";
+import type { CartLineData as Line } from "../../types";
 import { won } from "../../utils/cn";
 import { LineItem } from "../parts/line-item";
 

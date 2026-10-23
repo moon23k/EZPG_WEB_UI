@@ -1,7 +1,3 @@
 node_modules/
 dist/
 *.tgz
-storybook-static/
-
-*storybook.log
-debug-storybook.log

@@ -52,11 +52,13 @@ import { SiteRenderer } from "@ezpg/web-ui";
 
 ## 개발
 
+화면 확인은 로컬 갤러리 `../EZPG_WEB_UI_GALLERY`(`npm run dev`, http://localhost:3200)에서 한다. 갤러리는 이 패키지를 소스에서 바로 읽는다.
+
+
 | 명령 | 하는 일 |
 |---|---|
-| `npm run storybook` | Storybook. 툴바에서 테마 · 문구 길이 · 화면 폭을 바꿔 본다 |
 | `npm run build` | JS(tsdown, 파일 단위) + CSS(Tailwind) 빌드, `dist` 검사 |
-| `npm test` / `npm run test:stories` | 단위 테스트 / 스토리 테스트(a11y 포함) |
+| `npm test` | 단위 테스트 · 조작 테스트(axe 접근성 검사 포함, 명도 대비 제외) |
 | `npm run sync:contracts` | EZPG 계약에서 블록이 쓰는 스키마를 `src/types/contract.ts`로 복사 |
 | `npm run manifest` | registry에서 `manifest.json` 생성 |
 | `npm run check:consumer` | 패키지 빌드 후 EZPG_WEB 타입체크 · `next build` (EZPG API가 `API_URL`, 기본 8001에 떠 있어야 함) |

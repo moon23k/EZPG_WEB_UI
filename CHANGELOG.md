@@ -10,5 +10,5 @@
 - constants: `STATUS_LABEL`, `ORDER_ACTIONS`, `GUEST_PRIVACY_TEXT`
 - renderer: `SiteRenderer`, `sections`
 - utils: `cn`, `won`, `kstDate`
-- types: `src/types`의 모든 타입, `AddressValue`, `PayRequest`, `OrderRow`, `OrderAction`, `OrderView`, `OrderItemView`, `ReviewItem`, `AddressRow`, `SiteContext`, `SectionProps`, `SectionData`, `SectionKind`
+- types: `src/types`의 모든 타입(장바구니 줄 타입은 `CartLineData`, 컴포넌트 `CartLine`과 이름이 겹치지 않게), `AddressValue`, `PayRequest`, `OrderRow`, `OrderAction`, `OrderView`, `OrderItemView`, `ReviewItem`, `AddressRow`, `SiteContext`, `SectionProps`, `SectionData`, `SectionKind`
 - styles: `@ezpg/web-ui/styles.css`

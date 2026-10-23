@@ -56,7 +56,7 @@ export type Shipping = {
   return_days: number;
 };
 
-export type CartLine = Schemas["CartLineOut"];
+export type CartLineData = Schemas["CartLineOut"];
 
 export type Quote = Pick<
   Schemas["OrderOut"],
