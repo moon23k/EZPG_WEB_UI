@@ -61,7 +61,7 @@ import { SiteRenderer } from "@ezpg/web-ui";
 | `npm test` | 단위 테스트 · 조작 테스트(axe 접근성 검사 포함, 명도 대비 제외) |
 | `npm run sync:contracts` | EZPG 계약에서 블록이 쓰는 스키마를 `src/types/contract.ts`로 복사 |
 | `npm run manifest` | registry에서 `manifest.json` 생성 |
-| `npm run check:consumer` | 패키지 빌드 후 EZPG_WEB 타입체크 · `next build` (EZPG API가 `API_URL`, 기본 8001에 떠 있어야 함) |
+| `npm run check:consumer` | 패키지 빌드 후 EZPG_WEB · EZPG_ADMIN 타입체크 · `next build` (EZPG API가 `API_URL`, 기본 8001에 떠 있어야 함) |
 
 - 클래스 이름을 조립하지 않는다(`` `ez:bg-${x}` `` 금지). Tailwind가 찾지 못한다.
 - `src/styles/legacy.css`는 EZPG_WEB 앱 코드가 직접 쓰는 옛 `.ez-*` 클래스다. 새 코드는 쓰지 않고, 앱이 컴포넌트로 옮기면 지운다.
