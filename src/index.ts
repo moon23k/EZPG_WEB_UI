@@ -5,6 +5,7 @@ export { ThemeRoot } from "./theme/theme-root";
 export { Button, ButtonLink, buttonVariants } from "./components/button";
 export { Price } from "./components/price";
 export { Field, Input, TextArea } from "./components/field";
+export { Select } from "./components/select";
 export { Quantity } from "./components/quantity";
 export { EmptyState } from "./components/empty-state";
 export { Photo } from "./components/photo";

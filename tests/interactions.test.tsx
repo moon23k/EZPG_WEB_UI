@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import axe from "axe-core";
 import { useState } from "react";
 import { describe, expect, it } from "vitest";
-import { AddressForm, BuyBox, Button, CartView, Checkbox, ClaimForm, Dialog, OrderSummary, Quantity, ReviewForm, type ProductDetail } from "../src";
+import { AddressForm, BuyBox, Button, CartView, Checkbox, ClaimForm, Dialog, Field, OrderSummary, Quantity, ReviewForm, Select, type ProductDetail } from "../src";
 
 // Radix measures form-bound checkboxes; jsdom lacks the observer.
 globalThis.ResizeObserver ??= class {
@@ -51,6 +51,23 @@ describe("Checkbox", () => {
     const { container } = render(<Checkbox name="agree" label="주문 내용을 확인했어요" />);
     await userEvent.click(screen.getByText("주문 내용을 확인했어요"));
     expect(screen.getByRole("checkbox")).toBeChecked();
+    await expectNoA11yViolations(container);
+  });
+});
+
+describe("Select", () => {
+  it("is named by its field label and changes value", async () => {
+    const { container } = render(
+      <Field label="상태">
+        <Select name="status" defaultValue="all">
+          <option value="all">전체</option>
+          <option value="past_due">연체</option>
+        </Select>
+      </Field>,
+    );
+    const select = screen.getByRole("combobox", { name: "상태" });
+    await userEvent.selectOptions(select, "past_due");
+    expect(select).toHaveProperty("value", "past_due");
     await expectNoA11yViolations(container);
   });
 });
