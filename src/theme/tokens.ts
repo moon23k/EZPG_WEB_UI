@@ -1,15 +1,15 @@
 import type { Design } from "../types";
 
 const FALLBACK: Required<NonNullable<Design["color"]>> = {
-  primary: "#2f4a3a",
+  primary: "#1f1f1f",
   on_primary: "#ffffff",
-  primary_hover: "#22362a",
-  primary_tint: "#eef2ef",
-  primary_border: "#c2cdc6",
-  surface: "#fbfaf7",
-  surface_alt: "#f3f1ec",
-  text: "#1c1b19",
-  text_muted: "#5f5c56",
+  primary_hover: "#000000",
+  primary_tint: "#f2f2f2",
+  primary_border: "#d4d4d4",
+  surface: "#ffffff",
+  surface_alt: "#f5f5f5",
+  text: "#171717",
+  text_muted: "#5c5c5c",
 };
 
 const FONT_FALLBACK = '"Pretendard", "Noto Sans KR", system-ui, sans-serif';
@@ -28,7 +28,7 @@ function buttonRadius(design: Design): string {
 export function designVars(design: Design | null | undefined): Record<string, string> {
   const d = design ?? {};
   const color = { ...FALLBACK, ...(d.color ?? {}) };
-  const ratio = (d.imagery?.photo_ratio ?? "4:5").replace(":", " / ");
+  const ratio = (d.imagery?.photo_ratio ?? "1:1").replace(":", " / ");
   return {
     "--ezd-primary": color.primary,
     "--ezd-on-primary": color.on_primary,

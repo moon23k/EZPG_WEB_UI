@@ -20,7 +20,7 @@ async function expectNoA11yViolations(container: HTMLElement) {
 
 const product: ProductDetail = {
   id: "p1",
-  name: "라넌큘러스 핸드타이드",
+  name: "린넨 셔츠",
   list_price: 58000,
   sale_price: 52000,
   cover_url: null,
@@ -128,9 +128,9 @@ describe("AddressForm", () => {
 describe("CartView", () => {
   const base = { product_id: "p", option_label: null, image_key: null, list_price: 10000, sellable: true, enough_stock: true };
   const lines = [
-    { ...base, variant_id: "a", name: "튤립", unit_price: 10000, quantity: 1, line_total: 10000 },
-    { ...base, variant_id: "b", name: "장미", unit_price: 20000, quantity: 1, line_total: 20000 },
-    { ...base, variant_id: "c", name: "작약", unit_price: 30000, quantity: 2, line_total: 60000, enough_stock: false },
+    { ...base, variant_id: "a", name: "머그컵", unit_price: 10000, quantity: 1, line_total: 10000 },
+    { ...base, variant_id: "b", name: "쿠션", unit_price: 20000, quantity: 1, line_total: 20000 },
+    { ...base, variant_id: "c", name: "액자", unit_price: 30000, quantity: 2, line_total: 60000, enough_stock: false },
   ];
   const noop = async () => {};
 
@@ -141,12 +141,12 @@ describe("CartView", () => {
     expect(screen.getByText("2/2")).toBeInTheDocument();
     expect(screen.getByText("결제 예정 금액").nextElementSibling).toHaveTextContent("30,000원");
     expect(screen.getByText("구매할 수 없는 상품 1개")).toBeInTheDocument();
-    expect(screen.queryByRole("checkbox", { name: "작약 선택" })).toBeNull();
+    expect(screen.queryByRole("checkbox", { name: "액자 선택" })).toBeNull();
     expect(screen.getByRole("button", { name: "모두 삭제" })).toBeEnabled();
-    await userEvent.click(screen.getByRole("checkbox", { name: "튤립 선택" }));
+    await userEvent.click(screen.getByRole("checkbox", { name: "머그컵 선택" }));
     expect(screen.getByRole("link", { name: "주문하기" })).toHaveAttribute("href", "/checkout?items=b");
     expect(screen.getByText("1/2")).toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "작약 수량 늘리기" })).toBeNull();
+    expect(screen.queryByRole("button", { name: "액자 수량 늘리기" })).toBeNull();
   });
 });
 
@@ -161,7 +161,7 @@ describe("OrderSummary", () => {
 
 describe("ReviewForm", () => {
   it("starts with no rating and waits for one", async () => {
-    const { container } = render(<ReviewForm orderItemId="i1" productName="튤립" action={async () => ({})} />);
+    const { container } = render(<ReviewForm orderItemId="i1" productName="머그컵" action={async () => ({})} />);
     for (const n of [1, 2, 3, 4, 5]) expect(screen.getByRole("radio", { name: `${n}점` })).not.toBeChecked();
     await userEvent.type(screen.getByRole("textbox", { name: "후기" }), "향이 좋아요");
     expect(screen.getByRole("button", { name: "후기 등록" })).toBeDisabled();
@@ -174,16 +174,16 @@ describe("ReviewForm", () => {
 describe("ClaimForm", () => {
   const item = { option_label: null, line_total: 0, paid_amount: 0, refunded_amount: 0 };
   const items = [
-    { ...item, id: "t", product_name: "튤립", quantity: 2, returned_quantity: 1, non_returnable: false },
-    { ...item, id: "r", product_name: "라넌큘러스", quantity: 1, returned_quantity: 0, non_returnable: true },
+    { ...item, id: "t", product_name: "머그컵", quantity: 2, returned_quantity: 1, non_returnable: false },
+    { ...item, id: "r", product_name: "린넨 셔츠", quantity: 1, returned_quantity: 0, non_returnable: true },
   ];
 
   it("locks non-returnable items unless the seller is at fault", async () => {
     render(<ClaimForm kind="return" items={items} action={async () => ({})} />);
     expect(screen.getByText(/반품 가능 1개/)).toBeInTheDocument();
-    expect(screen.getByRole("checkbox", { name: /라넌큘러스/ })).toBeDisabled();
+    expect(screen.getByRole("checkbox", { name: /린넨 셔츠/ })).toBeDisabled();
     expect(screen.getByRole("button", { name: "반품 신청" })).toBeDisabled();
     await userEvent.click(screen.getByRole("radio", { name: /상품 문제/ }));
-    expect(screen.getByRole("checkbox", { name: /라넌큘러스/ })).toBeEnabled();
+    expect(screen.getByRole("checkbox", { name: /린넨 셔츠/ })).toBeEnabled();
   });
 });
