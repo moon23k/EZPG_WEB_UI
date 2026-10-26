@@ -27,7 +27,7 @@ export function ProductGrid({
   return (
     <div data-slot="product-grid" className="ez:grid ez:grid-cols-2 ez:gap-gutter ez:md:grid-cols-4">
       {products.map((p, i) => (
-        <ProductCard key={p.id} product={p} priority={i < eager} />
+        <ProductCard key={p.id} product={p} preload={i < eager} />
       ))}
     </div>
   );

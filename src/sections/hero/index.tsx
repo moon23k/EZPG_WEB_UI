@@ -18,7 +18,7 @@ export function Hero({ data }: SectionProps<"hero">) {
         {data.sub && <p className="ez:m-0 ez:max-w-2xl ez:text-lg ez:text-muted">{data.sub}</p>}
         <ButtonLink href={data.href ?? "/products"}>{data.button ?? "상품 보기"}</ButtonLink>
       </div>
-      {data.image && <Photo src={data.image} alt="" priority sizes="(max-width: 768px) 100vw, 540px" className="ez:aspect-[4/3] ez:rounded-lg" />}
+      {data.image && <Photo src={data.image} alt="" preload sizes="(max-width: 768px) 100vw, 540px" className="ez:aspect-[4/3] ez:rounded-lg" />}
     </section>
   );
 }

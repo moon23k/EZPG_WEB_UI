@@ -4,13 +4,13 @@ import { cn } from "../../utils/cn";
 export function Photo({
   src,
   alt,
-  priority,
+  preload,
   sizes = "(max-width: 640px) 50vw, 320px",
   className,
 }: {
   src: string | null | undefined;
   alt: string;
-  priority?: boolean;
+  preload?: boolean;
   sizes?: string;
   className?: string;
 }) {
@@ -25,7 +25,7 @@ export function Photo({
       )}
     >
       {src ? (
-        <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="ez:object-cover" />
+        <Image src={src} alt={alt} fill sizes={sizes} preload={preload} className="ez:object-cover" />
       ) : (
         <svg
           viewBox="0 0 24 24"

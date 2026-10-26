@@ -6,6 +6,8 @@ import { cn, won } from "../../utils/cn";
 import { focusRing } from "../../utils/styles";
 import { Status } from "../parts/status";
 
+const LOW_STOCK = 5;
+
 const stepButton = cn(
   "ez:size-8 ez:m-0 ez:p-0 ez:border-0 ez:bg-transparent ez:text-base ez:text-fg ez:cursor-pointer",
   "ez:disabled:cursor-not-allowed ez:disabled:text-muted/50",
@@ -71,6 +73,8 @@ export function CartLine({
             <Status icon="alert" tone="danger">판매 중지</Status>
           ) : !line.enough_stock ? (
             <Status icon="alert" tone="danger">재고 부족</Status>
+          ) : line.stock_left != null && line.stock_left <= LOW_STOCK ? (
+            <Status icon="alert" tone="danger">{`${line.stock_left}개 남음`}</Status>
           ) : (
             <span className="ez:truncate ez:text-muted">{line.option_label}</span>
           )}

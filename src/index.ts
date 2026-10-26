@@ -45,5 +45,6 @@ export { PolicyDoc } from "./blocks/policy-doc";
 export { AccountShell } from "./blocks/account-shell";
 export { OAuthButtons } from "./blocks/oauth-buttons";
 export { ClaimForm } from "./blocks/claim-form";
+export { CategoryChips } from "./sections/category-menu";
 export { SiteRenderer } from "./renderer/site-renderer";
 export { sections, type SiteContext, type SectionProps, type SectionData, type SectionKind } from "./renderer/registry";

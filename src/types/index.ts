@@ -74,6 +74,6 @@ export type Faq = { id: string; question: string; answer: string };
 
 export type Category = { id: string; name: string };
 
-export type FormState = { ok?: boolean; error?: string; message?: string; redirect?: string };
+export type FormState = { ok?: boolean; error?: string; message?: string; redirect?: string; fields?: Record<string, string> };
 
 export type FormAction = (state: FormState, data: FormData) => Promise<FormState>;

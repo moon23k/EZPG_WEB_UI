@@ -9,7 +9,6 @@ export interface Schemas {
     address_detail: string | null;
     is_default: boolean;
   };
-  CancelReason: "customer" | "seller" | "expired" | "out_of_stock" | "amount_mismatch";
   CartLineOut: {
     variant_id: string;
     product_id: string;
@@ -22,6 +21,7 @@ export interface Schemas {
     line_total: number;
     sellable: boolean;
     enough_stock: boolean;
+    stock_left?: number | null;
   };
   CartOut: {
     lines: Schemas["CartLineOut"][];
@@ -89,6 +89,10 @@ export interface Schemas {
     price: number;
     in_stock: boolean;
   };
+  NoticeRow: {
+    title: string;
+    body: string;
+  };
   OrderItemOut: {
     id: string;
     product_id: string;
@@ -112,6 +116,7 @@ export interface Schemas {
     status: Schemas["OrderStatus"];
     orderer_name: string;
     ship_recipient: string;
+    ship_phone: string;
     ship_postal_code: string;
     ship_address: string;
     ship_address_detail: string | null;
@@ -131,7 +136,7 @@ export interface Schemas {
     confirm_due_at: string | null;
     completed_at: string | null;
     canceled_at: string | null;
-    cancel_reason: Schemas["CancelReason"] | null;
+    cancel_reason: Schemas["app__commerce__order__models__CancelReason"] | null;
     items: Schemas["OrderItemOut"][];
     shipments: Schemas["ShipmentOut"][];
   };
@@ -144,6 +149,26 @@ export interface Schemas {
     total: number;
     created_at: string;
     paid_at: string | null;
+    first_item?: string | null;
+    item_count: number;
+    image_url?: string | null;
+  };
+  ProductReviewsOut: {
+    notice: Schemas["NoticeRow"][];
+    count: number;
+    average: number | null;
+    items: Schemas["PublicReviewOut"][];
+  };
+  PublicReviewOut: {
+    id: string;
+    product_id: string;
+    rating: number;
+    body: string;
+    author: string;
+    option: string | null;
+    reply: string | null;
+    replied_at: string | null;
+    created_at: string;
   };
   RefundPreview: {
     cash: number;
@@ -166,10 +191,12 @@ export interface Schemas {
   };
   ShipmentOut: {
     carrier: string;
+    carrier_name?: string | null;
     tracking_no: string;
     status: string;
     shipped_at: string | null;
     delivered_at: string | null;
   };
+  app__commerce__order__models__CancelReason: "customer" | "seller" | "expired" | "out_of_stock" | "amount_mismatch" | "sale_stopped" | "operator";
   app__commerce__review__models__ReviewStatus: "visible" | "hidden";
 }

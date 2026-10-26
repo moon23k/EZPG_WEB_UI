@@ -63,7 +63,7 @@ export type OrderView = Pick<
 > & {
   ship_phone?: string | null;
   items: OrderItemView[];
-  shipments: Pick<Schemas["ShipmentOut"], "carrier" | "tracking_no">[];
+  shipments: Pick<Schemas["ShipmentOut"], "carrier" | "carrier_name" | "tracking_no">[];
 };
 
 type Shipment = OrderView["shipments"][number];
@@ -77,7 +77,7 @@ const TRACKING: Record<string, string> = {
 };
 
 export function trackingUrl(s: Shipment): string | undefined {
-  const base = TRACKING[s.carrier.replace(/\s/g, "")];
+  const base = TRACKING[(s.carrier_name ?? s.carrier).replace(/\s/g, "")];
   return base && `${base}${s.tracking_no.replace(/\D/g, "")}`;
 }
 
@@ -198,7 +198,7 @@ export function OrderDetail({
             return (
               <div key={s.tracking_no} className="ez:flex ez:items-center ez:justify-between ez:gap-3 ez:text-[13px]">
                 <span>
-                  <span className="ez:text-muted">운송장</span> {s.carrier} <span className="ez:tabular-nums">{s.tracking_no}</span>
+                  <span className="ez:text-muted">운송장</span> {s.carrier_name ?? s.carrier} <span className="ez:tabular-nums">{s.tracking_no}</span>
                 </span>
                 {href && (
                   <a href={href} target="_blank" rel="noreferrer" className={cn(smallButton, focusRing)}>

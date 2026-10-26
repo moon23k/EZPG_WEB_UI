@@ -12,6 +12,8 @@ const ROOTS = [
   "ReviewOut",
   "ClaimOut",
   "CustomerProvider",
+  "PublicReviewOut",
+  "ProductReviewsOut",
 ];
 
 const text = readFileSync(SOURCE, "utf8");
