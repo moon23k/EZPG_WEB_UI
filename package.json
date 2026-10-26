@@ -22,6 +22,7 @@
     "typecheck": "tsc --noEmit",
     "manifest": "tsx scripts/build-manifest.ts",
     "build:css": "tailwindcss -i src/styles/index.css -o dist/styles.css --minify",
+    "dev": "npm run dev:css & tsdown --watch --no-clean",
     "dev:css": "tailwindcss -i src/styles/index.css -o dist/styles.css --watch",
     "test": "vitest run",
     "sync:contracts": "tsx scripts/sync-contracts.ts",
