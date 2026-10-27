@@ -8,8 +8,16 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./core": {
+      "source": "./src/core.ts",
+      "types": "./dist/core.d.ts",
+      "import": "./dist/core.js"
+    },
     "./styles.css": {
       "default": "./dist/styles.css"
+    },
+    "./tokens.css": {
+      "default": "./dist/tokens.css"
     },
     "./manifest.json": "./manifest.json"
   },
@@ -21,7 +29,7 @@
     "build": "npm run manifest && tsdown && npm run build:css && tsx scripts/check-dist.ts",
     "typecheck": "tsc --noEmit",
     "manifest": "tsx scripts/build-manifest.ts",
-    "build:css": "tailwindcss -i src/styles/index.css -o dist/styles.css --minify",
+    "build:css": "tailwindcss -i src/styles/index.css -o dist/styles.css --minify && cat src/styles/system.css src/styles/semantic.css > dist/tokens.css",
     "dev": "npm run dev:css & tsdown --watch --no-clean",
     "dev:css": "tailwindcss -i src/styles/index.css -o dist/styles.css --watch",
     "test": "vitest run",
