@@ -40,6 +40,7 @@ export interface Schemas {
     status: Schemas["ClaimStatus"];
     fault: Schemas["ClaimFault"];
     reason: string;
+    reason_code?: Schemas["ClaimReason"] | null;
     requested_by: Schemas["ClaimRequester"];
     items: Schemas["ClaimItemOut"][];
     refund_amount: number;
@@ -51,11 +52,14 @@ export interface Schemas {
     override_reason: string | null;
     hold_note: string | null;
     reject_reason: string | null;
+    approve_note?: string | null;
     refund_due_at: string | null;
+    response_due_at?: string | null;
     refunded_at: string | null;
     created_at: string;
     preview?: Schemas["RefundPreview"] | null;
   };
+  ClaimReason: "change_of_mind" | "defective" | "wrong_item" | "damaged" | "late" | "other";
   ClaimRequester: "customer" | "partner";
   ClaimStatus: "requested" | "collecting" | "collected" | "held" | "completed" | "rejected" | "withdrawn";
   CustomerProduct: {
@@ -65,6 +69,7 @@ export interface Schemas {
     sale_price: number;
     cover_url: string | null;
     sold_out: boolean;
+    external?: Schemas["ExternalLink"] | null;
     category_id: string | null;
     option_name: string | null;
     variants: Schemas["CustomerVariant"][];
@@ -81,6 +86,7 @@ export interface Schemas {
     sale_price: number;
     cover_url: string | null;
     sold_out: boolean;
+    external?: Schemas["ExternalLink"] | null;
   };
   CustomerProvider: "kakao" | "naver" | "google";
   CustomerVariant: {
@@ -89,14 +95,19 @@ export interface Schemas {
     price: number;
     in_stock: boolean;
   };
+  ExternalLink: {
+    url: string;
+    label: string;
+  };
+  Fulfillment: "ship" | "none";
   NoticeRow: {
     title: string;
     body: string;
   };
   OrderItemOut: {
     id: string;
-    product_id: string;
-    variant_id: string;
+    product_id: string | null;
+    variant_id: string | null;
     product_name: string;
     option_label: string | null;
     list_price: number;
@@ -110,15 +121,18 @@ export interface Schemas {
     returned_quantity: number;
     non_returnable: boolean;
   };
+  OrderKind: "normal" | "custom";
   OrderOut: {
     id: string;
     number: string;
     status: Schemas["OrderStatus"];
     orderer_name: string;
-    ship_recipient: string;
-    ship_phone: string;
-    ship_postal_code: string;
-    ship_address: string;
+    kind: Schemas["OrderKind"];
+    fulfillment: Schemas["Fulfillment"];
+    ship_recipient: string | null;
+    ship_phone: string | null;
+    ship_postal_code: string | null;
+    ship_address: string | null;
     ship_address_detail: string | null;
     items_total: number;
     product_discount: number;
@@ -152,6 +166,7 @@ export interface Schemas {
     first_item?: string | null;
     item_count: number;
     image_url?: string | null;
+    ship_due_at?: string | null;
   };
   ProductReviewsOut: {
     notice: Schemas["NoticeRow"][];
@@ -176,6 +191,7 @@ export interface Schemas {
     coupon_clawback: number;
     shipping_charge: number;
     return_fee: number;
+    gross: number;
   };
   ReviewOut: {
     id: string;

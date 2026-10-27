@@ -186,13 +186,15 @@ export function OrderDetail({
           ))}
         </ul>
         <section aria-label="배송" className="ez:grid ez:gap-3 ez:max-lg:order-2">
-          <AddressText
-            recipient={order.ship_recipient}
-            phone={order.ship_phone ?? undefined}
-            postalCode={order.ship_postal_code}
-            address={order.ship_address}
-            detail={order.ship_address_detail}
-          />
+          {order.ship_address && (
+            <AddressText
+              recipient={order.ship_recipient ?? ""}
+              phone={order.ship_phone ?? undefined}
+              postalCode={order.ship_postal_code ?? ""}
+              address={order.ship_address}
+              detail={order.ship_address_detail}
+            />
+          )}
           {order.shipments.map((s) => {
             const href = trackingHref(s);
             return (
