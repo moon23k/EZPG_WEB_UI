@@ -4,13 +4,7 @@
 @import "tailwindcss/theme.css" layer(theme) prefix(ez);
 @import "tailwindcss/utilities.css" layer(components) source(none);
 
-
-@theme {
-  --color-*: initial;
-  --color-danger: #b42318;
-  --color-danger-tint: #fde8e7;
-  --color-overlay: rgb(0 0 0 / 0.35);
-}
+@import "./system.css";
 
 @theme inline {
   --color-primary: var(--ezd-primary);

@@ -1,0 +1,17 @@
+@theme {
+  --color-*: initial;
+  --color-border: #e5e5e5;
+  --color-danger: #dc2626;
+  --color-on-danger: #ffffff;
+  --color-danger-tint: #fef2f2;
+  --color-success: #15803d;
+  --color-on-success: #ffffff;
+  --color-success-tint: #f0fdf4;
+  --color-warning: #f59e0b;
+  --color-on-warning: #0a0a0a;
+  --color-warning-tint: #fffbeb;
+  --color-info: #2563eb;
+  --color-on-info: #ffffff;
+  --color-info-tint: #eff6ff;
+  --color-overlay: rgb(0 0 0 / 0.35);
+}
