@@ -22,6 +22,8 @@ export interface Schemas {
     sellable: boolean;
     enough_stock: boolean;
     stock_left?: number | null;
+    slot_id?: string | null;
+    slot_starts_at?: string | null;
   };
   CartOut: {
     lines: Schemas["CartLineOut"][];
@@ -70,6 +72,7 @@ export interface Schemas {
     cover_url: string | null;
     sold_out: boolean;
     external?: Schemas["ExternalLink"] | null;
+    slot_scope: string;
     category_id: string | null;
     option_name: string | null;
     variants: Schemas["CustomerVariant"][];
@@ -87,6 +90,7 @@ export interface Schemas {
     cover_url: string | null;
     sold_out: boolean;
     external?: Schemas["ExternalLink"] | null;
+    slot_scope: string;
   };
   CustomerProvider: "kakao" | "naver" | "google";
   CustomerVariant: {
@@ -128,6 +132,7 @@ export interface Schemas {
     refunded_amount: number;
     returned_quantity: number;
     non_returnable: boolean;
+    slot_starts_at?: string | null;
   };
   OrderKind: "normal" | "custom";
   OrderOut: {
