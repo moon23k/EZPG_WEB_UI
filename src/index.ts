@@ -15,6 +15,7 @@ export { ConsentForm, GUEST_PRIVACY_TEXT, type ConsentTerm } from "./blocks/cons
 export { CheckoutLayout } from "./blocks/checkout-layout";
 export { CheckoutItems, type CheckoutLine } from "./blocks/checkout-items";
 export { PayWidget, type PayRequest } from "./blocks/pay-widget";
+export { DepositInfo } from "./blocks/parts/deposit-info";
 export { OrderList, type OrderRow } from "./blocks/order-list";
 export {
   OrderDetail,

@@ -4,6 +4,7 @@ import type { OrderStatus, Schemas } from "../../types";
 import { cn, kstDate, won } from "../../utils/cn";
 import { focusRing } from "../../utils/styles";
 import { AddressText } from "../parts/address-text";
+import { DepositInfo } from "../parts/deposit-info";
 import { LineItem, lineList } from "../parts/line-item";
 import { Status } from "../parts/status";
 import { SummaryRows, type SummaryRow } from "../parts/summary-rows";
@@ -62,6 +63,8 @@ export type OrderView = Pick<
   | "ship_address_detail"
 > & {
   ship_phone?: string | null;
+  fulfillment?: Schemas["OrderOut"]["fulfillment"];
+  deposit?: Schemas["DepositOut"] | null;
   items: OrderItemView[];
   shipments: Pick<Schemas["ShipmentOut"], "carrier" | "carrier_name" | "tracking_no">[];
 };
@@ -129,12 +132,13 @@ export function OrderDetail({
           <div className="ez:flex ez:items-baseline ez:justify-between ez:gap-3">
             <h1 className="ez:m-0 ez:font-body ez:text-base ez:font-semibold">{kstDate(order.created_at)} 주문</h1>
             <span className={cn("ez:text-[13px]", partial ? "ez:font-semibold ez:text-primary" : statusTone(order.status))}>
-              {partial ? "부분 환불" : labels[order.status]}
+              {partial ? "부분 환불" : order.deposit ? "입금 대기" : labels[order.status]}
             </span>
           </div>
           <span className="ez:text-[13px] ez:tabular-nums ez:text-muted">주문번호 {order.number}</span>
         </header>
-        {step >= 0 && (
+        {order.deposit && <DepositInfo deposit={order.deposit} />}
+        {step >= 0 && order.fulfillment !== "none" && (
           <ol aria-label="배송 단계" className="ez:relative ez:m-0 ez:grid ez:list-none ez:grid-cols-4 ez:p-0">
             <span aria-hidden="true" className="ez:absolute ez:top-1 ez:right-[12.5%] ez:left-[12.5%] ez:h-0.5 ez:bg-primary-border" />
             <span

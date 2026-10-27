@@ -95,6 +95,14 @@ export interface Schemas {
     price: number;
     in_stock: boolean;
   };
+  DepositOut: {
+    bank_code: string;
+    bank_name: string;
+    account_number: string;
+    holder: string | null;
+    due_at: string;
+    amount: number;
+  };
   ExternalLink: {
     url: string;
     label: string;
@@ -153,6 +161,8 @@ export interface Schemas {
     cancel_reason: Schemas["app__commerce__order__models__CancelReason"] | null;
     items: Schemas["OrderItemOut"][];
     shipments: Schemas["ShipmentOut"][];
+    deposit?: Schemas["DepositOut"] | null;
+    needs_refund_account: boolean;
   };
   OrderStatus: "pending_payment" | "paid" | "preparing" | "shipped" | "delivered" | "completed" | "canceled";
   OrderSummary: {

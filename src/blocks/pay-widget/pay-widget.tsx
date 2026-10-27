@@ -75,10 +75,10 @@ export function PayWidget({
     };
   }, [mock, agreement, request.clientKey, request.amount]);
 
-  const pay = async () => {
+  const pay = async (method: "mock" | "vbank" = "mock") => {
     if (mock) {
       const url = new URL(request.successUrl, window.location.origin);
-      url.searchParams.set("paymentKey", `mock_${request.orderId}_${Date.now()}`);
+      url.searchParams.set("paymentKey", `${method}_${request.orderId}_${Date.now()}`);
       url.searchParams.set("orderId", request.orderId);
       url.searchParams.set("amount", String(request.amount));
       window.location.assign(url.toString());
@@ -97,9 +97,14 @@ export function PayWidget({
       <div id="ez-pay-methods" />
       {agreement && <div id="ez-pay-agreement" />}
       {error && <Notice tone="error">{error}</Notice>}
-      <Button block onClick={pay} disabled={!ready}>
+      <Button block onClick={() => pay()} disabled={!ready}>
         {won(request.amount)} 결제하기
       </Button>
+      {mock && (
+        <Button block variant="secondary" onClick={() => pay("vbank")}>
+          가상계좌로 결제(테스트)
+        </Button>
+      )}
       {caption && (
         <Status icon="shield" className="ez:justify-self-center">
           {caption}
