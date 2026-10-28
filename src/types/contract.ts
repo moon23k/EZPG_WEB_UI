@@ -74,6 +74,9 @@ export interface Schemas {
     sold_out: boolean;
     external?: Schemas["ExternalLink"] | null;
     slot_scope: string;
+    season?: ("upcoming" | "ended") | null;
+    available_from?: string | null;
+    available_until?: string | null;
     category_id: string | null;
     option_name: string | null;
     variants: Schemas["CustomerVariant"][];
@@ -97,6 +100,9 @@ export interface Schemas {
     sold_out: boolean;
     external?: Schemas["ExternalLink"] | null;
     slot_scope: string;
+    season?: ("upcoming" | "ended") | null;
+    available_from?: string | null;
+    available_until?: string | null;
   };
   CustomerProvider: "kakao" | "naver" | "google";
   CustomerVariant: {
@@ -104,6 +110,7 @@ export interface Schemas {
     label: string | null;
     price: number;
     in_stock: boolean;
+    arrivals: number;
   };
   DepositOut: {
     bank_code: string;

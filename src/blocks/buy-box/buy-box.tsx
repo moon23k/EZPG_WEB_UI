@@ -60,7 +60,7 @@ export function BuyBox({
               {won(from ?? product.sale_price)}
               {from !== null && <span className="ez:font-normal">부터</span>}
             </strong>
-            <Badge tone="warn">품절</Badge>
+            <Badge tone="danger">품절</Badge>
           </span>
         ) : from !== null ? (
           <span className="ez:text-lg ez:tabular-nums">
@@ -148,7 +148,7 @@ export function BuyBox({
           </div>
         </>
       ) : null}
-      <Sheet open={sheetOpen} title="장바구니에 담았어요" onClose={() => setSheetOpen(false)}>
+      <Sheet open={sheetOpen} title="장바구니에 담았어요" onOpenChange={setSheetOpen}>
         <div className="ez:flex ez:items-center ez:gap-3">
           <Photo src={product.cover_url} alt="" sizes="64px" className="ez:w-16 ez:shrink-0 ez:aspect-[4/5]" />
           <div className="ez:grid ez:gap-0.5">

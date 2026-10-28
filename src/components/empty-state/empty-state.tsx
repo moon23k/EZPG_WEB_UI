@@ -1,17 +1,42 @@
 import type { ReactNode } from "react";
 import { cn } from "../../utils/cn";
+import { Button, ButtonLink } from "../button/button";
+
+export const emptyAction = "ez:min-h-11 ez:px-6 ez:text-[15px]";
+
+export type EmptyStateAction = { label: string; icon?: ReactNode } & ({ href: string; onPress?: never } | { onPress: () => void; href?: never });
+
+function Action({ action }: { action: EmptyStateAction }) {
+  const body = (
+    <>
+      {action.icon}
+      {action.label}
+    </>
+  );
+  return action.href ? (
+    <ButtonLink href={action.href} variant="outline" className={emptyAction}>
+      {body}
+    </ButtonLink>
+  ) : (
+    <Button variant="outline" onClick={action.onPress} className={emptyAction}>
+      {body}
+    </Button>
+  );
+}
 
 // Icon tile, one short line and a way forward. Without an icon the title is bold, for messages that need words (errors, not found).
 export function EmptyState({
   title,
   description,
   icon,
+  action,
   className,
   children,
 }: {
   title: string;
   description?: string;
   icon?: ReactNode;
+  action?: EmptyStateAction;
   className?: string;
   children?: ReactNode;
 }) {
@@ -22,6 +47,7 @@ export function EmptyState({
           <p className="ez:m-0 ez:font-semibold ez:text-fg">{title}</p>
           {description && <p className="ez:m-0 ez:text-sm ez:text-muted">{description}</p>}
         </div>
+        {action && <Action action={action} />}
         {children}
       </div>
     );
@@ -35,6 +61,7 @@ export function EmptyState({
         <h2 className="ez:m-0 ez:font-body ez:text-base ez:font-normal ez:text-fg">{title}</h2>
         {description && <p className="ez:m-0 ez:text-sm ez:text-muted">{description}</p>}
       </div>
+      {action && <Action action={action} />}
       {children}
     </div>
   );

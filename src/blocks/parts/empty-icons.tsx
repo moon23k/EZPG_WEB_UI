@@ -66,5 +66,4 @@ export const PencilIcon = () => (
   </svg>
 );
 
-// Empty-state actions sit one step below the icon tile in weight.
-export const emptyAction = "ez:min-h-11 ez:px-6 ez:text-[15px]";
+export { emptyAction } from "../../components/empty-state/empty-state";

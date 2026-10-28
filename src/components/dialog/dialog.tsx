@@ -9,7 +9,7 @@ export type OverlayProps = {
   open: boolean;
   title: string;
   description?: string;
-  onClose: () => void;
+  onOpenChange: (open: boolean) => void;
   children?: ReactNode;
   // Confirm dialogs carry their own dismiss button, so the corner X is left out.
   closeButton?: boolean;
@@ -22,14 +22,14 @@ export function OverlayFrame({
   open,
   title,
   description,
-  onClose,
+  onOpenChange,
   children,
   closeButton = true,
   slot,
   className,
 }: OverlayProps & { slot: string; className: string }) {
   return (
-    <DialogPrimitive.Root open={open} onOpenChange={(next) => !next && onClose()}>
+    <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay className="ez:fixed ez:inset-0 ez:z-50 ez:bg-overlay" />
         <DialogPrimitive.Content

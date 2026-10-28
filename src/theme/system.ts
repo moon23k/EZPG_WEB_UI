@@ -7,7 +7,7 @@ export const SYSTEM_COLOR = {
   "surface": "#ffffff",
   "surface_alt": "#f5f5f5",
   "text": "#0a0a0a",
-  "text_muted": "#737373"
+  "text_muted": "#525252"
 };
 
 export const SYSTEM_RADIUS = {

@@ -1,5 +1,6 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import type { HTMLAttributes } from "react";
+import type { Tone } from "../../theme/contract";
 import { cn } from "../../utils/cn";
 
 const badgeVariants = cva(
@@ -9,8 +10,8 @@ const badgeVariants = cva(
       tone: {
         neutral: "ez:bg-surface-alt ez:text-fg",
         primary: "ez:bg-primary-tint ez:text-primary",
-        warn: "ez:bg-danger-tint ez:text-danger",
-      },
+        danger: "ez:bg-danger-tint ez:text-danger",
+      } satisfies Partial<Record<Tone, string>>,
     },
     defaultVariants: { tone: "neutral" },
   },
