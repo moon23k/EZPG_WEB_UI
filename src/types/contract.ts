@@ -81,6 +81,8 @@ export interface Schemas {
   [key: string]: unknown;
     } | null;
     non_returnable: boolean;
+    notice?: Schemas["NoticeTableOut"] | null;
+    detail_sections: Schemas["DetailSectionOut"][];
   };
   CustomerProductSummary: {
     id: string;
@@ -107,6 +109,11 @@ export interface Schemas {
     due_at: string;
     amount: number;
   };
+  DetailSectionOut: {
+    kind: string;
+    rows: Schemas["NoticeRowOut"][];
+    text?: string | null;
+  };
   ExternalLink: {
     url: string;
     label: string;
@@ -115,6 +122,15 @@ export interface Schemas {
   NoticeRow: {
     title: string;
     body: string;
+  };
+  NoticeRowOut: {
+    label: string;
+    value: string;
+  };
+  NoticeTableOut: {
+    group: string;
+    rows: Schemas["NoticeRowOut"][];
+    terms: Schemas["NoticeRowOut"][];
   };
   OrderItemOut: {
     id: string;
