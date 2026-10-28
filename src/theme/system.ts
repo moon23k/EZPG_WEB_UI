@@ -16,7 +16,7 @@ export const SYSTEM_RADIUS = {
   "lg": 12
 };
 
-export const SYSTEM_FONT = '"Pretendard", "Noto Sans KR", system-ui, sans-serif';
+export const SYSTEM_FONT = '"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif';
 
 export const SYSTEM_DURATION = 200;
 
