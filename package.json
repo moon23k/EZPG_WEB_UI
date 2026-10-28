@@ -26,10 +26,10 @@
     "manifest.json"
   ],
   "scripts": {
-    "build": "npm run manifest && tsdown && npm run build:css && tsx scripts/check-dist.ts",
+    "build": "npm run manifest && tsdown --out-dir .dist-next && OUT=.dist-next npm run build:css && OUT=.dist-next tsx scripts/check-dist.ts && node scripts/swap-dist.mjs",
     "typecheck": "tsc --noEmit",
     "manifest": "tsx scripts/build-manifest.ts",
-    "build:css": "tailwindcss -i src/styles/index.css -o dist/styles.css --minify && cat src/styles/system.css src/styles/semantic.css > dist/tokens.css",
+    "build:css": "tailwindcss -i src/styles/index.css -o ${OUT:-dist}/styles.css --minify && cat src/styles/system.css src/styles/semantic.css > ${OUT:-dist}/tokens.css",
     "dev": "npm run dev:css & tsdown --watch --no-clean",
     "dev:css": "tailwindcss -i src/styles/index.css -o dist/styles.css --watch",
     "test": "vitest run",

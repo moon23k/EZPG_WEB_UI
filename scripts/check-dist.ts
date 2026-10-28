@@ -2,6 +2,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join, relative } from "node:path";
 
 const root = new URL("..", import.meta.url).pathname;
+const out = process.env.OUT ?? "dist";
 const errors: string[] = [];
 
 function walk(dir: string): string[] {
@@ -12,16 +13,16 @@ function walk(dir: string): string[] {
 
 const isClient = (code: string) => /^\s*["']use client["']/.test(code);
 
-for (const out of walk(join(root, "dist")).filter((f) => f.endsWith(".js"))) {
-  const rel = relative(join(root, "dist"), out).replace(/\.js$/, "");
+for (const file of walk(join(root, out)).filter((f) => f.endsWith(".js"))) {
+  const rel = relative(join(root, out), file).replace(/\.js$/, "");
   const src = [".tsx", ".ts"].map((ext) => join(root, "src", rel + ext)).find(existsSync);
   if (!src) continue;
-  if (isClient(readFileSync(src, "utf8")) && !isClient(readFileSync(out, "utf8"))) {
+  if (isClient(readFileSync(src, "utf8")) && !isClient(readFileSync(file, "utf8"))) {
     errors.push(`"use client" missing in dist/${rel}.js`);
   }
 }
 
-const css = readFileSync(join(root, "dist/styles.css"), "utf8");
+const css = readFileSync(join(root, out, "styles.css"), "utf8");
 for (const [, name, target] of css.matchAll(/(--[\w-]+):\s*var\((--[\w-]+)\)/g)) {
   if (name === target) errors.push(`self-referencing variable ${name} in dist/styles.css`);
 }

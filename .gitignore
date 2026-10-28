@@ -2,3 +2,5 @@ node_modules/
 dist/
 *.tgz
 storybook-static
+.dist-next
+.dist-old

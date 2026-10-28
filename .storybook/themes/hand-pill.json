@@ -1,0 +1,48 @@
+{
+  "font": {
+    "display": "Gaegu",
+    "body": "Nanum Gothic",
+    "display_weight": 400,
+    "letter_spacing_em": 0.01,
+    "scale_ratio": 1.25
+  },
+  "shape": {
+    "radius_sm": 11,
+    "radius_md": 22,
+    "radius_lg": 39,
+    "button_shape": "pill"
+  },
+  "density": {
+    "section_gap": 52,
+    "grid_gutter": 12
+  },
+  "motion": {
+    "duration_ms": 260,
+    "carousel_autoplay": true,
+    "hover_lift": true,
+    "reveal_on_scroll": false
+  },
+  "color": {
+    "primary": "#111111",
+    "primary_adjusted": false,
+    "on_primary": "#FFFFFF",
+    "primary_hover": "#000000",
+    "primary_tint": "#ECECEC",
+    "primary_border": "#C4C4C4",
+    "surface": "#FBFBFB",
+    "surface_alt": "#F5F5F4",
+    "text": "#1C1A17",
+    "text_muted": "#726C65",
+    "accent_area": "+섹션 강조 띠"
+  },
+  "imagery": {
+    "photo_ratio": "4:5",
+    "overlay_opacity": 0.35
+  },
+  "checks": {
+    "primary_vs_surface": 18.28,
+    "on_primary": 18.88,
+    "text": 16.82,
+    "text_muted": 5.02
+  }
+}
