@@ -5,6 +5,7 @@ import type { ComponentType } from "react";
 import { describe, expect, it } from "vitest";
 import preview from "../.storybook/preview";
 import * as core from "../src/core";
+import * as root from "../src/index";
 import { expectNoA11yViolations } from "./a11y";
 
 setProjectAnnotations(preview);
@@ -22,14 +23,14 @@ describe.each(Object.entries(modules))("%s", (_, mod) => {
   });
 });
 
-it("every component exported from core has a story", () => {
+it("every component exported from the package has a story", () => {
   const covered = new Set(
     Object.values(sources).flatMap((code) =>
       [...code.matchAll(/import \{([^}]+)\} from "\.\.?\/[^"]+"/g)].flatMap((m) => m[1].split(",").map((n) => n.trim())),
     ),
   );
-  const components = Object.entries(core)
-    .filter(([name, value]) => /^[A-Z]/.test(name) && typeof value === "function")
+  const components = Object.entries({ ...core, ...root })
+    .filter(([name, value]) => /^[A-Z]/.test(name) && name !== "ThemeRoot" && typeof value === "function")
     .map(([name]) => name);
   expect(components.filter((name) => !covered.has(name))).toEqual([]);
 });

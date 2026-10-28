@@ -40,7 +40,16 @@ const preview: Preview = {
     },
   },
   initialGlobals: { theme: "ezpg" },
-  parameters: { layout: "fullscreen", nextjs: { appDirectory: true } },
+  parameters: {
+    layout: "fullscreen",
+    nextjs: { appDirectory: true },
+    viewport: {
+      options: {
+        mobile: { name: "휴대폰 390", styles: { width: "390px", height: "844px" }, type: "mobile" },
+        desktop: { name: "데스크톱 1440", styles: { width: "1440px", height: "900px" }, type: "desktop" },
+      },
+    },
+  },
 };
 
 export default preview;

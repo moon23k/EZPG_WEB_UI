@@ -39,7 +39,12 @@ export function CartLine({
       className="ez:flex ez:gap-3 ez:border-0 ez:border-b ez:border-solid ez:border-primary-border ez:py-4"
     >
       {selector}
-      <NextLink href={`/products/${line.product_id}`} className={cn("ez:w-18 ez:shrink-0 ez:rounded-md", focusRing, !available && "ez:opacity-45")}>
+      <NextLink
+        href={`/products/${line.product_id}`}
+        tabIndex={-1}
+        aria-hidden="true"
+        className={cn("ez:w-18 ez:shrink-0 ez:rounded-md", focusRing, !available && "ez:opacity-45")}
+      >
         <Photo src={imageSrc} alt={line.name} sizes="72px" className="ez:aspect-[4/5]" />
       </NextLink>
       <div className="ez:flex ez:min-w-0 ez:flex-1 ez:flex-col">

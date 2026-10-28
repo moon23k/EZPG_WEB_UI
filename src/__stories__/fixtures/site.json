@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "pages": {
+    "home": {
+      "title": "홈",
+      "sections": [
+        { "kind": "free_shipping_bar", "v": 1, "data": {} },
+        { "kind": "hero", "v": 1, "data": { "title": "오늘 포장한 상품을 오늘 보내드려요", "sub": "매일 아침 검수한 상품만 보냅니다.", "button": "상품 보러 가기", "href": "/products?category=c1", "image": "/sample/hero.jpg" } },
+        { "kind": "category_menu", "v": 1, "data": {} },
+        { "kind": "product_grid", "v": 1, "data": { "title": "전체 상품", "lines": {} } },
+        { "kind": "story", "v": 1, "data": { "title": "상점을 시작한 이유", "body": ["쌓아 두고 파는 일이 싫어서, 한 달에 팔 만큼만 만듭니다.", "남은 원단은 다음 달 소품으로 다시 만들어요."], "strengths": [{ "title": "직접 검수", "body": "보내기 전에 한 장씩 직접 확인합니다." }, { "title": "당일 배송", "body": "오후 2시 전 주문은 오늘 도착해요." }, { "title": "선물 포장", "body": "요청하시면 무료로 포장해 드려요." }] } },
+        { "kind": "maker_profile", "v": 1, "data": { "line": "12년째 같은 자리에서 옷을 만들고 있는 김온기입니다." } },
+        { "kind": "review_keywords", "v": 1, "when": "has_reviews", "data": {} },
+        { "kind": "faq", "v": 1, "data": {} },
+        { "kind": "footer_legal", "v": 1, "data": {} }
+      ]
+    }
+  }
+}
