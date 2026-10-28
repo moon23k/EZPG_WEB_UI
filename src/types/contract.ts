@@ -279,6 +279,6 @@ export interface Schemas {
     shipped_at: string | null;
     delivered_at: string | null;
   };
-  app__commerce__order__models__CancelReason: "customer" | "seller" | "expired" | "out_of_stock" | "amount_mismatch" | "sale_stopped" | "operator";
+  app__commerce__order__models__CancelReason: "customer" | "seller" | "expired" | "out_of_stock" | "amount_mismatch" | "sale_stopped" | "slot_canceled" | "operator";
   app__commerce__review__models__ReviewStatus: "visible" | "hidden";
 }
