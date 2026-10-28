@@ -42,7 +42,7 @@ export type OrderItemView = Pick<
   | "refunded_amount"
   | "returned_quantity"
   | "non_returnable"
-> & { inputs?: { label: string; value: string }[] | null };
+> & { inputs?: { label: string; value: string }[] | null; slot_starts_at?: string | null };
 
 export type OrderView = Pick<
   Schemas["OrderOut"],
@@ -64,6 +64,8 @@ export type OrderView = Pick<
 > & {
   ship_phone?: string | null;
   fulfillment?: Schemas["OrderOut"]["fulfillment"];
+  pickup?: Schemas["PickupOut"] | null;
+  ready_at?: string | null;
   deposit?: Schemas["DepositOut"] | null;
   items: OrderItemView[];
   shipments: Pick<Schemas["ShipmentOut"], "carrier" | "carrier_name" | "tracking_no">[];
@@ -89,12 +91,51 @@ export function statusTone(status: OrderStatus): string {
   return status === "completed" || status === "canceled" ? "ez:text-muted" : "ez:font-semibold ez:text-primary";
 }
 
-const STEPS: [OrderStatus, string][] = [
-  ["paid", "결제 완료"],
-  ["preparing", "상품 준비"],
-  ["shipped", "배송 중"],
-  ["delivered", "배송 완료"],
-];
+type Step = OrderStatus | "ready";
+
+const STEPS: Record<string, [Step, string][]> = {
+  ship: [
+    ["paid", "결제 완료"],
+    ["preparing", "상품 준비"],
+    ["shipped", "배송 중"],
+    ["delivered", "배송 완료"],
+  ],
+  pickup: [
+    ["paid", "결제 완료"],
+    ["preparing", "상품 준비"],
+    ["ready", "픽업 준비 완료"],
+    ["delivered", "수령 완료"],
+  ],
+  local: [
+    ["paid", "결제 완료"],
+    ["preparing", "상품 준비"],
+    ["delivered", "배송 완료"],
+  ],
+};
+
+function currentStep(order: OrderView): Step {
+  return order.fulfillment === "pickup" && order.status === "preparing" && order.ready_at ? "ready" : order.status;
+}
+
+function orderLabel(order: OrderView, labels: Record<OrderStatus, string> = STATUS_LABEL): string {
+  if (order.fulfillment === "pickup") {
+    if (currentStep(order) === "ready") return "픽업 준비 완료";
+    if (order.status === "delivered") return "수령 완료";
+  }
+  return labels[order.status];
+}
+
+const when = (value: string) => {
+  const date = new Date(value);
+  const timed = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Seoul", hour: "2-digit", minute: "2-digit" }).format(date) !== "00:00";
+  return new Intl.DateTimeFormat("ko-KR", {
+    timeZone: "Asia/Seoul",
+    month: "long",
+    day: "numeric",
+    weekday: "short",
+    ...(timed ? { hour: "2-digit", minute: "2-digit" } : {}),
+  }).format(date);
+};
 
 const smallButton = "ez:inline-flex ez:h-8 ez:shrink-0 ez:items-center ez:rounded-md ez:border ez:border-solid ez:border-primary-border ez:px-3 ez:text-[13px] ez:text-fg ez:no-underline ez:hover:bg-primary-tint";
 
@@ -120,7 +161,9 @@ export function OrderDetail({
     { label: "적립금 사용", value: order.point_used, minus: true },
   ].filter((row) => row.value > 0 || row.label === "배송비");
   if (partial) rows.push({ label: "결제 금액", value: order.total, strong: true }, { label: "환불 금액", value: refunded, minus: true });
-  const step = STEPS.findIndex(([status]) => status === order.status);
+  const steps = STEPS[order.fulfillment ?? "ship"] ?? STEPS.ship;
+  const step = steps.findIndex(([status]) => status === currentStep(order));
+  const slotAt = order.items.find((i) => i.slot_starts_at)?.slot_starts_at;
   return (
     <article
       data-slot="order-detail"
@@ -132,21 +175,29 @@ export function OrderDetail({
           <div className="ez:flex ez:items-baseline ez:justify-between ez:gap-3">
             <h1 className="ez:m-0 ez:font-body ez:text-base ez:font-semibold">{kstDate(order.created_at)} 주문</h1>
             <span className={cn("ez:text-[13px]", partial ? "ez:font-semibold ez:text-primary" : statusTone(order.status))}>
-              {partial ? "부분 환불" : order.deposit ? "입금 대기" : labels[order.status]}
+              {partial ? "부분 환불" : order.deposit ? "입금 대기" : orderLabel(order, labels)}
             </span>
           </div>
           <span className="ez:text-[13px] ez:tabular-nums ez:text-muted">주문번호 {order.number}</span>
         </header>
         {order.deposit && <DepositInfo deposit={order.deposit} />}
         {step >= 0 && order.fulfillment !== "none" && (
-          <ol aria-label="배송 단계" className="ez:relative ez:m-0 ez:grid ez:list-none ez:grid-cols-4 ez:p-0">
-            <span aria-hidden="true" className="ez:absolute ez:top-1 ez:right-[12.5%] ez:left-[12.5%] ez:h-0.5 ez:bg-primary-border" />
+          <ol
+            aria-label="배송 단계"
+            className="ez:relative ez:m-0 ez:grid ez:list-none ez:p-0"
+            style={{ gridTemplateColumns: `repeat(${steps.length}, minmax(0, 1fr))` }}
+          >
             <span
               aria-hidden="true"
-              className="ez:absolute ez:top-1 ez:left-[12.5%] ez:h-0.5 ez:bg-primary"
-              style={{ width: `${step * 25}%` }}
+              className="ez:absolute ez:top-1 ez:h-0.5 ez:bg-primary-border"
+              style={{ left: `${50 / steps.length}%`, right: `${50 / steps.length}%` }}
             />
-            {STEPS.map(([status, label], i) => (
+            <span
+              aria-hidden="true"
+              className="ez:absolute ez:top-1 ez:h-0.5 ez:bg-primary"
+              style={{ left: `${50 / steps.length}%`, width: `${(step * 100) / steps.length}%` }}
+            />
+            {steps.map(([status, label], i) => (
               <li
                 key={status}
                 aria-current={i === step ? "step" : undefined}
@@ -195,6 +246,19 @@ export function OrderDetail({
           ))}
         </ul>
         <section aria-label="배송" className="ez:grid ez:gap-3 ez:max-lg:order-2">
+          {slotAt && (
+            <p className="ez:m-0 ez:text-[13px]">
+              <span className="ez:text-muted">{order.fulfillment === "pickup" ? "픽업 날짜 · 시간" : "희망 배송일"}</span> {when(slotAt)}
+            </p>
+          )}
+          {order.pickup && (
+            <div data-slot="pickup-place" className="ez:grid ez:gap-0.5">
+              <span className="ez:text-[13px] ez:text-muted">픽업 장소</span>
+              <span className="ez:font-semibold">{order.pickup.name}</span>
+              <span className="ez:text-[13px]">{order.pickup.address}</span>
+              {order.pickup.hours && <span className="ez:text-[13px] ez:text-muted">{order.pickup.hours}</span>}
+            </div>
+          )}
           {order.ship_address && (
             <AddressText
               recipient={order.ship_recipient ?? ""}

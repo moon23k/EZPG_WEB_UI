@@ -85,6 +85,7 @@ export interface Schemas {
     notice?: Schemas["NoticeTableOut"] | null;
     detail_sections: Schemas["DetailSectionOut"][];
     inputs: Schemas["InputSpec"][];
+    methods: ("ship" | "pickup" | "local")[];
     dispatch?: Schemas["DispatchOut"] | null;
   };
   CustomerProductSummary: {
@@ -126,7 +127,7 @@ export interface Schemas {
     url: string;
     label: string;
   };
-  Fulfillment: "ship" | "none";
+  Fulfillment: "ship" | "pickup" | "local" | "none";
   InputSpec: {
     label: string;
     required: boolean;
@@ -198,6 +199,9 @@ export interface Schemas {
     completed_at: string | null;
     canceled_at: string | null;
     cancel_reason: Schemas["app__commerce__order__models__CancelReason"] | null;
+    ship_due_at?: string | null;
+    ready_at?: string | null;
+    pickup?: Schemas["PickupOut"] | null;
     items: Schemas["OrderItemOut"][];
     shipments: Schemas["ShipmentOut"][];
     deposit?: Schemas["DepositOut"] | null;
@@ -216,6 +220,11 @@ export interface Schemas {
     item_count: number;
     image_url?: string | null;
     ship_due_at?: string | null;
+  };
+  PickupOut: {
+    name: string;
+    address: string;
+    hours?: string | null;
   };
   ProductReviewsOut: {
     notice: Schemas["NoticeRow"][];
