@@ -4,7 +4,7 @@ export type { Schemas };
 
 export type Design = {
   font?: { display?: string; body?: string; display_weight?: number; letter_spacing_em?: number };
-  shape?: { radius_sm?: number; radius_md?: number; radius_lg?: number; button_shape?: "rounded" | "pill" | "square" };
+  shape?: { radius_sm?: number; radius_md?: number; radius_lg?: number; button_shape?: "rounded" | "pill" | "square"; line?: number };
   density?: { section_gap?: number; grid_gutter?: number };
   motion?: { duration_ms?: number };
   imagery?: { photo_ratio?: string; overlay_opacity?: number };

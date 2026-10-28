@@ -1,5 +1,6 @@
+import type { TemplateDesign } from "../templates/types";
 import type { Design } from "../types";
-import { SYSTEM_COLOR, SYSTEM_DURATION, SYSTEM_FONT, SYSTEM_RADIUS } from "./system";
+import { SYSTEM_COLOR, SYSTEM_DURATION, SYSTEM_FONT, SYSTEM_RADIUS, SYSTEM_TONE } from "./system";
 
 const FALLBACK: Required<NonNullable<Design["color"]>> = SYSTEM_COLOR;
 
@@ -36,6 +37,7 @@ export function designVars(design: Design | null | undefined): Record<string, st
     // Empty-state halo: square themes drop it so tile and halo do not read as a frame.
     "--ezd-halo": (d.shape?.radius_lg ?? SYSTEM_RADIUS.lg) === 0 ? "0%" : "5%",
     "--ezd-button-radius": buttonRadius(d),
+    "--ezd-line": `${d.shape?.line ?? 0}px`,
     "--ezd-section-gap": `${Math.min(d.density?.section_gap ?? 72, 120)}px`,
     "--ezd-pad": "16px",
     "--ezd-gutter": `${d.density?.grid_gutter ?? 20}px`,
@@ -56,4 +58,29 @@ export function fontHref(design: Design | null | undefined): string | null {
   if (!names.length) return null;
   const families = names.map((n) => `family=${encodeURIComponent(n)}:wght@400;600;700`);
   return `https://fonts.googleapis.com/css2?${families.join("&")}&display=swap`;
+}
+
+const CORNERS = { 0: [0, 0, 0], 4: [4, 4, 6], 6: [6, 6, 8], 16: [8, 12, 16] } as const;
+
+export function applyTemplate(design: Design | null | undefined, template: TemplateDesign | null | undefined): Design {
+  const d = design ?? {};
+  if (!template) return d;
+  const { look } = template;
+  const tone = SYSTEM_TONE[look.tone];
+  const corners = look.radius === "pill" ? null : CORNERS[look.radius];
+  const shape: Design["shape"] = corners
+    ? { radius_sm: corners[0], radius_md: corners[1], radius_lg: corners[2], button_shape: look.radius === 0 ? "square" : "rounded" }
+    : { ...d.shape, button_shape: "pill" };
+  const font: Design["font"] =
+    look.font === "serif"
+      ? { ...d.font, display: "Noto Serif KR", display_weight: 600 }
+      : look.font === "light"
+        ? { ...d.font, display_weight: 300 }
+        : d.font;
+  return {
+    ...d,
+    font,
+    shape: { ...shape, line: look.line ? 1 : 0 },
+    color: { ...d.color, surface: tone.surface, surface_alt: tone["surface-alt"] },
+  };
 }

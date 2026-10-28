@@ -16,6 +16,29 @@ export const SYSTEM_RADIUS = {
   "lg": 12
 };
 
+export const SYSTEM_TONE = {
+  "white": {
+    "surface": "#ffffff",
+    "surface-alt": "#f5f5f5"
+  },
+  "paper": {
+    "surface": "#fcfcfc",
+    "surface-alt": "#f2f2ef"
+  },
+  "cream": {
+    "surface": "#fffaf0",
+    "surface-alt": "#f3ecdd"
+  },
+  "warm": {
+    "surface": "#faf6f1",
+    "surface-alt": "#f2eae0"
+  },
+  "mist": {
+    "surface": "#f4f3ef",
+    "surface-alt": "#e5dfd3"
+  }
+};
+
 export const SYSTEM_FONT = '"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif';
 
 export const SYSTEM_DURATION = 200;

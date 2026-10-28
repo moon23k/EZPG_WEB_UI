@@ -1,11 +1,65 @@
 {
   "kinds": [
+    "amenities",
+    "before_after",
+    "booking_strip",
+    "case_cards",
+    "case_grid",
     "category_menu",
+    "category_tiles",
+    "class_list",
+    "class_schedule",
+    "curation",
     "faq",
     "free_shipping_bar",
+    "gallery",
+    "gates",
     "hero",
+    "house_rules",
+    "intro",
+    "location",
     "maker_profile",
+    "next_session",
+    "notice_bar",
+    "numbers",
+    "package_cards",
+    "pay_plan",
+    "photo_band",
+    "price_tiers",
+    "process_steps",
     "product_grid",
-    "story"
-  ]
+    "reviews",
+    "room_box",
+    "room_list",
+    "search_bar",
+    "spec_icons",
+    "store_info",
+    "story",
+    "testimonial",
+    "trust_line"
+  ],
+  "templates": {
+    "shop": [
+      "a",
+      "b",
+      "c",
+      "d"
+    ],
+    "class": [
+      "a",
+      "b",
+      "c"
+    ],
+    "stay": [
+      "a",
+      "b",
+      "c"
+    ],
+    "quote": [
+      "a",
+      "b",
+      "c",
+      "d"
+    ]
+  }
 }

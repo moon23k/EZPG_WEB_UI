@@ -1,12 +1,14 @@
 import type { SectionProps } from "../../renderer/registry";
+import { cn } from "../../utils/cn";
 
-export function BrandStory({ data }: SectionProps<"story">) {
+export function BrandStory({ data, variant }: SectionProps<"story">) {
   const body = data.body ?? [];
   const strengths = data.strengths ?? [];
   if (!data.title && !body.length) return null;
   return (
-    <section data-slot="story" className="ez:grid ez:gap-6 ez:text-fg">
+    <section data-slot="story" data-variant={variant} className={cn("ez:grid ez:gap-6 ez:text-fg", variant === "band" && "ez:justify-items-center ez:py-8 ez:text-center")}>
       <div className="ez:grid ez:max-w-170 ez:gap-3">
+        {variant === "band" && <span className="ez:text-sm ez:text-muted">Story</span>}
         {data.title && <h2 className="ez:m-0 ez:font-display ez:font-title ez:text-2xl ez:tracking-brand">{data.title}</h2>}
         {body.map((p) => (
           <p key={p} className="ez:m-0 ez:leading-relaxed">

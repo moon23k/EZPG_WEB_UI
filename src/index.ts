@@ -1,6 +1,6 @@
 export * from "./types";
 export * from "./core";
-export { fontHref } from "./theme/tokens";
+export { applyTemplate, fontHref } from "./theme/tokens";
 export { ThemeRoot } from "./theme/theme-root";
 export { SiteHeader } from "./blocks/site-header";
 export { SiteFooter } from "./blocks/site-footer";
@@ -37,3 +37,9 @@ export { ClaimForm } from "./blocks/claim-form";
 export { CategoryChips } from "./sections/category-menu";
 export { SiteRenderer } from "./renderer/site-renderer";
 export { sections, type SiteContext, type SectionProps, type SectionData, type SectionKind } from "./renderer/registry";
+export { templates, templateLetters, resolveTemplate } from "./templates";
+export type * from "./templates/types";
+export { DetailLayout, detailBlocks, type DetailBlockProps } from "./details";
+export type * from "./details/data";
+export { templateSections, SessionRow, SessionStatus } from "./sections/template";
+export type * from "./sections/template/data";

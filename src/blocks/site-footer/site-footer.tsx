@@ -13,6 +13,7 @@ export function SiteFooter({
   closing,
   policyHref = (key) => `/policy/${key}`,
   lookupHref = "/orders/lookup",
+  variant = "full",
 }: {
   storeName: string;
   business: Business | null;
@@ -21,6 +22,7 @@ export function SiteFooter({
   closing?: string | null;
   policyHref?: (key: string) => string;
   lookupHref?: string;
+  variant?: "full" | "line";
 }) {
   // Items without a value are left out rather than shown as "-".
   const legal = (
@@ -34,7 +36,7 @@ export function SiteFooter({
     ] as [string, string | null | undefined][]
   ).filter((row): row is [string, string] => Boolean(row[1]));
   return (
-    <footer data-slot="site-footer" className="ez:bg-surface-alt ez:text-[13px] ez:text-muted">
+    <footer data-slot="site-footer" data-variant={variant} className="ez:bg-surface-alt ez:text-[13px] ez:text-muted">
       <div className="ez:mx-auto ez:grid ez:max-w-270 ez:gap-3 ez:px-page ez:pt-4 ez:pb-8">
         <nav aria-label="약관" className="ez:flex ez:flex-wrap ez:gap-x-4">
           {policies.map((p) => (
@@ -46,6 +48,9 @@ export function SiteFooter({
             비회원 주문 조회
           </NextLink>
         </nav>
+        {variant === "line" ? (
+          <p className="ez:m-0 ez:max-w-180 ez:leading-normal">{legal.map(([label, value]) => `${label} ${value}`).join(" · ")}</p>
+        ) : (
         <dl className="ez:m-0 ez:grid ez:max-w-180 ez:grid-cols-[auto_minmax(0,1fr)] ez:gap-x-4 ez:gap-y-1 ez:leading-normal">
           {legal.map(([label, value]) => (
             <div key={label} className="ez:contents">
@@ -54,6 +59,7 @@ export function SiteFooter({
             </div>
           ))}
         </dl>
+        )}
         {closing && <p className="ez:m-0">{closing}</p>}
         <p className="ez:m-0">호스팅 제공 {hosting}</p>
       </div>

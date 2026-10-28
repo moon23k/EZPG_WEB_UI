@@ -6,7 +6,7 @@ import { CategoryChips } from "../category-menu";
 const SHOWN = 8;
 
 // Category chips sit right above the grid they filter. "전체 보기" appears only when the grid leaves products out.
-export function ProductList({ data, context }: SectionProps<"product_grid">) {
+export function ProductList({ data, context, grid, variant }: SectionProps<"product_grid">) {
   if (!context.products.length) return null;
   return (
     <section data-slot="product-grid-section" className="ez:grid ez:gap-4 ez:text-fg">
@@ -18,8 +18,8 @@ export function ProductList({ data, context }: SectionProps<"product_grid">) {
           </Link>
         )}
       </div>
-      <CategoryChips categories={context.categories} />
-      <ProductGrid products={context.products.slice(0, SHOWN)} eager={2} />
+      {variant !== "plain" && <CategoryChips categories={context.categories} />}
+      <ProductGrid products={context.products.slice(0, SHOWN)} eager={2} grid={grid} />
     </section>
   );
 }
