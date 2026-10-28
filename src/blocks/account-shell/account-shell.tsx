@@ -6,6 +6,7 @@ import { focusRing } from "../../utils/styles";
 const TABS = [
   { href: "/me", label: "내 정보" },
   { href: "/orders", label: "주문 내역" },
+  { href: "/inquiries", label: "문의" },
   { href: "/me/reviews", label: "후기" },
   { href: "/me/addresses", label: "배송지" },
 ];
