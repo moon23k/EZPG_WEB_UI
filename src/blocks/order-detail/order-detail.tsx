@@ -125,6 +125,8 @@ function orderLabel(order: OrderView, labels: Record<OrderStatus, string> = STAT
   return labels[order.status];
 }
 
+const SLOT_LABEL: Record<string, string> = { pickup: "픽업 날짜 · 시간", visit: "수업 일시" };
+
 const when = (value: string) => {
   const date = new Date(value);
   const timed = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Seoul", hour: "2-digit", minute: "2-digit" }).format(date) !== "00:00";
@@ -181,7 +183,7 @@ export function OrderDetail({
           <span className="ez:text-[13px] ez:tabular-nums ez:text-muted">주문번호 {order.number}</span>
         </header>
         {order.deposit && <DepositInfo deposit={order.deposit} />}
-        {step >= 0 && order.fulfillment !== "none" && (
+        {step >= 0 && order.fulfillment !== "none" && order.fulfillment !== "visit" && (
           <ol
             aria-label="배송 단계"
             className="ez:relative ez:m-0 ez:grid ez:list-none ez:p-0"
@@ -248,7 +250,7 @@ export function OrderDetail({
         <section aria-label="배송" className="ez:grid ez:gap-3 ez:max-lg:order-2">
           {slotAt && (
             <p className="ez:m-0 ez:text-[13px]">
-              <span className="ez:text-muted">{order.fulfillment === "pickup" ? "픽업 날짜 · 시간" : "희망 배송일"}</span> {when(slotAt)}
+              <span className="ez:text-muted">{SLOT_LABEL[order.fulfillment ?? "ship"] ?? "희망 배송일"}</span> {when(slotAt)}
             </p>
           )}
           {order.pickup && (
