@@ -42,7 +42,7 @@ export type OrderItemView = Pick<
   | "refunded_amount"
   | "returned_quantity"
   | "non_returnable"
->;
+> & { inputs?: { label: string; value: string }[] | null };
 
 export type OrderView = Pick<
   Schemas["OrderOut"],
@@ -179,7 +179,12 @@ export function OrderDetail({
               meta={
                 <>
                   <span className="ez:text-[13px] ez:text-muted">
-                    {[item.option_label, `${item.quantity}개`, item.returned_quantity > 0 && `${item.returned_quantity}개 환불`]
+                    {[
+                      item.option_label,
+                      ...(item.inputs ?? []).map((i) => `${i.label}: ${i.value}`),
+                      `${item.quantity}개`,
+                      item.returned_quantity > 0 && `${item.returned_quantity}개 환불`,
+                    ]
                       .filter(Boolean)
                       .join(" · ")}
                   </span>

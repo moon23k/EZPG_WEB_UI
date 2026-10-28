@@ -1,22 +1,10 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import axe from "axe-core";
 import { useState } from "react";
 import { describe, expect, it } from "vitest";
+import { expectNoA11yViolations } from "./a11y";
 import { AddressForm, BuyBox, Button, CartView, Checkbox, ClaimForm, Dialog, Field, OrderSummary, Quantity, ReviewForm, Select, type ProductDetail } from "../src";
 
-// Radix measures form-bound checkboxes; jsdom lacks the observer.
-globalThis.ResizeObserver ??= class {
-  observe() {}
-  unobserve() {}
-  disconnect() {}
-} as unknown as typeof ResizeObserver;
-
-// jsdom has no layout or canvas, so contrast is not checked here.
-async function expectNoA11yViolations(container: HTMLElement) {
-  const { violations } = await axe.run(container, { rules: { "color-contrast": { enabled: false } } });
-  expect(violations.map((v) => `${v.id}: ${v.nodes[0]?.html}`)).toEqual([]);
-}
 
 const product: ProductDetail = {
   id: "p1",
@@ -79,7 +67,7 @@ describe("Dialog", () => {
     return (
       <>
         <Button onClick={() => setOpen(true)}>주문 취소</Button>
-        <Dialog open={open} title="주문을 취소할까요?" onClose={() => setOpen(false)} />
+        <Dialog open={open} title="주문을 취소할까요?" onOpenChange={setOpen} />
       </>
     );
   }
@@ -127,11 +115,11 @@ describe("AddressForm", () => {
 });
 
 describe("CartView", () => {
-  const base = { product_id: "p", option_label: null, image_key: null, list_price: 10000, sellable: true, enough_stock: true };
+  const base = { product_id: "p", option_label: null, image_key: null, list_price: 10000, sellable: true, enough_stock: true, inputs: [] };
   const lines = [
     { ...base, variant_id: "a", name: "머그컵", unit_price: 10000, quantity: 1, line_total: 10000 },
     { ...base, variant_id: "b", name: "쿠션", unit_price: 20000, quantity: 1, line_total: 20000 },
-    { ...base, variant_id: "c", name: "액자", unit_price: 30000, quantity: 2, line_total: 60000, enough_stock: false },
+    { ...base, variant_id: "c", name: "액자", unit_price: 30000, quantity: 2, line_total: 60000, enough_stock: false, inputs: [] },
   ];
   const noop = async () => {};
 

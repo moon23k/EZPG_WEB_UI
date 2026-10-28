@@ -24,6 +24,7 @@ export interface Schemas {
     stock_left?: number | null;
     slot_id?: string | null;
     slot_starts_at?: string | null;
+    inputs: Schemas["InputValue"][];
   };
   CartOut: {
     lines: Schemas["CartLineOut"][];
@@ -83,6 +84,8 @@ export interface Schemas {
     non_returnable: boolean;
     notice?: Schemas["NoticeTableOut"] | null;
     detail_sections: Schemas["DetailSectionOut"][];
+    inputs: Schemas["InputSpec"][];
+    dispatch?: Schemas["DispatchOut"] | null;
   };
   CustomerProductSummary: {
     id: string;
@@ -114,11 +117,25 @@ export interface Schemas {
     rows: Schemas["NoticeRowOut"][];
     text?: string | null;
   };
+  DispatchOut: {
+    ships_by: string;
+    make_days: number | null;
+    cutoff_hour: number | null;
+  };
   ExternalLink: {
     url: string;
     label: string;
   };
   Fulfillment: "ship" | "none";
+  InputSpec: {
+    label: string;
+    required: boolean;
+    max_len: number;
+  };
+  InputValue: {
+    label: string;
+    value: string;
+  };
   NoticeRow: {
     title: string;
     body: string;
@@ -149,6 +166,7 @@ export interface Schemas {
     returned_quantity: number;
     non_returnable: boolean;
     slot_starts_at?: string | null;
+    inputs?: Schemas["InputValue"][] | null;
   };
   OrderKind: "normal" | "custom";
   OrderOut: {
