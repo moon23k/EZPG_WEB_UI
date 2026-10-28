@@ -16,9 +16,9 @@ const product: ProductDetail = {
   slot_scope: "none",
   option_name: "사이즈",
   variants: [
-    { id: "v1", label: "S", price: 42000, in_stock: true },
-    { id: "v2", label: "M", price: 52000, in_stock: true },
-    { id: "v3", label: "L", price: 68000, in_stock: false },
+    { id: "v1", label: "S", price: 42000, in_stock: true, arrivals: 1 },
+    { id: "v2", label: "M", price: 52000, in_stock: true, arrivals: 1 },
+    { id: "v3", label: "L", price: 68000, in_stock: false, arrivals: 0 },
   ],
   images: [],
 };
