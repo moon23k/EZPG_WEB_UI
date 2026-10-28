@@ -83,6 +83,10 @@
   margin-bottom: 8px;
 }
 
+.ez-pending {
+  min-height: 100svh;
+}
+
 .ez-section {
   margin: var(--ezd-section-gap) 0;
 }
