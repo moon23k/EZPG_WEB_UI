@@ -6,7 +6,7 @@ import { cn } from "../../utils/cn";
 const ACTIONS: Record<string, { href: string; label: string }> = {
   search: { href: "/search", label: "검색" },
   class_booking: { href: "/classes", label: "수업 예약" },
-  room_booking: { href: "/rooms", label: "객실 예약" },
+  room_booking: { href: "/products", label: "객실 예약" },
   portfolio: { href: "/cases", label: "작업 사례" },
 };
 
