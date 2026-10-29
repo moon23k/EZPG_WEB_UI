@@ -120,6 +120,6 @@ export function Cols({ m = 1, pc = 3, children }: { m?: 1 | 2 | 3; pc?: 3 | 4 | 
   );
 }
 
-export const statusText = { open: "여유", few: "마감 임박", full: "마감 · 대기 신청" } as const;
+export const statusText = { open: "여유", few: "마감 임박", full: "마감" } as const;
 
 export type Status = keyof typeof statusText;

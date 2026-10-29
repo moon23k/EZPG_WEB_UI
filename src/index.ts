@@ -43,5 +43,5 @@ export { templates, templateLetters, resolveTemplate } from "./templates";
 export type * from "./templates/types";
 export { DetailLayout, detailBlocks, type DetailBlockProps } from "./details";
 export type * from "./details/data";
-export { templateSections, SessionRow, SessionStatus } from "./sections/template";
+export { templateSections, SessionList, SessionRow, SessionStatus } from "./sections/template";
 export type * from "./sections/template/data";

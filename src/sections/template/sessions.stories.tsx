@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { detailData } from "../../__stories__/fixtures/templates";
-import { DetailLayout, SessionRow, SessionStatus } from "../../index";
+import { DetailLayout, SessionList, SessionRow, SessionStatus } from "../../index";
 
 const meta: Meta = { title: "Sections/Sessions", parameters: { layout: "padded" } };
 export default meta;
@@ -8,13 +8,11 @@ export default meta;
 const sessions = detailData.class.sessions ?? [];
 
 function RowsExample() {
-  return (
-    <div className="ez:grid ez:gap-3">
-      {sessions.map((s) => (
-        <SessionRow key={s.id} session={s} />
-      ))}
-    </div>
-  );
+  return <SessionList sessions={sessions} />;
+}
+
+function RowExample() {
+  return sessions[0] ? <SessionRow session={sessions[0]} /> : null;
 }
 
 function StatusExample() {
@@ -32,6 +30,8 @@ function DetailExample() {
 }
 
 export const Rows: StoryObj = { render: () => <RowsExample /> };
+
+export const Row: StoryObj = { render: () => <RowExample /> };
 
 export const Status: StoryObj = { render: () => <StatusExample /> };
 

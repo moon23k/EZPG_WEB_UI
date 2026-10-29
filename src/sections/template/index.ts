@@ -37,5 +37,5 @@ export const templateSections = {
   before_after: BeforeAfter,
 };
 
-export { SessionRow, SessionStatus } from "./class";
+export { SessionList, SessionRow, SessionStatus } from "./class";
 export type * from "./data";

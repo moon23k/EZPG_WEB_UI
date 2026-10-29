@@ -33,6 +33,16 @@ export function SessionRow({ session }: { session: Session }) {
   );
 }
 
+export function SessionList({ sessions }: { sessions: Session[] }) {
+  return (
+    <div className="ez:grid ez:gap-3">
+      {sessions.map((s) => (
+        <SessionRow key={s.id} session={s} />
+      ))}
+    </div>
+  );
+}
+
 export function NextSession({ data }: SectionProps<"next_session">) {
   const s = data.session;
   if (!s) return null;
@@ -72,11 +82,7 @@ export function ClassSchedule({ data, variant }: SectionProps<"class_schedule">)
   return (
     <Block slot="class-schedule">
       <Title>{data.title ?? "수업 일정"}</Title>
-      <div className="ez:grid ez:gap-3">
-        {sessions.map((s) => (
-          <SessionRow key={s.id} session={s} />
-        ))}
-      </div>
+      <SessionList sessions={sessions} />
     </Block>
   );
 }
