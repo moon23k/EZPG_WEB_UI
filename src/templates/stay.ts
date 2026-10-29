@@ -13,6 +13,7 @@ export const stay: TemplateDesign[] = [
       { kind: "hero", variant: "full" },
       { kind: "booking_strip" },
       { kind: "spec_icons" },
+      { kind: "room_list" },
       { kind: "story" },
       { kind: "gallery" },
       { kind: "amenities", variant: "groups" },
