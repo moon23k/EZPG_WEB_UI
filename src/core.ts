@@ -6,6 +6,7 @@ export { Price } from "./components/price";
 export { Field, Input, TextArea } from "./components/field";
 export { Select } from "./components/select";
 export { Quantity } from "./components/quantity";
+export { Calendar, nightsBetween, type CalendarDate, type CalendarValue } from "./components/calendar";
 export { EmptyState } from "./components/empty-state";
 export { Photo } from "./components/photo";
 export { Sheet } from "./components/sheet";

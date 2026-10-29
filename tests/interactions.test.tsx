@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { describe, expect, it } from "vitest";
 import { expectNoA11yViolations } from "./a11y";
-import { AddressForm, BuyBox, Button, CartView, Checkbox, ClaimForm, Dialog, Field, OrderSummary, Quantity, ReviewForm, Select, type ProductDetail } from "../src";
+import { AddressForm, BuyBox, Button, Calendar, CartView, Checkbox, ClaimForm, Dialog, Field, OrderSummary, Quantity, ReviewForm, Select, type ProductDetail } from "../src";
 
 
 const product: ProductDetail = {
@@ -174,5 +174,25 @@ describe("ClaimForm", () => {
     expect(screen.getByRole("button", { name: "반품 신청" })).toBeDisabled();
     await userEvent.click(screen.getByRole("radio", { name: /상품 문제/ }));
     expect(screen.getByRole("checkbox", { name: /린넨 셔츠/ })).toBeEnabled();
+  });
+});
+
+describe("Calendar", () => {
+  const days = ["2026-11-06", "2026-11-07", "2026-11-08", "2026-11-09", "2026-11-10"].map((date, i) => ({
+    date,
+    label: "12만",
+    disabled: i === 2,
+  }));
+
+  it("picks a range only across open nights and posts both dates", async () => {
+    const { container } = render(<Calendar days={days} mode="range" />);
+    await userEvent.click(screen.getByRole("button", { name: /11월 6일/ }));
+    await userEvent.click(screen.getByRole("button", { name: /11월 8일/ }));
+    expect(screen.getByText("11월 6일 ~ 11월 8일 · 2박")).toBeTruthy();
+    expect((container.querySelector("input[name=out]") as HTMLInputElement).value).toBe("2026-11-08");
+    await userEvent.click(screen.getByRole("button", { name: /11월 9일/ }));
+    expect((container.querySelector("input[name=in]") as HTMLInputElement).value).toBe("2026-11-09");
+    expect((screen.getByRole("button", { name: /11월 8일/ }) as HTMLButtonElement).disabled).toBe(true);
+    await expectNoA11yViolations(container);
   });
 });
