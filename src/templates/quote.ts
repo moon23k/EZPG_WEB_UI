@@ -32,7 +32,7 @@ export const quote: TemplateDesign[] = [
   {
     id: "Q2",
     main: "quote",
-    letter: "b",
+    letter: "d",
     name: "시공 견적 계산형",
     look: { tone: "white", radius: "pill", line: false, font: "sans" },
     header: "cta",
@@ -52,7 +52,7 @@ export const quote: TemplateDesign[] = [
   {
     id: "Q3",
     main: "quote",
-    letter: "c",
+    letter: "b",
     name: "패키지 확정가형",
     look: { tone: "white", radius: "pill", line: false, font: "sans" },
     header: "cta",
@@ -72,7 +72,7 @@ export const quote: TemplateDesign[] = [
   {
     id: "Q4",
     main: "quote",
-    letter: "d",
+    letter: "c",
     name: "프로젝트 문의형",
     look: { tone: "white", radius: 16, line: false, font: "sans" },
     header: "cta",

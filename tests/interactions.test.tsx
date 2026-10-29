@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { describe, expect, it } from "vitest";
 import { expectNoA11yViolations } from "./a11y";
-import { AddressForm, BuyBox, Button, Calendar, CartView, Checkbox, ClaimForm, Dialog, Field, OrderSummary, Quantity, ReviewForm, Select, type ProductDetail } from "../src";
+import { AddressForm, BuyBox, Button, Calendar, CartView, Checkbox, ClaimForm, Dialog, Field, OrderSummary, Quantity, resolveTemplate, ReviewForm, Select, SiteRenderer, type ProductDetail } from "../src";
 
 
 const product: ProductDetail = {
@@ -194,5 +194,23 @@ describe("Calendar", () => {
     expect((container.querySelector("input[name=in]") as HTMLInputElement).value).toBe("2026-11-09");
     expect((screen.getByRole("button", { name: /11월 8일/ }) as HTMLButtonElement).disabled).toBe(true);
     await expectNoA11yViolations(container);
+  });
+});
+
+describe("SiteRenderer", () => {
+  const context = { products: [], categories: [], faqs: [{ id: "f1", question: "주차되나요?", answer: "네" }], shipping: null, flags: {} };
+  const sections = [
+    { kind: "process_steps", data: { title: "진행 순서", steps: ["문의", "작업"] } },
+    { kind: "price_tiers", data: { title: "가격", items: [{ label: "기본", value: "10만원" }] } },
+  ];
+  const headings = () => screen.getAllByRole("heading").map((h) => h.textContent);
+
+  it("follows the template order unless the partner arranged the page", () => {
+    const template = resolveTemplate("quote", "a");
+    const { unmount } = render(<SiteRenderer page={{ sections }} context={context} template={template} />);
+    expect(headings()).toEqual(["가격", "진행 순서", "자주 묻는 질문"]);
+    unmount();
+    render(<SiteRenderer page={{ sections, arranged: true }} context={context} template={template} />);
+    expect(headings()).toEqual(["진행 순서", "가격"]);
   });
 });
