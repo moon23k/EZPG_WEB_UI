@@ -10,6 +10,18 @@ export const SYSTEM_COLOR = {
   "text_muted": "#525252"
 };
 
+export const SYSTEM_BRAND_COLOR = {
+  "primary": "#795548",
+  "on_primary": "#ffffff",
+  "primary_hover": "#6d4c41",
+  "primary_tint": "#efebe9",
+  "primary_border": "#d4d4d4",
+  "surface": "#ffffff",
+  "surface_alt": "#f5f5f5",
+  "text": "#0a0a0a",
+  "text_muted": "#525252"
+};
+
 export const SYSTEM_RADIUS = {
   "sm": 6,
   "md": 8,
