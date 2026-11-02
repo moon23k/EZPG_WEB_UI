@@ -2,6 +2,7 @@
   --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --color-disabled: #a3a3a3;
+  --color-primary-edge: #946b5c;
   --text-display: 1.875rem;
   --text-display--line-height: 2.375rem;
   --text-display--font-weight: 700;

@@ -11,10 +11,10 @@ export const SYSTEM_COLOR = {
 };
 
 export const SYSTEM_BRAND_COLOR = {
-  "primary": "#795548",
+  "primary": "#4d291c",
   "on_primary": "#ffffff",
-  "primary_hover": "#6d4c41",
-  "primary_tint": "#efebe9",
+  "primary_hover": "#452519",
+  "primary_tint": "#f8f3f2",
   "primary_border": "#d4d4d4",
   "surface": "#ffffff",
   "surface_alt": "#f5f5f5",
