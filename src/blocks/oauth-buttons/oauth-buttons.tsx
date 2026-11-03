@@ -16,7 +16,7 @@ const BRAND: Record<CustomerProvider, { label: string; className: string; symbol
   },
   naver: {
     label: "네이버로 시작하기",
-    className: "ez:bg-[#03C75A] ez:text-[#ffffff]",
+    className: "ez:bg-[#03A94D] ez:text-[#ffffff]",
     symbol: (
       <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M4 3h5.6l4.8 7.3V3H20v18h-5.6l-4.8-7.3V21H4z" fill="#ffffff" />
