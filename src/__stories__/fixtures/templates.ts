@@ -38,7 +38,7 @@ export const homeSections: Record<TemplateMain, Section[]> = {
     s("category_tiles", { items: [{ title: "과일청", href: "#" }, { title: "잼", href: "#" }, { title: "선물 세트", href: "#" }] }),
     s("curation", { title: "기획", items: [{ title: "가벼운 선물", href: "#" }, { title: "겨울 식탁", href: "#" }, { title: "혼자의 아침", href: "#" }, { title: "손님 초대", href: "#" }] }),
     s("store_info", { title: "서촌 쇼룸", address: "서울 종로구 자하문로 12", hours: "화–일 12:00–19:00", phone: "02-000-0000" }),
-    s("story", { title: "한 줄 제목", body: ["쌓아 두고 파는 일이 싫어서, 한 달에 팔 만큼만 만듭니다.", "남은 재료는 다음 달 소품으로 다시 만들어요."] }),
+    s("story", { title: "우리 이야기", body: ["쌓아 두고 파는 일이 싫어서, 한 달에 팔 만큼만 만듭니다.", "남은 재료는 다음 달 소품으로 다시 만들어요."] }),
     s("testimonial", { quote: "선물했더니 어디서 샀냐는 말을 세 번 들었어요.", name: "김*희 · 자몽청" }),
     s("faq", {}),
   ],

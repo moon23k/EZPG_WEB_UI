@@ -7,7 +7,6 @@
   font-family: var(--ezd-font-body);
   letter-spacing: var(--ezd-tracking);
   line-height: 1.6;
-  /* Korean wraps between words, not syllables. */
   word-break: keep-all;
   overflow-wrap: break-word;
   -webkit-font-smoothing: antialiased;
@@ -40,9 +39,17 @@
 .ez-main {
   flex: 1;
   width: 100%;
-  max-width: 1080px;
+  max-width: var(--ezd-wrap);
   margin: 0 auto;
   padding: 24px var(--ezd-pad) 64px;
+}
+.ez-root:has([data-slot="site-renderer"]) {
+  --ezd-wrap: var(--ezd-wrap-home);
+}
+@media (min-width: 768px) {
+  .ez-root:has([data-slot="site-renderer"]) {
+    --ezd-pad: var(--ezd-pad-home);
+  }
 }
 .ez-muted {
   color: var(--ezd-muted);
@@ -170,7 +177,6 @@
   }
 }
 
-/* Still used directly by EZPG_WEB app code. Remove once the app uses the components. */
 .ez-btn {
   display: inline-flex;
   align-items: center;

@@ -71,7 +71,7 @@ function Page({ main, letter }: { main: TemplateMain; letter: string }) {
     <ThemeRoot template={t}>
       <div style={{ background: "var(--ezd-surface)", color: "var(--ezd-text)", fontFamily: "var(--ezd-font-body)" }}>
         <SiteHeader name="상점 이름" variant={t.header} cta={t.cta ? { label: t.cta, href: "/quote" } : null} />
-        <main className="ez:mx-auto ez:grid ez:max-w-270 ez:gap-section ez:px-page ez:py-8">
+        <main className="ez:mx-auto ez:grid ez:w-full ez:max-w-wrap ez:gap-section ez:px-page ez:py-8">
           <SiteRenderer page={{ sections: homeSections[main] }} context={context} template={t} />
           <hr className="ez:my-4 ez:border-0 ez:border-t ez:border-solid ez:border-primary-border" />
           <DetailLayout slots={t.detail} data={data} nodes={shop?.nodes} />

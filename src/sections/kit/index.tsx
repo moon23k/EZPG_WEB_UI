@@ -1,5 +1,5 @@
 import NextLink from "next/link";
-import type { ReactNode } from "react";
+import { Children, type ReactNode } from "react";
 import { Photo } from "../../components/photo";
 import { cn } from "../../utils/cn";
 import { focusRing } from "../../utils/styles";
@@ -11,7 +11,7 @@ export const line = "ez:border-solid ez:border-primary-border ez:[border-width:v
 export function Title({ children, aside }: { children: ReactNode; aside?: ReactNode }) {
   return (
     <div className="ez:flex ez:items-baseline ez:justify-between ez:gap-3">
-      <h2 className="ez:m-0 ez:font-display ez:font-title ez:text-2xl ez:tracking-brand">{children}</h2>
+      <h2 className="ez:m-0 ez:text-site-section">{children}</h2>
       {aside}
     </div>
   );
@@ -25,10 +25,34 @@ export function Block({ slot, children, className }: { slot: string; children: R
   );
 }
 
-export function Pic({ src, alt = "", ratio, className }: { src?: string | null; alt?: string; ratio?: number; className?: string }) {
+export function Pic({
+  src,
+  alt = "",
+  ratio,
+  className,
+  tone,
+  strong,
+  iconClassName,
+}: {
+  src?: string | null;
+  alt?: string;
+  ratio?: number;
+  className?: string;
+  tone?: number;
+  strong?: boolean;
+  iconClassName?: string;
+}) {
   return (
     <div style={ratio ? { aspectRatio: ratio } : undefined} className={cn("ez:relative ez:w-full", className)}>
-      <Photo src={src} alt={alt} className={cn(ratio && "ez:absolute ez:inset-0 ez:aspect-auto ez:h-full")} sizes="(max-width: 768px) 100vw, 640px" />
+      <Photo
+        src={src}
+        alt={alt}
+        tone={tone}
+        strong={strong}
+        iconClassName={iconClassName}
+        className={cn(ratio && "ez:absolute ez:inset-0 ez:aspect-auto ez:h-full")}
+        sizes="(max-width: 768px) 100vw, 640px"
+      />
     </div>
   );
 }
@@ -36,7 +60,7 @@ export function Pic({ src, alt = "", ratio, className }: { src?: string | null; 
 export function Rows({ rows }: { rows: Row[] }) {
   if (!rows.length) return null;
   return (
-    <table className="ez:w-full ez:border-collapse ez:text-sm">
+    <table className="ez:w-full ez:border-collapse ez:text-site-note">
       <tbody>
         {rows.map((r) => (
           <tr key={r.label} className="ez:border-0 ez:border-b ez:border-solid ez:border-primary-border">
@@ -55,7 +79,7 @@ export function Steps({ steps }: { steps: string[] }) {
   return (
     <ol className="ez:m-0 ez:grid ez:list-none ez:grid-cols-2 ez:gap-2 ez:p-0 ez:md:auto-cols-fr ez:md:grid-flow-col ez:md:grid-cols-none">
       {steps.map((s, i) => (
-        <li key={s} className="ez:grid ez:gap-1 ez:rounded-md ez:bg-surface-alt ez:p-3 ez:text-sm">
+        <li key={s} className="ez:grid ez:gap-1 ez:rounded-md ez:bg-surface-alt ez:p-3 ez:text-site-note">
           <strong className="ez:text-primary ez:tabular-nums">{i + 1}</strong>
           {s}
         </li>
@@ -71,7 +95,7 @@ export function Chips({ items, current = 0 }: { items: string[]; current?: numbe
         <li
           key={c}
           className={cn(
-            "ez:shrink-0 ez:rounded-button ez:px-3 ez:py-1.5 ez:text-sm ez:whitespace-nowrap",
+            "ez:shrink-0 ez:rounded-button ez:px-3 ez:py-1.5 ez:text-site-note ez:whitespace-nowrap",
             i === current ? "ez:bg-primary ez:text-on-primary" : "ez:bg-surface-alt ez:text-fg",
           )}
         >
@@ -106,15 +130,22 @@ export function Card({ href, children, className }: { href?: string; children: R
   );
 }
 
+const PC_COLS: Record<number, string> = {
+  1: "ez:md:grid-cols-1",
+  2: "ez:md:grid-cols-2",
+  3: "ez:md:grid-cols-3",
+  4: "ez:md:grid-cols-4",
+  5: "ez:md:grid-cols-5",
+  6: "ez:md:grid-cols-6",
+};
+
+export function pcCols(pc: number, count: number): string {
+  return PC_COLS[Math.max(1, Math.min(pc, count))];
+}
+
 export function Cols({ m = 1, pc = 3, children }: { m?: 1 | 2 | 3; pc?: 3 | 4 | 6; children: ReactNode }) {
   return (
-    <div
-      className={cn(
-        "ez:grid ez:gap-gutter",
-        { 1: "ez:grid-cols-1", 2: "ez:grid-cols-2", 3: "ez:grid-cols-3" }[m],
-        { 3: "ez:md:grid-cols-3", 4: "ez:md:grid-cols-4", 6: "ez:md:grid-cols-6" }[pc],
-      )}
-    >
+    <div className={cn("ez:grid ez:gap-gutter", { 1: "ez:grid-cols-1", 2: "ez:grid-cols-2", 3: "ez:grid-cols-3" }[m], pcCols(pc, Children.count(children)))}>
       {children}
     </div>
   );

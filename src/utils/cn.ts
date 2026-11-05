@@ -1,7 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { extendTailwindMerge } from "tailwind-merge";
 
-// Theme keys must match src/styles/index.css.
 const merge = extendTailwindMerge({
   prefix: "ez",
   extend: {
@@ -12,6 +11,8 @@ const merge = extendTailwindMerge({
       "font-weight": ["title"],
       tracking: ["brand"],
       aspect: ["photo"],
+      text: ["site-page", "site-page-sm", "site-section", "site-item", "site-body", "site-note"],
+      container: ["wrap"],
     },
   },
 });

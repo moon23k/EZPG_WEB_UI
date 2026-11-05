@@ -9,10 +9,14 @@ import type { Session } from "./data";
 
 export function SessionStatus({ session }: { session: Session }) {
   const text = session.status === "few" && session.seats_left ? `남은 자리 ${session.seats_left}` : statusText[session.status];
-  return <Badge tone={session.status === "full" ? "neutral" : "primary"}>{text}</Badge>;
+  return (
+    <Badge tone={session.status === "full" ? "neutral" : "primary"} className="ez:text-site-note">
+      {text}
+    </Badge>
+  );
 }
 
-export function SessionRow({ session }: { session: Session }) {
+export function SessionRow({ session, tone }: { session: Session; tone?: number }) {
   return (
     <NextLink
       href={session.href ?? "#"}
@@ -21,10 +25,10 @@ export function SessionRow({ session }: { session: Session }) {
         focusRing,
       )}
     >
-      <Pic src={session.image} ratio={1.6} />
+      <Pic src={session.image} ratio={1.6} tone={tone} />
       <span className="ez:grid ez:gap-0.5">
         <strong className="ez:font-semibold ez:tabular-nums">{`${session.date} · ${session.time}`}</strong>
-        <span className="ez:text-sm ez:text-muted">{[session.name, session.length].filter(Boolean).join(" · ")}</span>
+        <span className="ez:text-site-note ez:text-muted">{[session.name, session.length].filter(Boolean).join(" · ")}</span>
       </span>
       <span className="ez:col-span-2 ez:md:col-span-1">
         <SessionStatus session={session} />
@@ -36,8 +40,8 @@ export function SessionRow({ session }: { session: Session }) {
 export function SessionList({ sessions }: { sessions: Session[] }) {
   return (
     <div className="ez:grid ez:gap-3">
-      {sessions.map((s) => (
-        <SessionRow key={s.id} session={s} />
+      {sessions.map((s, i) => (
+        <SessionRow key={s.id} session={s} tone={i} />
       ))}
     </div>
   );
@@ -47,11 +51,11 @@ export function NextSession({ data }: SectionProps<"next_session">) {
   const s = data.session;
   if (!s) return null;
   return (
-    <section data-slot="next-session" className="ez:grid ez:gap-2 ez:rounded-lg ez:bg-primary ez:p-5 ez:text-on-primary ez:md:max-w-md">
-      <span className="ez:text-sm ez:opacity-80">다음 수업</span>
-      <strong className="ez:font-display ez:text-2xl ez:font-title ez:tabular-nums">{`${s.date} ${s.time}`}</strong>
+    <section data-slot="next-session" className="ez:grid ez:gap-2 ez:rounded-lg ez:bg-primary ez:p-5 ez:text-on-primary">
+      <span className="ez:text-site-note ez:opacity-80">다음 수업</span>
+      <strong className="ez:text-site-item ez:tabular-nums">{`${s.date} ${s.time}`}</strong>
       <span>{[s.name, s.length].filter(Boolean).join(" · ")}</span>
-      <span className="ez:text-sm">{s.status === "few" && s.seats_left ? `남은 자리 ${s.seats_left}` : statusText[s.status]}</span>
+      <span className="ez:text-site-note">{s.status === "few" && s.seats_left ? `남은 자리 ${s.seats_left}` : statusText[s.status]}</span>
       <ButtonLink href={s.href ?? "#"} variant="outline" className="ez:justify-self-start ez:border-on-primary ez:text-on-primary ez:bg-transparent">
         예약하기
       </ButtonLink>
@@ -67,11 +71,11 @@ export function ClassSchedule({ data, variant }: SectionProps<"class_schedule">)
       <Block slot="class-schedule">
         <Title>{data.title ?? "다가오는 수업"}</Title>
         <Cols m={2} pc={4}>
-          {sessions.slice(0, 4).map((s) => (
+          {sessions.slice(0, 4).map((s, i) => (
             <Card key={s.id} href={s.href}>
-              <Pic src={s.image} ratio={1} />
-              <strong className="ez:text-sm ez:font-semibold">{s.name}</strong>
-              <span className="ez:text-sm ez:text-muted ez:tabular-nums">{`${s.date} ${s.time}`}</span>
+              <Pic src={s.image} ratio={1} tone={i} />
+              <strong className="ez:text-site-item">{s.name}</strong>
+              <span className="ez:text-site-note ez:text-muted ez:tabular-nums">{`${s.date} ${s.time}`}</span>
               <SessionStatus session={s} />
             </Card>
           ))}
@@ -93,7 +97,7 @@ export function ClassList({ data, variant }: SectionProps<"class_list">) {
   if (variant === "domain") {
     return (
       <Block slot="class-list" className="ez:md:grid-cols-[1.2fr_1fr] ez:md:items-start">
-        <Pic src={classes[0].image} ratio={1.4} />
+        <Pic src={classes[0].image} ratio={1.4} tone={3} />
         <div className="ez:grid ez:gap-2">
           <Title>{data.title ?? "클래스"}</Title>
           <ul className="ez:m-0 ez:list-none ez:p-0">
@@ -114,19 +118,21 @@ export function ClassList({ data, variant }: SectionProps<"class_list">) {
     <Block slot="class-list">
       <Title>{data.title ?? "클래스"}</Title>
       <Cols m={1} pc={3}>
-        {classes.map((c) => (
+        {classes.map((c, i) => (
           <Card key={c.id} href={c.href}>
-            <Pic src={c.image} ratio={1.25} className="ez:overflow-hidden ez:rounded-lg" />
+            <Pic src={c.image} ratio={1.25} tone={i} className="ez:overflow-hidden ez:rounded-lg" />
             {c.chips && (
               <span className="ez:flex ez:gap-1.5">
                 {c.chips.map((chip) => (
-                  <Badge key={chip}>{chip}</Badge>
+                  <Badge key={chip} className="ez:text-site-note">
+                    {chip}
+                  </Badge>
                 ))}
               </span>
             )}
-            <strong className="ez:font-display ez:text-lg ez:font-title">{c.name}</strong>
+            <strong className="ez:text-site-item">{c.name}</strong>
             {c.price && <span className="ez:tabular-nums">{c.price}</span>}
-            {c.next && <span className="ez:text-sm ez:text-primary">{c.next}</span>}
+            {c.next && <span className="ez:text-site-note ez:text-primary">{c.next}</span>}
           </Card>
         ))}
       </Cols>
@@ -140,9 +146,9 @@ export function Gates({ data }: SectionProps<"gates">) {
   return (
     <section data-slot="gates">
       <Cols m={1} pc={3}>
-        {items.map((t) => (
+        {items.map((t, i) => (
           <Card key={t.title} href={t.href}>
-            <Pic src={t.image} ratio={2.2} className="ez:overflow-hidden ez:rounded-md" />
+            <Pic src={t.image} ratio={2.2} tone={i + 3} className="ez:overflow-hidden ez:rounded-md" />
             <strong className="ez:font-semibold">{t.title} →</strong>
           </Card>
         ))}

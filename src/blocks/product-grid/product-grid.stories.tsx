@@ -13,10 +13,16 @@ function DefaultExample() {
   return <ProductGrid products={products} eager={2} />;
 }
 
+function FitExample() {
+  return <ProductGrid products={products.slice(0, 3)} grid={{ m: 2, pc: 4, ratio: 1 }} fit />;
+}
+
 function EmptyExample() {
   return <ProductGrid products={[]} emptyHref="/products" />;
 }
 
 export const Default: StoryObj = { render: () => <DefaultExample /> };
+
+export const Fit: StoryObj = { render: () => <FitExample /> };
 
 export const Empty: StoryObj = { render: () => <EmptyExample /> };

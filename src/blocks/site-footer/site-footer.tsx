@@ -4,7 +4,6 @@ import { cn } from "../../utils/cn";
 
 const link = "ez:inline-flex ez:min-h-10 ez:items-center ez:text-fg ez:no-underline ez:hover:underline";
 
-// The privacy policy is set apart from the other links, as the PIPC guideline asks.
 export function SiteFooter({
   storeName,
   business,
@@ -24,7 +23,6 @@ export function SiteFooter({
   lookupHref?: string;
   variant?: "full" | "line";
 }) {
-  // Items without a value are left out rather than shown as "-".
   const legal = (
     [
       ["상호", [business?.name || storeName, business?.ceo_name && `대표 ${business.ceo_name}`].filter(Boolean).join(" · ")],
@@ -37,7 +35,7 @@ export function SiteFooter({
   ).filter((row): row is [string, string] => Boolean(row[1]));
   return (
     <footer data-slot="site-footer" data-variant={variant} className="ez:bg-surface-alt ez:text-[13px] ez:text-muted">
-      <div className="ez:mx-auto ez:grid ez:max-w-270 ez:gap-3 ez:px-page ez:pt-4 ez:pb-8">
+      <div className="ez:mx-auto ez:grid ez:max-w-wrap ez:gap-3 ez:px-page ez:pt-4 ez:pb-8">
         <nav aria-label="약관" className="ez:flex ez:flex-wrap ez:gap-x-4">
           {policies.map((p) => (
             <NextLink key={p.key} href={policyHref(p.key)} className={cn(link, p.key === "privacy" && "ez:font-bold")}>

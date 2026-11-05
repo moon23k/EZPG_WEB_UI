@@ -3,8 +3,8 @@ import type { SectionProps } from "../../renderer/registry";
 export function FaqSection({ context }: SectionProps<"faq">) {
   if (!context.faqs.length) return null;
   return (
-    <section data-slot="faq" className="ez:grid ez:max-w-180 ez:gap-2 ez:text-fg">
-      <h2 className="ez:m-0 ez:font-display ez:font-title ez:text-2xl ez:tracking-brand">자주 묻는 질문</h2>
+    <section data-slot="faq" className="ez:grid ez:gap-2 ez:text-fg">
+      <h2 className="ez:m-0 ez:text-site-section">자주 묻는 질문</h2>
       <div>
         {context.faqs.map((f) => (
           <details key={f.id} className="ez:group ez:border-0 ez:border-b ez:border-solid ez:border-primary-border">

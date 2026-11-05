@@ -2,6 +2,7 @@ import { EmptyState } from "../../components/empty-state";
 import type { ProductSummary } from "../../types";
 import { ProductCard } from "../product-card";
 import type { GridSpec } from "../../templates/types";
+import { pcCols } from "../../sections/kit";
 import { cn } from "../../utils/cn";
 import { ButtonLink } from "../../components/button";
 import { emptyAction, ProductsIcon } from "../parts/empty-icons";
@@ -11,11 +12,13 @@ export function ProductGrid({
   eager = 0,
   emptyHref,
   grid,
+  fit,
 }: {
   products: ProductSummary[];
   eager?: number;
   emptyHref?: string;
   grid?: GridSpec;
+  fit?: boolean;
 }) {
   if (!products.length) {
     return (
@@ -34,11 +37,11 @@ export function ProductGrid({
       className={cn(
         "ez:grid ez:gap-gutter",
         { 1: "ez:grid-cols-1", 2: "ez:grid-cols-2", 3: "ez:grid-cols-3" }[grid?.m ?? 2],
-        { 3: "ez:md:grid-cols-3", 4: "ez:md:grid-cols-4", 6: "ez:md:grid-cols-6" }[grid?.pc ?? 4],
+        pcCols(grid?.pc ?? 4, fit ? products.length : Number.POSITIVE_INFINITY),
       )}
     >
       {products.map((p, i) => (
-        <ProductCard key={p.id} product={p} preload={i < eager} ratio={grid?.ratio} meta={grid?.meta} />
+        <ProductCard key={p.id} product={p} preload={i < eager} ratio={grid?.ratio} meta={grid?.meta} tone={i} />
       ))}
     </div>
   );

@@ -55,3 +55,9 @@ export const SYSTEM_FONT = '"Pretendard Variable", Pretendard, -apple-system, Bl
 
 export const SYSTEM_DURATION = 200;
 
+export const SYSTEM_SITE = {
+  "content": 1320,
+  "content-narrow": 1080,
+  "pad": 64
+};
+

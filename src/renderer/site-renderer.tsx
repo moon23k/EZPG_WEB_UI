@@ -28,7 +28,6 @@ function place(sections: Section[], template: TemplateDesign | null | undefined,
   return [...placed, ...sections.filter((s) => !used.has(s.kind) && KEEP.has(s.kind))];
 }
 
-// The product grid shows the category chips itself, so a separate category menu is skipped on pages that have one.
 export function SiteRenderer({
   page,
   context,
@@ -40,14 +39,15 @@ export function SiteRenderer({
 }) {
   const hasGrid = !template && context.products.length > 0 && page.sections.some((s) => s.kind === "product_grid");
   const placed = place(page.sections, template, page.arranged);
+  const lead = !placed.some((s) => s.kind === "hero");
   return (
-    <div data-slot="site-renderer" data-template={template?.id} className="ez:grid ez:gap-section">
+    <div data-slot="site-renderer" data-template={template?.id} className="ez:grid ez:gap-section ez:text-site-body">
       {placed.map((section, i) => {
         if (section.when && !context.flags[section.when]) return null;
         if (!isKind(section.kind)) return null;
         if (section.kind === "category_menu" && hasGrid) return null;
         const Component = sections[section.kind] as ComponentType<SectionProps>;
-        return <Component key={`${section.kind}-${i}`} data={section.data ?? {}} context={context} variant={section.variant} grid={section.grid} />;
+        return <Component key={`${section.kind}-${i}`} data={section.data ?? {}} context={context} variant={section.variant} grid={section.grid} lead={lead} />;
       })}
     </div>
   );

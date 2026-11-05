@@ -23,6 +23,8 @@
   --spacing-section: var(--ezd-section-gap);
   --spacing-page: var(--ezd-pad);
 
+  --container-wrap: var(--ezd-wrap);
+
   --aspect-photo: var(--ezd-photo-ratio);
   --default-transition-duration: var(--ezd-duration);
 }

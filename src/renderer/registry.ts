@@ -19,7 +19,6 @@ export type SiteContext = {
   flags: Record<string, boolean>;
 };
 
-// Mirrors EZPG_API app/brand/site/service.py `_section()`. Kinds without generated copy read only from context.
 export type SectionData = {
   hero: { title?: string | null; sub?: string | null; button?: string | null; href?: string | null; image?: string | null; images?: string[] };
   story: { title?: string | null; body?: string[]; strengths?: { title: string; body: string }[] };
@@ -32,7 +31,7 @@ export type SectionData = {
 
 export type SectionKind = keyof SectionData;
 
-export type SectionProps<K extends SectionKind = SectionKind> = { data: SectionData[K]; context: SiteContext; variant?: string; grid?: GridSpec };
+export type SectionProps<K extends SectionKind = SectionKind> = { data: SectionData[K]; context: SiteContext; variant?: string; grid?: GridSpec; lead?: boolean };
 
 export const sections: { [K in SectionKind]: ComponentType<SectionProps<K>> } = {
   hero: Hero,

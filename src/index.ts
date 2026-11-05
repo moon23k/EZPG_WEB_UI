@@ -1,6 +1,6 @@
 export * from "./types";
 export * from "./core";
-export { applyTemplate, fontHref } from "./theme/tokens";
+export { applyTemplate } from "./theme/tokens";
 export { ThemeRoot } from "./theme/theme-root";
 export { SiteHeader } from "./blocks/site-header";
 export { SiteFooter } from "./blocks/site-footer";

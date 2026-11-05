@@ -16,7 +16,7 @@ export function SearchBar({ data }: SectionProps<"search_bar">) {
           ["guests", "인원", "number"],
         ] as const
       ).map(([name, label, type]) => (
-        <label key={name} className="ez:grid ez:gap-1 ez:text-sm ez:text-muted">
+        <label key={name} className="ez:grid ez:gap-1 ez:text-site-note ez:text-muted">
           {label}
           <input name={name} type={type} min={type === "number" ? 1 : undefined} className="ez:min-h-11 ez:rounded-md ez:border ez:border-solid ez:border-primary-border ez:bg-surface ez:px-3 ez:text-fg" />
         </label>
@@ -32,7 +32,7 @@ export function BookingStrip({ data }: SectionProps<"booking_strip">) {
   if (!data.price) return null;
   return (
     <section data-slot="booking-strip" className="ez:grid ez:gap-3 ez:rounded-md ez:bg-surface-alt ez:p-4 ez:text-fg ez:md:grid-cols-[1fr_auto] ez:md:items-center">
-      <strong className="ez:font-display ez:text-xl ez:font-title ez:tabular-nums">{data.price}</strong>
+      <strong className="ez:text-site-item ez:tabular-nums">{data.price}</strong>
       <ButtonLink href={data.href ?? "/booking"}>예약하기</ButtonLink>
     </section>
   );
@@ -65,7 +65,7 @@ export function Amenities({ data, variant }: SectionProps<"amenities">) {
           {groups.map((g) => (
             <div key={g} className="ez:grid ez:content-start ez:gap-1">
               <strong className="ez:font-semibold">{g}</strong>
-              <span className="ez:text-sm ez:text-muted">
+              <span className="ez:text-site-note ez:text-muted">
                 {items
                   .filter((i) => (i.group ?? "기본") === g)
                   .map((i) => i.name)
@@ -82,7 +82,7 @@ export function Amenities({ data, variant }: SectionProps<"amenities">) {
       <Title>{data.title ?? "편의시설"}</Title>
       <Cols m={2} pc={3}>
         {items.map((i) => (
-          <div key={i.name} className="ez:flex ez:items-center ez:gap-2 ez:rounded-md ez:bg-surface-alt ez:p-3 ez:text-sm">
+          <div key={i.name} className="ez:flex ez:items-center ez:gap-2 ez:rounded-md ez:bg-surface-alt ez:p-3 ez:text-site-note">
             <span aria-hidden="true" className="ez:size-2 ez:rounded-full ez:bg-primary" />
             {i.name}
           </div>
@@ -116,14 +116,14 @@ export function RoomList({ data }: SectionProps<"room_list">) {
     <Block slot="room-list">
       <Title>{data.title ?? "객실"}</Title>
       <Cols m={1} pc={3}>
-        {rooms.map((r) => (
-          <Card key={r.id}>
-            <Pic src={r.image} ratio={1.5} />
-            <strong className="ez:font-display ez:text-lg ez:font-title">{r.name}</strong>
-            <span className="ez:text-sm ez:text-muted">{r.specs.join(" · ")}</span>
+        {rooms.map((r, i) => (
+          <Card key={r.id} className="ez:flex ez:flex-col">
+            <Pic src={r.image} ratio={1.5} tone={i} />
+            <strong className="ez:text-site-item">{r.name}</strong>
+            <span className="ez:text-site-note ez:text-muted">{r.specs.join(" · ")}</span>
             <strong className="ez:text-primary ez:tabular-nums">{r.price}</strong>
-            {r.left != null && <span className="ez:text-sm ez:text-muted">{`남은 객실 ${r.left}`}</span>}
-            <span className="ez:grid ez:grid-cols-2 ez:gap-2">
+            {r.left != null && <span className="ez:text-site-note ez:text-muted">{`남은 객실 ${r.left}`}</span>}
+            <span className="ez:mt-auto ez:grid ez:grid-cols-2 ez:gap-2">
               <ButtonLink href={r.href ?? "#"} variant="outline">
                 자세히
               </ButtonLink>
@@ -140,11 +140,11 @@ export function RoomBox({ data }: SectionProps<"room_box">) {
   if (!data.title) return null;
   return (
     <section data-slot="room-box" className="ez:grid ez:text-fg ez:md:grid-cols-[1.4fr_1fr] ez:md:items-center">
-      <Pic src={data.image} ratio={1.3} />
-      <div className="ez:relative ez:mx-6 ez:-mt-10 ez:grid ez:gap-2 ez:bg-surface ez:p-6 ez:text-center ez:md:mx-0 ez:md:-ml-12 ez:md:mt-0">
-        <strong className="ez:font-display ez:text-2xl ez:font-title">{data.title}</strong>
+      <Pic src={data.image} ratio={1.3} tone={0} />
+      <div className="ez:grid ez:gap-2 ez:p-6 ez:text-center">
+        <strong className="ez:text-site-item">{data.title}</strong>
         {data.body && <p className="ez:m-0 ez:text-muted">{data.body}</p>}
-        {data.names && <span className="ez:text-sm">{data.names.join(" · ")}</span>}
+        {data.names && <span className="ez:text-site-note">{data.names.join(" · ")}</span>}
         {data.href && (
           <ButtonLink href={data.href} variant="outline" className="ez:justify-self-center">
             객실 보기

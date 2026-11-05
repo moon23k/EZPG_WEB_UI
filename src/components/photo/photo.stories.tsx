@@ -28,4 +28,25 @@ export const AllVariants: StoryObj<typeof meta> = {
   ),
 };
 
+export const Tiles: StoryObj<typeof meta> = {
+  render: () => (
+    <Section title="tone · strong">
+      <Row>
+        {[0, 1, 2, 3, 4].map((tone) => (
+          <div key={tone} style={{ width: 120 }}>
+            <Photo src={null} alt="사진 없음" tone={tone} />
+          </div>
+        ))}
+      </Row>
+      <Row>
+        {[0, 1, 2, 3].map((tone) => (
+          <div key={tone} style={{ width: 120 }}>
+            <Photo src={null} alt="사진 없음" tone={tone} strong />
+          </div>
+        ))}
+      </Row>
+    </Section>
+  ),
+};
+
 export const Playground: StoryObj<typeof meta> = {};

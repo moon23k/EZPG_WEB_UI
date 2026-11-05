@@ -1,4 +1,5 @@
 import type { Decorator, Preview } from "@storybook/nextjs-vite";
+import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "../src/styles/index.css";
 import { ThemeRoot } from "../src/theme/theme-root";
 import type { Design } from "../src/types";

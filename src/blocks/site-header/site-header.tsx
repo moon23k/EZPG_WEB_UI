@@ -2,6 +2,7 @@ import NextLink from "next/link";
 import { ButtonLink } from "../../components/button";
 import type { HeaderVariant } from "../../templates/types";
 import { cn } from "../../utils/cn";
+import { SiteLogo } from "./site-logo";
 
 const ACTIONS: Record<string, { href: string; label: string }> = {
   search: { href: "/search", label: "검색" },
@@ -50,15 +51,10 @@ export function SiteHeader({
       className={cn(
         "ez:truncate ez:font-display ez:font-title ez:text-lg ez:no-underline",
         inverse ? "ez:text-on-primary" : "ez:text-fg",
-        variant === "center" && "ez:justify-self-center ez:tracking-[0.1em]",
+        variant === "center" && "ez:justify-self-center ez:max-md:justify-self-start",
       )}
     >
-      {logoUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={logoUrl} alt={name} className="ez:block ez:h-9 ez:w-auto" />
-      ) : (
-        name
-      )}
+      <SiteLogo name={name} src={logoUrl} />
     </NextLink>
   );
   const menu = (
@@ -96,12 +92,12 @@ export function SiteHeader({
     <header data-slot="site-header" data-variant={variant} className={cn("ez:sticky ez:top-0 ez:z-10 ez:border-0 ez:border-solid", shell[variant])}>
       <div
         className={cn(
-          "ez:mx-auto ez:max-w-270 ez:items-center ez:gap-3 ez:px-page ez:py-3",
-          variant === "center" ? "ez:grid ez:grid-cols-[1fr_auto_1fr]" : "ez:flex ez:justify-between",
+          "ez:mx-auto ez:max-w-wrap ez:items-center ez:gap-3 ez:px-page ez:py-3",
+          variant === "center" ? "ez:grid ez:grid-cols-[1fr_auto] ez:md:grid-cols-[1fr_auto_1fr]" : "ez:flex ez:justify-between",
           variant === "pill" && "ez:rounded-full ez:border ez:border-solid ez:border-primary-border ez:py-2",
         )}
       >
-        {variant === "center" && <span aria-hidden="true" />}
+        {variant === "center" && <span aria-hidden="true" className="ez:max-md:hidden" />}
         {logo}
         {menu}
       </div>

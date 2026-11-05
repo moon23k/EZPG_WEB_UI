@@ -1,14 +1,8 @@
 import type { TemplateDesign } from "../templates/types";
 import type { Design } from "../types";
-import { SYSTEM_COLOR, SYSTEM_DURATION, SYSTEM_FONT, SYSTEM_RADIUS, SYSTEM_TONE } from "./system";
+import { SYSTEM_COLOR, SYSTEM_DURATION, SYSTEM_FONT, SYSTEM_RADIUS, SYSTEM_SITE, SYSTEM_TONE } from "./system";
 
 const FALLBACK: Required<NonNullable<Design["color"]>> = SYSTEM_COLOR;
-
-const FONT_FALLBACK = SYSTEM_FONT;
-
-function family(name: string | undefined): string {
-  return name ? `"${name}", ${FONT_FALLBACK}` : FONT_FALLBACK;
-}
 
 function buttonRadius(design: Design): string {
   const shape = design.shape ?? {};
@@ -34,30 +28,23 @@ export function designVars(design: Design | null | undefined): Record<string, st
     "--ezd-radius-sm": `${d.shape?.radius_sm ?? SYSTEM_RADIUS.sm}px`,
     "--ezd-radius-md": `${d.shape?.radius_md ?? SYSTEM_RADIUS.md}px`,
     "--ezd-radius-lg": `${d.shape?.radius_lg ?? SYSTEM_RADIUS.lg}px`,
-    // Empty-state halo: square themes drop it so tile and halo do not read as a frame.
     "--ezd-halo": (d.shape?.radius_lg ?? SYSTEM_RADIUS.lg) === 0 ? "0%" : "5%",
     "--ezd-button-radius": buttonRadius(d),
     "--ezd-line": `${d.shape?.line ?? 0}px`,
     "--ezd-section-gap": `${Math.min(d.density?.section_gap ?? 72, 120)}px`,
     "--ezd-pad": "16px",
+    "--ezd-pad-home": `${SYSTEM_SITE.pad}px`,
+    "--ezd-wrap": `${SYSTEM_SITE["content-narrow"]}px`,
+    "--ezd-wrap-home": `${SYSTEM_SITE.content + SYSTEM_SITE.pad * 2}px`,
     "--ezd-gutter": `${d.density?.grid_gutter ?? 20}px`,
-    "--ezd-font-display": family(d.font?.display),
-    "--ezd-font-body": family(d.font?.body),
+    "--ezd-font-display": SYSTEM_FONT,
+    "--ezd-font-body": SYSTEM_FONT,
     "--ezd-display-weight": String(d.font?.display_weight ?? 600),
-    "--ezd-tracking": `${d.font?.letter_spacing_em ?? 0}em`,
+    "--ezd-tracking": "0em",
     "--ezd-duration": `${d.motion?.duration_ms ?? SYSTEM_DURATION}ms`,
     "--ezd-photo-ratio": ratio,
     "--ezd-overlay": String(d.imagery?.overlay_opacity ?? 0.35),
   };
-}
-
-export function fontHref(design: Design | null | undefined): string | null {
-  const names = [design?.font?.display, design?.font?.body].filter(
-    (n, i, all): n is string => Boolean(n) && all.indexOf(n) === i,
-  );
-  if (!names.length) return null;
-  const families = names.map((n) => `family=${encodeURIComponent(n)}:wght@400;600;700`);
-  return `https://fonts.googleapis.com/css2?${families.join("&")}&display=swap`;
 }
 
 const CORNERS = { 0: [0, 0, 0], 4: [4, 4, 6], 6: [6, 6, 8], 16: [8, 12, 16] } as const;

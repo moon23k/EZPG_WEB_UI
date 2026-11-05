@@ -4,17 +4,18 @@ import type { ProductSummary } from "../../types";
 import { cn, won } from "../../utils/cn";
 import { focusRing } from "../../utils/styles";
 
-// Sold out: the photo is dimmed under a label and the price stays, without the sale mark.
 export function ProductCard({
   product,
   preload,
   ratio,
   meta = "price",
+  tone,
 }: {
   product: ProductSummary;
   preload?: boolean;
   ratio?: number;
   meta?: "price" | "status";
+  tone?: number;
 }) {
   const sale = product.list_price > product.sale_price ? Math.floor(((product.list_price - product.sale_price) / product.list_price) * 100) : 0;
   return (
@@ -33,6 +34,7 @@ export function ProductCard({
           src={product.cover_url}
           alt={product.name}
           preload={preload}
+          tone={tone}
           className={cn(product.sold_out && "ez:[&>svg]:hidden", ratio && "ez:absolute ez:inset-0 ez:aspect-auto ez:h-full")}
         />
         {product.sold_out && (
@@ -41,11 +43,10 @@ export function ProductCard({
           </span>
         )}
       </span>
-      <span className="ez:line-clamp-2 ez:text-sm ez:group-hover:underline">{product.name}</span>
-      {meta === "status" && product.sold_out && <span className="ez:text-sm ez:text-primary">품절 · 재입고 알림</span>}
-      {/* The list price takes its own small line, kept even when empty, so sale prices line up across a row. */}
+      <span className="ez:line-clamp-2 ez:text-site-body ez:group-hover:underline">{product.name}</span>
+      {meta === "status" && product.sold_out && <span className="ez:text-site-note ez:text-primary">품절 · 재입고 알림</span>}
       <span className="ez:grid ez:tabular-nums ez:whitespace-nowrap">
-        <s className={cn("ez:text-[13px] ez:text-muted", !(sale > 0 && !product.sold_out) && "ez:invisible")}>
+        <s className={cn("ez:text-site-note ez:text-muted", !(sale > 0 && !product.sold_out) && "ez:invisible")}>
           <span className="ez:sr-only">정가 </span>
           {won(product.list_price)}
         </s>

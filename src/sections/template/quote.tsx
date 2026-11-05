@@ -23,10 +23,10 @@ export function PackageCards({ data }: SectionProps<"package_cards">) {
       <Cols m={1} pc={3}>
         {items.map((p) => (
           <div key={p.name} className="ez:grid ez:content-start ez:gap-2 ez:rounded-lg ez:border ez:border-solid ez:border-primary-border ez:p-5 ez:text-fg">
-            <span className="ez:text-sm ez:text-muted">{p.name}</span>
-            <strong className="ez:font-display ez:text-2xl ez:font-title ez:text-primary ez:tabular-nums">{p.price}</strong>
+            <span className="ez:text-site-note ez:text-muted">{p.name}</span>
+            <strong className="ez:text-site-item ez:text-primary ez:tabular-nums">{p.price}</strong>
             {p.includes && (
-              <ul className="ez:m-0 ez:grid ez:gap-1 ez:pl-4 ez:text-sm">
+              <ul className="ez:m-0 ez:grid ez:gap-1 ez:pl-4 ez:text-site-note">
                 {p.includes.map((i) => (
                   <li key={i}>{i}</li>
                 ))}
@@ -48,11 +48,11 @@ export function CaseGrid({ data }: SectionProps<"case_grid">) {
       <Title>{data.title ?? "작업 사례"}</Title>
       {data.categories && <Chips items={data.categories} />}
       <Cols m={2} pc={4}>
-        {cases.map((c) => (
+        {cases.map((c, i) => (
           <Card key={c.id} href={c.href}>
-            <Pic src={c.image} ratio={0.75} />
-            <strong className="ez:text-sm ez:font-semibold">{c.title}</strong>
-            {c.meta && <span className="ez:text-sm ez:text-muted">{c.meta}</span>}
+            <Pic src={c.image} ratio={0.75} tone={i} />
+            <strong className="ez:text-site-item">{c.title}</strong>
+            {c.meta && <span className="ez:text-site-note ez:text-muted">{c.meta}</span>}
           </Card>
         ))}
       </Cols>
@@ -68,12 +68,12 @@ export function CaseCards({ data }: SectionProps<"case_cards">) {
       <Title>{data.title ?? "프로젝트"}</Title>
       {data.categories && <Chips items={data.categories} />}
       <Cols m={1} pc={3}>
-        {cases.map((c) => (
+        {cases.map((c, i) => (
           <Card key={c.id} href={c.href}>
-            <Pic src={c.image} ratio={1.78} className="ez:overflow-hidden ez:rounded-lg" />
-            {c.meta && <span className="ez:text-sm ez:text-muted">{c.meta}</span>}
-            <strong className="ez:font-display ez:text-lg ez:font-title">{c.title}</strong>
-            {c.scope && <span className="ez:text-sm ez:text-muted">{c.scope}</span>}
+            <Pic src={c.image} ratio={1.78} tone={i} className="ez:overflow-hidden ez:rounded-lg" />
+            {c.meta && <span className="ez:text-site-note ez:text-muted">{c.meta}</span>}
+            <strong className="ez:text-site-item">{c.title}</strong>
+            {c.scope && <span className="ez:text-site-note ez:text-muted">{c.scope}</span>}
           </Card>
         ))}
       </Cols>
@@ -90,10 +90,10 @@ export function BeforeAfter({ data }: SectionProps<"before_after">) {
           ["BEFORE", data.before],
           ["AFTER", data.after],
         ] as const
-      ).map(([label, src]) => (
+      ).map(([label, src], i) => (
         <figure key={label} className="ez:m-0 ez:grid ez:gap-1">
-          <Pic src={src} ratio={1} />
-          <figcaption className="ez:text-center ez:text-sm ez:text-muted">{label}</figcaption>
+          <Pic src={src} ratio={1} tone={i} />
+          <figcaption className="ez:text-center ez:text-site-note ez:text-muted">{label}</figcaption>
         </figure>
       ))}
     </section>
