@@ -18,10 +18,10 @@ export function SearchBar({ data }: SectionProps<"search_bar">) {
       ).map(([name, label, type]) => (
         <label key={name} className="ez:grid ez:gap-1 ez:text-site-note ez:text-muted">
           {label}
-          <input name={name} type={type} min={type === "number" ? 1 : undefined} className="ez:min-h-11 ez:rounded-md ez:border ez:border-solid ez:border-primary-border ez:bg-surface ez:px-3 ez:text-fg" />
+          <input name={name} type={type} min={type === "number" ? 1 : undefined} className="ez:min-h-11 ez:rounded-md ez:border ez:border-solid ez:border-primary-border ez:bg-surface ez:px-3 ez:text-site-body ez:text-fg" />
         </label>
       ))}
-      <button type="submit" className="ez:min-h-11 ez:self-end ez:rounded-button ez:border-0 ez:bg-primary ez:px-6 ez:font-semibold ez:text-on-primary">
+      <button type="submit" className="ez:min-h-11 ez:self-end ez:rounded-button ez:border-0 ez:bg-primary ez:px-6 ez:text-site-body ez:font-semibold ez:text-on-primary">
         검색
       </button>
     </form>
