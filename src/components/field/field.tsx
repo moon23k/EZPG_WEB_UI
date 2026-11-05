@@ -15,7 +15,6 @@ export function Field({
   className?: string;
   children: ReactNode;
 }) {
-  // Hint and error sit outside the label so they don't become part of the control's name.
   return (
     <div data-slot="field" className={cn("ez:grid ez:gap-1.5 ez:text-fg", className)}>
       <label className="ez:grid ez:gap-1.5">

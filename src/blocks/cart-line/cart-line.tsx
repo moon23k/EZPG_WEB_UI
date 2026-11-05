@@ -14,8 +14,6 @@ const stepButton = cn(
   focusRing,
 );
 
-// One cart row. Quantity buttons submit the new quantity directly, so the row needs no client JS.
-// A row that cannot be bought shows its problem and quantity only; CartView removes those rows together.
 export function CartLine({
   line,
   updateAction,

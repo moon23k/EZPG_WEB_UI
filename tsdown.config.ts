@@ -1,6 +1,5 @@
 import { defineConfig } from "tsdown";
 
-// unbundle keeps each "use client" directive on its own file.
 export default defineConfig({
   entry: ["src/index.ts", "src/core.ts"],
   format: "esm",

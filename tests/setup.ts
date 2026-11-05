@@ -4,5 +4,4 @@ import { afterEach } from "vitest";
 
 afterEach(cleanup);
 
-// axe probes canvas; jsdom does not implement it.
 HTMLCanvasElement.prototype.getContext = (() => null) as typeof HTMLCanvasElement.prototype.getContext;

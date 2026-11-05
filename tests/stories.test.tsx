@@ -1,4 +1,3 @@
-/// <reference types="vite/client" />
 import { composeStories, setProjectAnnotations } from "@storybook/react";
 import { render } from "@testing-library/react";
 import type { ComponentType } from "react";

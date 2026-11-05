@@ -22,7 +22,6 @@ const icons = {
   ),
 };
 
-// Inline status: a 14px icon and a short label, no container.
 export function Status({
   icon,
   tone = "muted",

@@ -86,7 +86,6 @@ export function trackingUrl(s: Shipment): string | undefined {
   return base && `${base}${s.tracking_no.replace(/\D/g, "")}`;
 }
 
-// Finished orders step back to the muted colour; everything still moving keeps the primary one.
 export function statusTone(status: OrderStatus): string {
   return status === "completed" || status === "canceled" ? "ez:text-muted" : "ez:font-semibold ez:text-primary";
 }
@@ -171,7 +170,6 @@ export function OrderDetail({
       data-slot="order-detail"
       className="ez:grid ez:gap-5 ez:text-fg ez:lg:grid-cols-[minmax(0,1fr)_320px] ez:lg:items-start ez:lg:gap-x-10"
     >
-      {/* Below desktop the column wrapper dissolves so the amount card can sit between items and shipping. */}
       <div className="ez:contents ez:lg:grid ez:lg:min-w-0 ez:lg:gap-5">
         <header className="ez:grid ez:gap-0.5">
           <div className="ez:flex ez:items-baseline ez:justify-between ez:gap-3">
@@ -298,7 +296,6 @@ export function OrderDetail({
   );
 }
 
-// Primary action first and full width on phones, secondary ones in two columns; one row from desktop width.
 export function OrderActionBar({ primary, children }: { primary?: ReactNode; children?: ReactNode }) {
   const fill = "ez:[&_[data-slot=button]]:w-full ez:lg:[&_[data-slot=button]]:w-auto";
   return (

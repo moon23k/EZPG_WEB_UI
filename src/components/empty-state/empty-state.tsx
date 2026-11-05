@@ -24,7 +24,6 @@ function Action({ action }: { action: EmptyStateAction }) {
   );
 }
 
-// Icon tile, one short line and a way forward. Without an icon the title is bold, for messages that need words (errors, not found).
 export function EmptyState({
   title,
   description,

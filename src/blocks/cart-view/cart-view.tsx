@@ -57,7 +57,6 @@ function RemoveMany({ ids, action, children }: { ids: string[]; action: (data: F
   );
 }
 
-// Lines that cannot be bought sit apart with no checkbox and are removed together. removeAction may receive several variant_id values.
 export function CartView({
   lines,
   updateAction,

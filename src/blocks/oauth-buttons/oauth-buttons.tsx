@@ -3,7 +3,6 @@ import type { CustomerProvider } from "../../types";
 import { cn } from "../../utils/cn";
 import { focusRing } from "../../utils/styles";
 
-// Colours and symbols follow each provider's login button guide (Kakao, Naver, Google), not the shop theme.
 const BRAND: Record<CustomerProvider, { label: string; className: string; symbol: ReactNode }> = {
   kakao: {
     label: "카카오로 시작하기",

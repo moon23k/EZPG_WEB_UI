@@ -17,8 +17,6 @@ import { SummaryRows } from "../parts/summary-rows";
 
 const LABEL = { return: "반품", exchange: "교환", cancel: "취소" } as const;
 
-// Nothing is chosen up front. Items marked non-returnable open up only for a seller-fault reason.
-// Each item row is one tap target; the refund estimate uses what was paid per item, less the return fee for a change of mind.
 export function ClaimForm({
   kind,
   items,

@@ -20,7 +20,6 @@ const bell = (
   </svg>
 );
 
-// Variant prices are final prices with no list price of their own, so a discount is shown only when every variant shares one price.
 export function BuyBox({
   product,
   addAction,
@@ -73,7 +72,7 @@ export function BuyBox({
       </div>
       {!selling && !soldOut && (
         <p className="ez:m-0 ez:flex ez:items-center ez:gap-2 ez:rounded-md ez:bg-surface-alt ez:p-3 ez:text-sm">
-          <Status icon="alert">지금은 주문을 받지 않는 상점이에요</Status>
+          <Status icon="alert">지금은 주문을 받지 않는 스토어예요</Status>
         </p>
       )}
       {options ? (

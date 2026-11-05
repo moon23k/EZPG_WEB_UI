@@ -17,7 +17,6 @@ const small = cn(
   focusRing,
 );
 
-// The default address can be edited but not removed.
 export function AddressBook({
   addresses,
   removeAction,

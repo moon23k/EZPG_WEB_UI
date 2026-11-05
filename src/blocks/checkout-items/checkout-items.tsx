@@ -6,7 +6,6 @@ import { LineItem, lineList } from "../parts/line-item";
 
 export type CheckoutLine = Pick<CartLineData, "variant_id" | "name" | "option_label" | "quantity" | "line_total">;
 
-// Folded: count, total and the first item at a readable size. Opening it lists every line with its amount.
 export function CheckoutItems({ lines, imageSrc }: { lines: CheckoutLine[]; imageSrc?: Record<string, string | null> }) {
   const [first] = lines;
   if (!first) return null;

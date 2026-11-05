@@ -35,7 +35,6 @@ function Term({ term }: { term: ConsentTerm }) {
   );
 }
 
-// One declaration right above the pay button covers every listed term; each term can be opened in place.
 export function ConsentForm({
   guest,
   terms,

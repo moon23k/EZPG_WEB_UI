@@ -12,7 +12,6 @@ import { Notice } from "../parts/notice";
 
 const star = "M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9L12 3z";
 
-// The rating starts empty and is required, so no score is given on the buyer's behalf. The hint shows why the button waits.
 export function ReviewForm({
   orderItemId,
   productName,

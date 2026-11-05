@@ -13,8 +13,6 @@ export type ReviewItem = {
   option?: string | null;
 };
 
-// count and average come from the items unless the server knows more (paged lists).
-// Each review leads with rating, author, option and date; the seller reply sits indented under the body.
 export function ReviewList({
   count = 0,
   average,

@@ -11,11 +11,9 @@ export type OverlayProps = {
   description?: string;
   onOpenChange: (open: boolean) => void;
   children?: ReactNode;
-  // Confirm dialogs carry their own dismiss button, so the corner X is left out.
   closeButton?: boolean;
 };
 
-// Portaled content sits outside .ez-root, so it sets its own box-sizing, font, colors and wrapping.
 const surface = "ez:box-border ez:bg-surface ez:text-fg ez:font-body ez:break-keep ez:shadow-xl";
 
 export function OverlayFrame({

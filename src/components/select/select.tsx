@@ -2,7 +2,6 @@ import type { SelectHTMLAttributes } from "react";
 import { cn } from "../../utils/cn";
 import { focusRing } from "../../utils/styles";
 
-// Native select so it posts with server-action forms and needs no client code.
 export function Select({ className, children, ...rest }: SelectHTMLAttributes<HTMLSelectElement>) {
   return (
     <span data-slot="select" className={cn("ez:relative ez:grid ez:w-full", className)}>

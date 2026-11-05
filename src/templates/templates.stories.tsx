@@ -40,7 +40,7 @@ function shopNodes(): { nodes: Record<string, React.ReactNode>; data: DetailData
         { label: "식품의 유형", value: "과채가공품" },
         { label: "내용량", value: "500ml" },
         { label: "소비기한", value: "제조일로부터 6개월" },
-        { label: "제조원", value: "상점 이름" },
+        { label: "제조원", value: "스토어 이름" },
       ]}
     />
   );
@@ -70,7 +70,7 @@ function Page({ main, letter }: { main: TemplateMain; letter: string }) {
   return (
     <ThemeRoot template={t}>
       <div style={{ background: "var(--ezd-surface)", color: "var(--ezd-text)", fontFamily: "var(--ezd-font-body)" }}>
-        <SiteHeader name="상점 이름" variant={t.header} cta={t.cta ? { label: t.cta, href: "/quote" } : null} />
+        <SiteHeader name="스토어 이름" variant={t.header} cta={t.cta ? { label: t.cta, href: "/quote" } : null} />
         <main className="ez:mx-auto ez:grid ez:w-full ez:max-w-wrap ez:gap-section ez:px-page ez:py-8">
           <SiteRenderer page={{ sections: homeSections[main] }} context={context} template={t} />
           <hr className="ez:my-4 ez:border-0 ez:border-t ez:border-solid ez:border-primary-border" />
@@ -82,7 +82,7 @@ function Page({ main, letter }: { main: TemplateMain; letter: string }) {
             </section>
           ))}
         </main>
-        <SiteFooter storeName="상점 이름" business={business} hosting="EZPG" policies={[{ key: "terms", title: "이용약관" }, { key: "privacy", title: "개인정보처리방침" }]} variant={t.footer} />
+        <SiteFooter storeName="스토어 이름" business={business} hosting="EZPG" policies={[{ key: "terms", title: "이용약관" }, { key: "privacy", title: "개인정보처리방침" }]} variant={t.footer} />
       </div>
     </ThemeRoot>
   );
@@ -93,7 +93,7 @@ function BlankPage({ main, letter }: { main: TemplateMain; letter: string }) {
   return (
     <ThemeRoot template={t}>
       <div style={{ background: "var(--ezd-surface)", color: "var(--ezd-text)", fontFamily: "var(--ezd-font-body)" }}>
-        <SiteHeader name="상점 이름" variant={t.header} cta={t.cta ? { label: t.cta, href: "/quote" } : null} />
+        <SiteHeader name="스토어 이름" variant={t.header} cta={t.cta ? { label: t.cta, href: "/quote" } : null} />
         <main className="ez:mx-auto ez:grid ez:w-full ez:max-w-wrap ez:gap-section ez:px-page ez:py-8">
           <SiteRenderer page={{ sections: [] }} context={{ products: [], categories: [], faqs: [], shipping: null, flags: {} }} template={t} />
         </main>

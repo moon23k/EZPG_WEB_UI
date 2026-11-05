@@ -1,7 +1,5 @@
 import type { ReactNode } from "react";
 
-// Two-tone line icons for empty states. Rule: the subject's silhouette is currentColor (theme primary),
-// inner detail and context use the muted colour. 24 grid, 1.75 stroke, round caps, 1.5–2 corner radii.
 const detail = "ez:stroke-muted";
 
 function Icon({ children, size = 40 }: { children: ReactNode; size?: number }) {

@@ -55,7 +55,6 @@ export const order: OrderView = {
   shipments: [{ carrier: "CJ대한통운", tracking_no: "6543 2109 8765" }],
 };
 
-// Before shipping nothing has been returned or refunded yet.
 export const pendingOrder: OrderView = {
   ...order,
   status: "paid",

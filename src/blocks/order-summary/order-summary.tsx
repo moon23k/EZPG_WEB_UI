@@ -1,7 +1,6 @@
 import type { Quote } from "../../types";
 import { SummaryRows, type SummaryRow } from "../parts/summary-rows";
 
-// items_total is after product discounts, so the list-price sum leads and every row adds up to the total.
 export function OrderSummary({ quote }: { quote: Quote }) {
   const rows: SummaryRow[] = [
     { label: "상품 금액", value: quote.items_total + quote.product_discount },

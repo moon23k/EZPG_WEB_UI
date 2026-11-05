@@ -8,8 +8,6 @@ import { STATUS_LABEL, statusTone } from "../order-detail/order-detail";
 import { emptyAction, ReceiptIcon } from "../parts/empty-icons";
 import { lineList } from "../parts/line-item";
 
-// first_item / item_count / image_url name the order by what was bought; without them the number stands in.
-// The name may take two lines; "외 N건" moves to the date line so it never pushes the name out.
 export type OrderRow = {
   number: string;
   status: OrderStatus;

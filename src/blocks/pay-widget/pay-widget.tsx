@@ -39,12 +39,11 @@ export type PayRequest = {
   failUrl: string;
 };
 
-// agreement=false skips the PG's own terms block when the order form already took consent.
 export function PayWidget({
   request,
   mock,
   agreement = true,
-  caption = "구매안전 서비스 가입 상점",
+  caption = "구매안전 서비스 가입 스토어",
 }: {
   request: PayRequest;
   mock?: boolean;

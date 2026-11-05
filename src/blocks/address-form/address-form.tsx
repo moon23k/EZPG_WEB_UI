@@ -71,7 +71,6 @@ export function AddressForm({
       <Field label="휴대폰 번호">
         <Input name="phone" defaultValue={initial?.phone} required inputMode="tel" autoComplete="tel" placeholder="010-0000-0000" />
       </Field>
-      {/* Postal code and road address come from one search; the visible field opens it. */}
       <input type="hidden" name="postal_code" value={postal} />
       <input type="hidden" name="address" value={address} />
       <div className="ez:grid ez:gap-1.5">
