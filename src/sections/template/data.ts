@@ -44,7 +44,7 @@ export type TemplateSectionData = {
   gallery: { images?: string[] };
   amenities: { title?: string | null; items?: { name: string; group?: string }[] };
   house_rules: { check_in?: string | null; check_out?: string | null; rules?: string[] };
-  pay_plan: { title?: string | null; rows?: Row[] };
+  pay_plan: { title?: string | null; rows?: Row[]; groups?: { title: string; rows: Row[] }[] };
   location: { address?: string | null; note?: string | null; href?: string | null };
   room_list: { title?: string | null; rooms?: Room[] };
   room_box: { title?: string | null; body?: string | null; names?: string[]; image?: string | null; href?: string | null };

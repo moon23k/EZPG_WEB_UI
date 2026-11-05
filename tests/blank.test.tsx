@@ -71,4 +71,15 @@ describe("blank scope", () => {
     const { container } = render(<SiteRenderer page={{ sections: [{ kind: "reviews", data: {} }] }} context={context} />);
     expect(container.querySelector('[data-slot="reviews"]')).not.toBeInTheDocument();
   });
+
+  it("shows cancel terms per room", () => {
+    const groups = [{ title: "바다 앞 독채", rows: [{ label: "이용일 당일", value: "0% 환불" }] }];
+    const { container } = render(
+      <SiteRenderer page={{ sections: [{ kind: "pay_plan", data: { groups } }] }} context={context} />,
+    );
+    const block = container.querySelector('[data-slot="pay-plan"]');
+    expect(block).not.toHaveAttribute("data-blank");
+    expect(block).toHaveTextContent("바다 앞 독채");
+    expect(block).toHaveTextContent("0% 환불");
+  });
 });

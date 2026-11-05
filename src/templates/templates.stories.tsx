@@ -116,6 +116,35 @@ export const C3 = story("class", "c", "클래스 · C3 정규반 · 과정형");
 export const T1 = story("stay", "a", "숙박 · T1 독채 한 페이지형");
 export const T2 = story("stay", "b", "숙박 · T2 객실 검색 · 카드형");
 export const T3 = story("stay", "c", "숙박 · T3 B&B 소개형");
+export const RoomTerms: StoryObj = {
+  name: "숙박 · 객실별 취소 규정",
+  render: () => (
+    <ThemeRoot>
+      <SiteRenderer
+        context={context}
+        page={{
+          sections: [
+            {
+              kind: "pay_plan",
+              data: {
+                groups: [
+                  {
+                    title: "바다 앞 독채",
+                    rows: [
+                      { label: "이용일 3일 전까지", value: "100% 환불" },
+                      { label: "이용일 2일 전부터 당일까지", value: "0% 환불" },
+                    ],
+                  },
+                  { title: "마당 있는 별채", rows: [{ label: "이용 시작 전까지", value: "100% 환불" }] },
+                ],
+              },
+            },
+          ],
+        }}
+      />
+    </ThemeRoot>
+  ),
+};
 export const Q1 = story("quote", "a", "견적 · Q1 사례 갤러리형");
 export const Q2 = story("quote", "d", "견적 · Q2 시공 견적 계산형");
 export const Q3 = story("quote", "b", "견적 · Q3 패키지 확정가형");

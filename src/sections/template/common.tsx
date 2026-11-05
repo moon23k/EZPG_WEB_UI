@@ -233,8 +233,9 @@ export function Location({ data, blank }: SectionProps<"location">) {
 
 export function PayPlan({ data, blank }: SectionProps<"pay_plan">) {
   const rows = data.rows ?? [];
-  if (!rows.length && !blank) return null;
-  if (!rows.length) {
+  const groups = data.groups ?? [];
+  if (!rows.length && !groups.length && !blank) return null;
+  if (!rows.length && !groups.length) {
     return (
       <Block slot="pay-plan" blank>
         <Title>{data.title ?? "결제 일정 · 취소 규정"}</Title>
@@ -245,7 +246,13 @@ export function PayPlan({ data, blank }: SectionProps<"pay_plan">) {
   return (
     <Block slot="pay-plan">
       <Title>{data.title ?? "결제 일정 · 취소 규정"}</Title>
-      <Rows rows={rows} />
+      {rows.length > 0 && <Rows rows={rows} />}
+      {groups.map((group) => (
+        <div key={group.title} className="ez:grid ez:gap-2">
+          <strong className="ez:font-display ez:text-site-item">{group.title}</strong>
+          <Rows rows={group.rows} />
+        </div>
+      ))}
     </Block>
   );
 }
