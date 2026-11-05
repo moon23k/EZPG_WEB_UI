@@ -33,6 +33,15 @@ describe.each(designs)("blank %s %s", (main, letter) => {
     expect(root.children.length).toBe(template!.home.length);
   });
 
+  it("marks every blank section so the partner preview can jump to its input", () => {
+    const { template, root } = page(main, letter);
+    const missing = template!.home
+      .map((slot) => slot.kind)
+      .filter((kind) => !["search_bar"].includes(kind))
+      .filter((kind) => !root.querySelector(`[data-blank][data-slot="${kind.replace(/_/g, "-")}"]`));
+    expect(missing).toEqual([]);
+  });
+
   it("invents no prices, ratings or figures", () => {
     const { root } = page(main, letter);
     root.querySelector('[data-slot="process-steps"]')?.remove();

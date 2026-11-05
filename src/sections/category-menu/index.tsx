@@ -28,6 +28,12 @@ export function CategoryChips({ categories, current }: { categories: Category[];
 }
 
 export function CategoryMenu({ context, blank }: SectionProps<"category_menu">) {
-  if (!context.categories.length && blank) return <BlankChips first="전체" />;
+  if (!context.categories.length && blank) {
+    return (
+      <div data-slot="category-menu" data-blank="">
+        <BlankChips first="전체" />
+      </div>
+    );
+  }
   return <CategoryChips categories={context.categories} />;
 }

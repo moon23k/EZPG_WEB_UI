@@ -16,7 +16,7 @@ export function ProductList({ data, context, grid, variant, blank }: SectionProp
   if (!context.products.length && !blank) return null;
   if (!context.products.length) {
     return (
-      <section data-slot="product-grid-section" data-blank="" className="ez:grid ez:gap-4 ez:text-fg">
+      <section data-slot="product-grid" data-blank="" className="ez:grid ez:gap-4 ez:text-fg">
         <Title>{data.title ?? "상품"}</Title>
         <Cols m={grid?.m ?? 2} pc={grid?.pc ?? 4}>
           {Array.from({ length: grid?.pc ?? 4 }, (_, i) => (
@@ -32,7 +32,7 @@ export function ProductList({ data, context, grid, variant, blank }: SectionProp
   }
   const shown = context.products.slice(0, fullRows(Math.min(context.products.length, SHOWN), grid?.m ?? 2, grid?.pc ?? 4));
   return (
-    <section data-slot="product-grid-section" className="ez:grid ez:gap-4 ez:text-fg">
+    <section data-slot="product-grid" className="ez:grid ez:gap-4 ez:text-fg">
       <div className="ez:flex ez:items-baseline ez:justify-between ez:gap-3">
         <h2 className="ez:m-0 ez:font-display ez:text-site-section">{data.title ?? "상품"}</h2>
         {context.products.length > shown.length && (
