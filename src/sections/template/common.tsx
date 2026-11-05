@@ -173,7 +173,7 @@ export function Numbers({ data, blank }: SectionProps<"numbers">) {
       <div data-slot="numbers" data-blank="" className="ez:grid ez:grid-cols-3 ez:gap-2 ez:rounded-md ez:bg-surface-alt ez:p-6 ez:text-center ez:text-fg">
         {["개업", "수강생", "평점"].map((label) => (
           <div key={label} className="ez:grid ez:gap-1">
-            <span className="ez:font-display ez:text-site-item">
+            <span className="ez:text-site-figure">
               <Bar size="short" />
             </span>
             <span className="ez:text-site-note ez:text-muted">{label}</span>
@@ -187,7 +187,7 @@ export function Numbers({ data, blank }: SectionProps<"numbers">) {
       {items.map((n) => (
         <div key={n.label} className="ez:grid ez:gap-1">
           <dt className="ez:order-2 ez:text-site-note ez:text-muted">{n.label}</dt>
-          <dd className="ez:order-1 ez:m-0 ez:font-display ez:text-site-item">{n.value}</dd>
+          <dd className="ez:order-1 ez:m-0 ez:text-site-figure ez:tabular-nums">{n.value}</dd>
         </div>
       ))}
     </dl>

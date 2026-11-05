@@ -102,7 +102,7 @@ export function NextSession({ data, blank }: SectionProps<"next_session">) {
   return (
     <section data-slot="next-session" className="ez:grid ez:gap-2 ez:rounded-lg ez:bg-primary ez:p-5 ez:text-on-primary">
       <span className="ez:text-site-note ez:opacity-80">다음 수업</span>
-      <strong className="ez:font-display ez:text-site-item ez:tabular-nums">{`${s.date} ${s.time}`}</strong>
+      <strong className="ez:text-site-figure ez:tabular-nums">{`${s.date} ${s.time}`}</strong>
       <span>{[s.name, s.length].filter(Boolean).join(" · ")}</span>
       <span className="ez:text-site-note">{s.status === "few" && s.seats_left ? `남은 자리 ${s.seats_left}` : statusText[s.status]}</span>
       <ButtonLink href={s.href ?? "#"} variant="outline" className="ez:justify-self-start ez:border-on-primary ez:text-on-primary ez:bg-transparent">

@@ -48,7 +48,7 @@ export function PackageCards({ data, blank }: SectionProps<"package_cards">) {
               <span className="ez:text-site-note">
                 <Bar />
               </span>
-              <BlankPrice className="ez:font-display ez:text-site-item" />
+              <BlankPrice className="ez:text-site-figure" />
               <span className="ez:text-site-note">
                 <Bar size="long" />
               </span>
@@ -67,7 +67,7 @@ export function PackageCards({ data, blank }: SectionProps<"package_cards">) {
         {items.map((p) => (
           <div key={p.name} className="ez:grid ez:content-start ez:gap-2 ez:rounded-lg ez:border ez:border-solid ez:border-primary-border ez:p-5 ez:text-fg">
             <span className="ez:text-site-note ez:text-muted">{p.name}</span>
-            <strong className="ez:font-display ez:text-site-item ez:text-primary ez:tabular-nums">{p.price}</strong>
+            <strong className="ez:text-site-figure ez:text-primary ez:tabular-nums">{p.price}</strong>
             {p.includes && (
               <ul className="ez:m-0 ez:grid ez:gap-1 ez:pl-4 ez:text-site-note">
                 {p.includes.map((i) => (

@@ -5,6 +5,8 @@
   background: var(--ezd-surface);
   color: var(--ezd-text);
   font-family: var(--ezd-font-body);
+  font-weight: var(--ezd-body-weight);
+  font-style: var(--ezd-body-style);
   letter-spacing: var(--ezd-tracking);
   line-height: 1.6;
   word-break: keep-all;
@@ -19,6 +21,24 @@
 :where(.ez-root) a {
   color: inherit;
 }
+:where(.ez-root) :is([data-slot="site-header"], [data-slot="site-footer"], [data-slot="button"], .ez-btn, nav, button, input, select, textarea),
+:where(.ez-root) :is([data-slot="site-header"], [data-slot="site-footer"], [data-slot="button"], .ez-btn, nav, button) * {
+  font-style: normal;
+}
+:where(.ez-root) :is([data-slot="site-header"], [data-slot="site-footer"]) {
+  font-weight: 400;
+}
+@layer components {
+  :where(.ez-root) :is([class*="font-display"], [class*="text-site-page"], [class*="text-site-section"]) {
+    font-style: var(--ezd-title-style);
+  }
+  :where(.ez-root) [class*="text-site-item"] {
+    font-style: var(--ezd-subtitle-style);
+  }
+  :where(.ez-root) :is([class*="text-site-figure"], [class*="tabular-nums"]) {
+    font-style: normal;
+  }
+}
 :where(.ez-root) :focus-visible {
   outline: 2px solid var(--ezd-primary);
   outline-offset: 2px;
@@ -27,6 +47,7 @@
 :where(.ez-root) h2 {
   font-family: var(--ezd-font-display);
   font-weight: var(--ezd-display-weight);
+  font-style: var(--ezd-title-style);
   line-height: 1.3;
   margin: 0 0 12px;
 }

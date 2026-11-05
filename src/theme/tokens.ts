@@ -19,6 +19,7 @@ export function designVars(design: Design | null | undefined): Record<string, st
   const d = design ?? {};
   const color = { ...FALLBACK, ...(d.color ?? {}) };
   const ratio = (d.imagery?.photo_ratio ?? "1:1").replace(":", " / ");
+  const styles = d.font?.styles;
   return {
     "--ezd-primary": color.primary,
     "--ezd-on-primary": color.on_primary,
@@ -43,7 +44,13 @@ export function designVars(design: Design | null | undefined): Record<string, st
     "--ezd-gutter": `${d.density?.grid_gutter ?? 20}px`,
     "--ezd-font-display": family(d.font?.display),
     "--ezd-font-body": family(d.font?.body),
-    "--ezd-display-weight": String(d.font?.display_weight ?? 600),
+    "--ezd-display-weight": String(styles?.title?.weight ?? d.font?.display_weight ?? 600),
+    "--ezd-title-weight": String(styles?.title?.weight ?? 700),
+    "--ezd-title-style": styles?.title?.style ?? "normal",
+    "--ezd-subtitle-weight": String(styles?.subtitle?.weight ?? 600),
+    "--ezd-subtitle-style": styles?.subtitle?.style ?? "normal",
+    "--ezd-body-weight": String(styles?.body?.weight ?? 400),
+    "--ezd-body-style": styles?.body?.style ?? "normal",
     "--ezd-tracking": "0em",
     "--ezd-duration": `${d.motion?.duration_ms ?? SYSTEM_DURATION}ms`,
     "--ezd-photo-ratio": ratio,
@@ -52,9 +59,12 @@ export function designVars(design: Design | null | undefined): Record<string, st
 }
 
 export function fontHref(design: Design | null | undefined): string | null {
-  const names = [design?.font?.display, design?.font?.body].filter((name, i, all): name is string => Boolean(name) && all.indexOf(name) === i);
-  if (!names.length) return null;
-  const families = names.map((name) => `family=${encodeURIComponent(name)}:wght@400;600;700`);
+  const font = design?.font;
+  const load = font?.load ?? [font?.display, font?.body]
+    .filter((name, i, all): name is string => Boolean(name) && all.indexOf(name) === i)
+    .map((family) => ({ family, weights: [400, 700] }));
+  if (!load.length) return null;
+  const families = load.map(({ family, weights }) => `family=${encodeURIComponent(family)}:wght@${weights.join(";")}`);
   return `https://fonts.googleapis.com/css2?${families.join("&")}&display=swap`;
 }
 

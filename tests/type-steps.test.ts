@@ -16,4 +16,9 @@ describe("home type steps", () => {
   it.each(files)("%s uses only site type steps", (file) => {
     expect(readFileSync(file, "utf8").match(OFF_SCALE) ?? []).toEqual([]);
   });
+
+  it.each(files)("%s keeps figures out of the display font", (file) => {
+    const classes = readFileSync(file, "utf8").match(/className="[^"]*"/g) ?? [];
+    expect(classes.filter((name) => name.includes("font-display") && /tabular-nums|text-site-figure/.test(name))).toEqual([]);
+  });
 });

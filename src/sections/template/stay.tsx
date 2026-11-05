@@ -32,7 +32,7 @@ export function BookingStrip({ data, blank }: SectionProps<"booking_strip">) {
   if (!data.price && !blank) return null;
   return (
     <section data-slot="booking-strip" data-blank={data.price ? undefined : ""} className="ez:grid ez:gap-3 ez:rounded-md ez:bg-surface-alt ez:p-4 ez:text-fg ez:md:grid-cols-[1fr_auto] ez:md:items-center">
-      {data.price ? <strong className="ez:font-display ez:text-site-item ez:tabular-nums">{data.price}</strong> : <BlankPrice before="1박" after="원부터" className="ez:font-display ez:text-site-item" />}
+      {data.price ? <strong className="ez:text-site-figure ez:tabular-nums">{data.price}</strong> : <BlankPrice before="1박" after="원부터" className="ez:font-display ez:text-site-item" />}
       {data.price ? <ButtonLink href={data.href ?? "/booking"}>예약하기</ButtonLink> : <BlankButton>예약하기</BlankButton>}
     </section>
   );

@@ -3,7 +3,14 @@ import type { Schemas } from "./contract";
 export type { Schemas };
 
 export type Design = {
-  font?: { display?: string; body?: string; display_weight?: number; letter_spacing_em?: number };
+  font?: {
+    set?: string;
+    display?: string;
+    body?: string;
+    display_weight?: number;
+    load?: { family: string; weights: number[] }[];
+    styles?: Partial<Record<"title" | "subtitle" | "body", { weight: number; style: "normal" | "italic" }>>;
+  };
   shape?: { radius_sm?: number; radius_md?: number; radius_lg?: number; button_shape?: "rounded" | "pill" | "square"; line?: number };
   density?: { section_gap?: number; grid_gutter?: number };
   motion?: { duration_ms?: number };
