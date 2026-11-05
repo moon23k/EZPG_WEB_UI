@@ -4,6 +4,10 @@ import { SYSTEM_COLOR, SYSTEM_DURATION, SYSTEM_FONT, SYSTEM_RADIUS, SYSTEM_SITE,
 
 const FALLBACK: Required<NonNullable<Design["color"]>> = SYSTEM_COLOR;
 
+function family(name: string | undefined): string {
+  return name ? `"${name}", ${SYSTEM_FONT}` : SYSTEM_FONT;
+}
+
 function buttonRadius(design: Design): string {
   const shape = design.shape ?? {};
   if (shape.button_shape === "pill") return "999px";
@@ -37,14 +41,21 @@ export function designVars(design: Design | null | undefined): Record<string, st
     "--ezd-wrap": `${SYSTEM_SITE["content-narrow"]}px`,
     "--ezd-wrap-home": `${SYSTEM_SITE.content + SYSTEM_SITE.pad * 2}px`,
     "--ezd-gutter": `${d.density?.grid_gutter ?? 20}px`,
-    "--ezd-font-display": SYSTEM_FONT,
-    "--ezd-font-body": SYSTEM_FONT,
+    "--ezd-font-display": family(d.font?.display),
+    "--ezd-font-body": family(d.font?.body),
     "--ezd-display-weight": String(d.font?.display_weight ?? 600),
     "--ezd-tracking": "0em",
     "--ezd-duration": `${d.motion?.duration_ms ?? SYSTEM_DURATION}ms`,
     "--ezd-photo-ratio": ratio,
     "--ezd-overlay": String(d.imagery?.overlay_opacity ?? 0.35),
   };
+}
+
+export function fontHref(design: Design | null | undefined): string | null {
+  const names = [design?.font?.display, design?.font?.body].filter((name, i, all): name is string => Boolean(name) && all.indexOf(name) === i);
+  if (!names.length) return null;
+  const families = names.map((name) => `family=${encodeURIComponent(name)}:wght@400;600;700`);
+  return `https://fonts.googleapis.com/css2?${families.join("&")}&display=swap`;
 }
 
 const CORNERS = { 0: [0, 0, 0], 4: [4, 4, 6], 6: [6, 6, 8], 16: [8, 12, 16] } as const;
@@ -58,12 +69,8 @@ export function applyTemplate(design: Design | null | undefined, template: Templ
   const shape: Design["shape"] = corners
     ? { radius_sm: corners[0], radius_md: corners[1], radius_lg: corners[2], button_shape: look.radius === 0 ? "square" : "rounded" }
     : { ...d.shape, button_shape: "pill" };
-  const font: Design["font"] =
-    look.font === "serif"
-      ? { ...d.font, display: "Noto Serif KR", display_weight: 600 }
-      : look.font === "light"
-        ? { ...d.font, display_weight: 300 }
-        : d.font;
+  const templateFont: Design["font"] = look.font === "serif" ? { display: "Noto Serif KR", display_weight: 600 } : look.font === "light" ? { display_weight: 300 } : undefined;
+  const font = d.font ?? templateFont;
   return {
     ...d,
     font,

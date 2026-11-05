@@ -8,7 +8,7 @@ function Heading({ title, sub, inverse }: { title?: string | null; sub?: string 
   if (!title) {
     return (
       <div className="ez:grid ez:w-full ez:max-w-xl ez:gap-4">
-        <span className="ez:text-site-page-sm ez:md:text-site-page">
+        <span className="ez:font-display ez:text-site-page-sm ez:md:text-site-page">
           <Bar size="long" strong={inverse} />
         </span>
         <Lines strong={inverse} />
@@ -19,7 +19,7 @@ function Heading({ title, sub, inverse }: { title?: string | null; sub?: string 
     <>
       <h1
         className={cn(
-          "ez:m-0 ez:max-w-3xl ez:text-site-page-sm ez:text-balance ez:md:text-site-page",
+          "ez:m-0 ez:max-w-3xl ez:font-display ez:text-site-page-sm ez:text-balance ez:md:text-site-page",
           inverse && "ez:text-on-primary",
         )}
       >

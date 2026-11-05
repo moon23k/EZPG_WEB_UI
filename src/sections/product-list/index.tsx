@@ -34,7 +34,7 @@ export function ProductList({ data, context, grid, variant, blank }: SectionProp
   return (
     <section data-slot="product-grid-section" className="ez:grid ez:gap-4 ez:text-fg">
       <div className="ez:flex ez:items-baseline ez:justify-between ez:gap-3">
-        <h2 className="ez:m-0 ez:text-site-section">{data.title ?? "상품"}</h2>
+        <h2 className="ez:m-0 ez:font-display ez:text-site-section">{data.title ?? "상품"}</h2>
         {context.products.length > shown.length && (
           <Link href="/products" className="ez:shrink-0 ez:text-site-note ez:text-muted">
             전체 보기

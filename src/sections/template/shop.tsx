@@ -74,7 +74,7 @@ export function StoreInfo({ data, blank }: SectionProps<"store_info">) {
     <section data-slot="store-info" data-blank={data.address ? undefined : ""} className="ez:grid ez:gap-4 ez:rounded-md ez:bg-surface-alt ez:p-4 ez:text-fg ez:md:grid-cols-[1.4fr_1fr] ez:md:items-center">
       <Pic src={data.image} ratio={1.7} tone={3} />
       <div className="ez:grid ez:gap-2">
-        <strong className="ez:text-site-item">{data.title ?? "쇼룸"}</strong>
+        <strong className="ez:font-display ez:text-site-item">{data.title ?? "쇼룸"}</strong>
         <Rows
           rows={[
             { label: "주소", value: data.address ?? <Bar size="long" /> },

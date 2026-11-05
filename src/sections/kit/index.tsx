@@ -13,7 +13,7 @@ export const line = "ez:border-solid ez:border-primary-border ez:[border-width:v
 export function Title({ children, aside }: { children: ReactNode; aside?: ReactNode }) {
   return (
     <div className="ez:flex ez:items-baseline ez:justify-between ez:gap-3">
-      <h2 className="ez:m-0 ez:text-site-section">{children}</h2>
+      <h2 className="ez:m-0 ez:font-display ez:text-site-section">{children}</h2>
       {aside}
     </div>
   );

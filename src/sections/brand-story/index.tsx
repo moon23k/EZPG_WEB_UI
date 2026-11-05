@@ -10,7 +10,7 @@ export function BrandStory({ data, variant, blank }: SectionProps<"story">) {
     return (
       <section data-slot="story" data-blank="" data-variant={variant} className={cn("ez:grid ez:gap-6 ez:text-fg", variant === "band" && "ez:justify-items-center ez:py-8 ez:text-center")}>
         <div className="ez:grid ez:w-full ez:max-w-170 ez:gap-3">
-          <span className="ez:text-site-section">
+          <span className="ez:font-display ez:text-site-section">
             <Bar size="long" />
           </span>
           <Lines />
@@ -22,7 +22,7 @@ export function BrandStory({ data, variant, blank }: SectionProps<"story">) {
     <section data-slot="story" data-variant={variant} className={cn("ez:grid ez:gap-6 ez:text-fg", variant === "band" && "ez:justify-items-center ez:py-8 ez:text-center")}>
       <div className="ez:grid ez:max-w-170 ez:gap-3">
         {variant === "band" && <span className="ez:text-site-note ez:text-muted">Story</span>}
-        {data.title && <h2 className="ez:m-0 ez:text-site-section">{data.title}</h2>}
+        {data.title && <h2 className="ez:m-0 ez:font-display ez:text-site-section">{data.title}</h2>}
         {body.map((p) => (
           <p key={p} className="ez:m-0">
             {p}

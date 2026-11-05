@@ -24,7 +24,7 @@ export function Intro({ data, lead, blank }: SectionProps<"intro">) {
   if (!data.title) {
     return (
       <Block slot="intro" blank className={cn("ez:justify-items-center ez:text-center", lead && "ez:py-16")}>
-        <span className={lead ? "ez:text-site-page-sm ez:md:text-site-page" : "ez:text-site-section"}>
+        <span className={lead ? "ez:font-display ez:text-site-page-sm ez:md:text-site-page" : "ez:font-display ez:text-site-section"}>
           <Bar size="long" />
         </span>
         <Lines className="ez:max-w-xl" />
@@ -33,7 +33,7 @@ export function Intro({ data, lead, blank }: SectionProps<"intro">) {
   }
   return (
     <Block slot="intro" className={cn("ez:justify-items-center ez:text-center", lead && "ez:py-16")}>
-      <h2 className={cn("ez:m-0 ez:max-w-2xl ez:text-balance", lead ? "ez:text-site-page-sm ez:md:text-site-page" : "ez:text-site-section")}>{data.title}</h2>
+      <h2 className={cn("ez:m-0 ez:max-w-2xl ez:text-balance", lead ? "ez:font-display ez:text-site-page-sm ez:md:text-site-page" : "ez:font-display ez:text-site-section")}>{data.title}</h2>
       {data.body && <p className="ez:m-0 ez:max-w-xl ez:text-muted">{data.body}</p>}
       {data.button && <ButtonLink href={data.href ?? "/products"}>{data.button}</ButtonLink>}
     </Block>
@@ -48,12 +48,12 @@ export function PhotoBand({ data, blank }: SectionProps<"photo_band">) {
       <Pic src={data.image} ratio={2.4} tone={1} strong iconClassName="ez:-translate-y-11" />
       <div aria-hidden="true" className="ez:absolute ez:inset-0 ez:bg-[rgb(0_0_0/var(--ezd-overlay))]" />
       {empty && (
-        <span className="ez:absolute ez:text-site-item">
+        <span className="ez:absolute ez:font-display ez:text-site-item">
           <Bar strong />
         </span>
       )}
       {data.title && (
-        <p className="ez:absolute ez:m-0 ez:px-page ez:text-site-item ez:text-on-primary ez:drop-shadow">{data.title}</p>
+        <p className="ez:absolute ez:m-0 ez:px-page ez:font-display ez:text-site-item ez:text-on-primary ez:drop-shadow">{data.title}</p>
       )}
     </section>
   );
@@ -73,7 +73,7 @@ export function Testimonial({ data, blank }: SectionProps<"testimonial">) {
   }
   return (
     <figure data-slot="testimonial" className="ez:m-0 ez:grid ez:gap-3 ez:rounded-md ez:bg-surface-alt ez:p-6 ez:text-fg">
-      <blockquote className="ez:m-0 ez:text-site-item">“{data.quote}”</blockquote>
+      <blockquote className="ez:m-0 ez:font-display ez:text-site-item">“{data.quote}”</blockquote>
       {data.name && <figcaption className="ez:text-site-note ez:text-muted">{data.name}</figcaption>}
     </figure>
   );
@@ -173,7 +173,7 @@ export function Numbers({ data, blank }: SectionProps<"numbers">) {
       <div data-slot="numbers" data-blank="" className="ez:grid ez:grid-cols-3 ez:gap-2 ez:rounded-md ez:bg-surface-alt ez:p-6 ez:text-center ez:text-fg">
         {["개업", "수강생", "평점"].map((label) => (
           <div key={label} className="ez:grid ez:gap-1">
-            <span className="ez:text-site-item">
+            <span className="ez:font-display ez:text-site-item">
               <Bar size="short" />
             </span>
             <span className="ez:text-site-note ez:text-muted">{label}</span>
@@ -187,7 +187,7 @@ export function Numbers({ data, blank }: SectionProps<"numbers">) {
       {items.map((n) => (
         <div key={n.label} className="ez:grid ez:gap-1">
           <dt className="ez:order-2 ez:text-site-note ez:text-muted">{n.label}</dt>
-          <dd className="ez:order-1 ez:m-0 ez:text-site-item">{n.value}</dd>
+          <dd className="ez:order-1 ez:m-0 ez:font-display ez:text-site-item">{n.value}</dd>
         </div>
       ))}
     </dl>

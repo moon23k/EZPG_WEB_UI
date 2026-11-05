@@ -72,7 +72,7 @@ function blankCards(count: number, ratio: number) {
   return Array.from({ length: count }, (_, i) => (
     <Card key={i}>
       <Pic ratio={ratio} tone={i} className="ez:overflow-hidden ez:rounded-lg" />
-      <span className="ez:text-site-item">
+      <span className="ez:font-display ez:text-site-item">
         <Bar />
       </span>
       <span className="ez:text-site-note">
@@ -89,7 +89,7 @@ export function NextSession({ data, blank }: SectionProps<"next_session">) {
     return (
       <section data-slot="next-session" data-blank="" className="ez:grid ez:gap-2 ez:rounded-lg ez:bg-primary ez:p-5 ez:text-on-primary">
         <span className="ez:text-site-note ez:opacity-80">다음 수업</span>
-        <span className="ez:text-site-item">
+        <span className="ez:font-display ez:text-site-item">
           <Bar size="long" strong />
         </span>
         <Bar strong />
@@ -102,7 +102,7 @@ export function NextSession({ data, blank }: SectionProps<"next_session">) {
   return (
     <section data-slot="next-session" className="ez:grid ez:gap-2 ez:rounded-lg ez:bg-primary ez:p-5 ez:text-on-primary">
       <span className="ez:text-site-note ez:opacity-80">다음 수업</span>
-      <strong className="ez:text-site-item ez:tabular-nums">{`${s.date} ${s.time}`}</strong>
+      <strong className="ez:font-display ez:text-site-item ez:tabular-nums">{`${s.date} ${s.time}`}</strong>
       <span>{[s.name, s.length].filter(Boolean).join(" · ")}</span>
       <span className="ez:text-site-note">{s.status === "few" && s.seats_left ? `남은 자리 ${s.seats_left}` : statusText[s.status]}</span>
       <ButtonLink href={s.href ?? "#"} variant="outline" className="ez:justify-self-start ez:border-on-primary ez:text-on-primary ez:bg-transparent">
@@ -137,7 +137,7 @@ export function ClassSchedule({ data, variant, blank }: SectionProps<"class_sche
           {sessions.slice(0, 4).map((s, i) => (
             <Card key={s.id} href={s.href}>
               <Pic src={s.image} ratio={1} tone={i} />
-              <strong className="ez:text-site-item">{s.name}</strong>
+              <strong className="ez:font-display ez:text-site-item">{s.name}</strong>
               <span className="ez:text-site-note ez:text-muted ez:tabular-nums">{`${s.date} ${s.time}`}</span>
               <SessionStatus session={s} />
             </Card>
@@ -165,7 +165,7 @@ export function ClassList({ data, variant, blank }: SectionProps<"class_list">) 
           {[0, 1, 2].map((i) => (
             <Card key={i}>
               <Pic ratio={1.25} tone={i} className="ez:overflow-hidden ez:rounded-lg" />
-              <span className="ez:text-site-item">
+              <span className="ez:font-display ez:text-site-item">
                 <Bar />
               </span>
               <BlankPrice />
@@ -211,7 +211,7 @@ export function ClassList({ data, variant, blank }: SectionProps<"class_list">) 
                 ))}
               </span>
             )}
-            <strong className="ez:text-site-item">{c.name}</strong>
+            <strong className="ez:font-display ez:text-site-item">{c.name}</strong>
             {c.price && <span className="ez:tabular-nums">{c.price}</span>}
             {c.next && <span className="ez:text-site-note ez:text-primary">{c.next}</span>}
           </Card>

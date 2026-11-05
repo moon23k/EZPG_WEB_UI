@@ -6,7 +6,7 @@ function blankCases(count: number, ratio: number) {
   return Array.from({ length: count }, (_, i) => (
     <Card key={i}>
       <Pic ratio={ratio} tone={i} className="ez:overflow-hidden ez:rounded-lg" />
-      <span className="ez:text-site-item">
+      <span className="ez:font-display ez:text-site-item">
         <Bar />
       </span>
       <span className="ez:text-site-note">
@@ -48,7 +48,7 @@ export function PackageCards({ data, blank }: SectionProps<"package_cards">) {
               <span className="ez:text-site-note">
                 <Bar />
               </span>
-              <BlankPrice className="ez:text-site-item" />
+              <BlankPrice className="ez:font-display ez:text-site-item" />
               <span className="ez:text-site-note">
                 <Bar size="long" />
               </span>
@@ -67,7 +67,7 @@ export function PackageCards({ data, blank }: SectionProps<"package_cards">) {
         {items.map((p) => (
           <div key={p.name} className="ez:grid ez:content-start ez:gap-2 ez:rounded-lg ez:border ez:border-solid ez:border-primary-border ez:p-5 ez:text-fg">
             <span className="ez:text-site-note ez:text-muted">{p.name}</span>
-            <strong className="ez:text-site-item ez:text-primary ez:tabular-nums">{p.price}</strong>
+            <strong className="ez:font-display ez:text-site-item ez:text-primary ez:tabular-nums">{p.price}</strong>
             {p.includes && (
               <ul className="ez:m-0 ez:grid ez:gap-1 ez:pl-4 ez:text-site-note">
                 {p.includes.map((i) => (
@@ -104,7 +104,7 @@ export function CaseGrid({ data, blank }: SectionProps<"case_grid">) {
         {cases.map((c, i) => (
           <Card key={c.id} href={c.href}>
             <Pic src={c.image} ratio={0.75} tone={i} />
-            <strong className="ez:text-site-item">{c.title}</strong>
+            <strong className="ez:font-display ez:text-site-item">{c.title}</strong>
             {c.meta && <span className="ez:text-site-note ez:text-muted">{c.meta}</span>}
           </Card>
         ))}
@@ -135,7 +135,7 @@ export function CaseCards({ data, blank }: SectionProps<"case_cards">) {
           <Card key={c.id} href={c.href}>
             <Pic src={c.image} ratio={1.78} tone={i} className="ez:overflow-hidden ez:rounded-lg" />
             {c.meta && <span className="ez:text-site-note ez:text-muted">{c.meta}</span>}
-            <strong className="ez:text-site-item">{c.title}</strong>
+            <strong className="ez:font-display ez:text-site-item">{c.title}</strong>
             {c.scope && <span className="ez:text-site-note ez:text-muted">{c.scope}</span>}
           </Card>
         ))}

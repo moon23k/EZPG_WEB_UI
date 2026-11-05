@@ -19,7 +19,7 @@ export function FaqSection({ context, blank }: SectionProps<"faq">) {
   }
   return (
     <section data-slot="faq" className="ez:grid ez:gap-2 ez:text-fg">
-      <h2 className="ez:m-0 ez:text-site-section">자주 묻는 질문</h2>
+      <h2 className="ez:m-0 ez:font-display ez:text-site-section">자주 묻는 질문</h2>
       <div>
         {context.faqs.map((f) => (
           <details key={f.id} className="ez:group ez:border-0 ez:border-b ez:border-solid ez:border-primary-border">

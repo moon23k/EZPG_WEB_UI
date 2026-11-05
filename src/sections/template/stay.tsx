@@ -32,7 +32,7 @@ export function BookingStrip({ data, blank }: SectionProps<"booking_strip">) {
   if (!data.price && !blank) return null;
   return (
     <section data-slot="booking-strip" data-blank={data.price ? undefined : ""} className="ez:grid ez:gap-3 ez:rounded-md ez:bg-surface-alt ez:p-4 ez:text-fg ez:md:grid-cols-[1fr_auto] ez:md:items-center">
-      {data.price ? <strong className="ez:text-site-item ez:tabular-nums">{data.price}</strong> : <BlankPrice before="1박" after="원부터" className="ez:text-site-item" />}
+      {data.price ? <strong className="ez:font-display ez:text-site-item ez:tabular-nums">{data.price}</strong> : <BlankPrice before="1박" after="원부터" className="ez:font-display ez:text-site-item" />}
       {data.price ? <ButtonLink href={data.href ?? "/booking"}>예약하기</ButtonLink> : <BlankButton>예약하기</BlankButton>}
     </section>
   );
@@ -144,7 +144,7 @@ export function RoomList({ data, blank }: SectionProps<"room_list">) {
           {[0, 1, 2].map((i) => (
             <Card key={i} className="ez:flex ez:flex-col">
               <Pic ratio={1.5} tone={i} />
-              <span className="ez:text-site-item">
+              <span className="ez:font-display ez:text-site-item">
                 <Bar />
               </span>
               <span className="ez:text-site-note">
@@ -168,7 +168,7 @@ export function RoomList({ data, blank }: SectionProps<"room_list">) {
         {rooms.map((r, i) => (
           <Card key={r.id} className="ez:flex ez:flex-col">
             <Pic src={r.image} ratio={1.5} tone={i} />
-            <strong className="ez:text-site-item">{r.name}</strong>
+            <strong className="ez:font-display ez:text-site-item">{r.name}</strong>
             <span className="ez:text-site-note ez:text-muted">{r.specs.join(" · ")}</span>
             <strong className="ez:text-primary ez:tabular-nums">{r.price}</strong>
             {r.left != null && <span className="ez:text-site-note ez:text-muted">{`남은 객실 ${r.left}`}</span>}
@@ -193,7 +193,7 @@ export function RoomBox({ data, blank }: SectionProps<"room_box">) {
       <div className="ez:grid ez:gap-2 ez:p-6 ez:text-center">
         {!data.title && (
           <>
-            <span className="ez:text-site-item">
+            <span className="ez:font-display ez:text-site-item">
               <Bar />
             </span>
             <Lines />
@@ -202,7 +202,7 @@ export function RoomBox({ data, blank }: SectionProps<"room_box">) {
             </BlankButton>
           </>
         )}
-        {data.title && <strong className="ez:text-site-item">{data.title}</strong>}
+        {data.title && <strong className="ez:font-display ez:text-site-item">{data.title}</strong>}
         {data.body && <p className="ez:m-0 ez:text-muted">{data.body}</p>}
         {data.names && <span className="ez:text-site-note">{data.names.join(" · ")}</span>}
         {data.href && (
