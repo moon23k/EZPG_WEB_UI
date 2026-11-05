@@ -1,7 +1,22 @@
 import type { SectionProps } from "../../renderer/registry";
+import { Bar, Block, Title } from "../kit";
 
-export function FaqSection({ context }: SectionProps<"faq">) {
-  if (!context.faqs.length) return null;
+export function FaqSection({ context, blank }: SectionProps<"faq">) {
+  if (!context.faqs.length && !blank) return null;
+  if (!context.faqs.length) {
+    return (
+      <Block slot="faq" blank>
+        <Title>자주 묻는 질문</Title>
+        <div>
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="ez:flex ez:min-h-12 ez:items-center ez:border-0 ez:border-b ez:border-solid ez:border-primary-border ez:py-3">
+              <Bar size="long" />
+            </div>
+          ))}
+        </div>
+      </Block>
+    );
+  }
   return (
     <section data-slot="faq" className="ez:grid ez:gap-2 ez:text-fg">
       <h2 className="ez:m-0 ez:text-site-section">자주 묻는 질문</h2>

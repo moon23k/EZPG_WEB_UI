@@ -1,10 +1,23 @@
 import type { SectionProps } from "../../renderer/registry";
 import { cn } from "../../utils/cn";
+import { Bar, Lines } from "../kit";
 
-export function BrandStory({ data, variant }: SectionProps<"story">) {
+export function BrandStory({ data, variant, blank }: SectionProps<"story">) {
   const body = data.body ?? [];
   const strengths = data.strengths ?? [];
-  if (!data.title && !body.length) return null;
+  if (!data.title && !body.length && !blank) return null;
+  if (!data.title && !body.length) {
+    return (
+      <section data-slot="story" data-blank="" data-variant={variant} className={cn("ez:grid ez:gap-6 ez:text-fg", variant === "band" && "ez:justify-items-center ez:py-8 ez:text-center")}>
+        <div className="ez:grid ez:w-full ez:max-w-170 ez:gap-3">
+          <span className="ez:text-site-section">
+            <Bar size="long" />
+          </span>
+          <Lines />
+        </div>
+      </section>
+    );
+  }
   return (
     <section data-slot="story" data-variant={variant} className={cn("ez:grid ez:gap-6 ez:text-fg", variant === "band" && "ez:justify-items-center ez:py-8 ez:text-center")}>
       <div className="ez:grid ez:max-w-170 ez:gap-3">

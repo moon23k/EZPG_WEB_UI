@@ -208,7 +208,7 @@ describe("SiteRenderer", () => {
   it("follows the template order unless the partner arranged the page", () => {
     const template = resolveTemplate("quote", "a");
     const { unmount } = render(<SiteRenderer page={{ sections }} context={context} template={template} />);
-    expect(headings()).toEqual(["가격", "진행 순서", "자주 묻는 질문"]);
+    expect(headings()).toEqual(["작업 사례", "가격", "진행 순서", "후기", "자주 묻는 질문"]);
     unmount();
     render(<SiteRenderer page={{ sections, arranged: true }} context={context} template={template} />);
     expect(headings()).toEqual(["진행 순서", "가격"]);

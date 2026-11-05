@@ -84,8 +84,8 @@ function ClassSummary({ data, variant }: DetailBlockProps) {
     >
       <h1 className="ez:m-0 ez:font-display ez:font-title ez:text-3xl ez:tracking-brand">{data.title}</h1>
       <ul className={cn("ez:m-0 ez:grid ez:list-none ez:gap-2 ez:p-0", variant === "cells" ? "ez:grid-cols-2 ez:md:grid-cols-5" : "ez:grid-cols-2 ez:md:grid-cols-4")}>
-        {(data.rows ?? []).map((r) => (
-          <li key={r.label} className="ez:grid ez:gap-0.5 ez:rounded-md ez:bg-surface ez:p-3">
+        {(data.rows ?? []).map((r, i) => (
+          <li key={i} className="ez:grid ez:gap-0.5 ez:rounded-md ez:bg-surface ez:p-3">
             <span className="ez:text-xs ez:text-muted">{r.label}</span>
             <strong className="ez:tabular-nums">{r.value}</strong>
           </li>

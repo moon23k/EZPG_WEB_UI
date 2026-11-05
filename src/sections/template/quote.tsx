@@ -1,10 +1,32 @@
 import { ButtonLink } from "../../components/button";
 import type { SectionProps } from "../../renderer/registry";
-import { Block, Card, Chips, Cols, Pic, Rows, Title } from "../kit";
+import { Bar, BlankButton, BlankPrice, Block, Card, Chips, Cols, Pic, Rows, Title } from "../kit";
 
-export function PriceTiers({ data }: SectionProps<"price_tiers">) {
+function blankCases(count: number, ratio: number) {
+  return Array.from({ length: count }, (_, i) => (
+    <Card key={i}>
+      <Pic ratio={ratio} tone={i} className="ez:overflow-hidden ez:rounded-lg" />
+      <span className="ez:text-site-item">
+        <Bar />
+      </span>
+      <span className="ez:text-site-note">
+        <Bar size="long" />
+      </span>
+    </Card>
+  ));
+}
+
+export function PriceTiers({ data, blank }: SectionProps<"price_tiers">) {
   const items = data.items ?? [];
-  if (!items.length) return null;
+  if (!items.length && !blank) return null;
+  if (!items.length) {
+    return (
+      <Block slot="price-tiers" blank>
+        <Title>{data.title ?? "가격"}</Title>
+        <Rows rows={[0, 1, 2].map(() => ({ label: <Bar />, value: <BlankPrice /> }))} />
+      </Block>
+    );
+  }
   return (
     <Block slot="price-tiers">
       <Title>{data.title ?? "가격"}</Title>
@@ -13,9 +35,30 @@ export function PriceTiers({ data }: SectionProps<"price_tiers">) {
   );
 }
 
-export function PackageCards({ data }: SectionProps<"package_cards">) {
+export function PackageCards({ data, blank }: SectionProps<"package_cards">) {
   const items = data.items ?? [];
-  if (!items.length) return null;
+  if (!items.length && !blank) return null;
+  if (!items.length) {
+    return (
+      <Block slot="package-cards" blank>
+        <Title>{data.title ?? "상품 · 가격"}</Title>
+        <Cols m={1} pc={3}>
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="ez:grid ez:content-start ez:gap-2 ez:rounded-lg ez:border ez:border-solid ez:border-primary-border ez:p-5 ez:text-fg">
+              <span className="ez:text-site-note">
+                <Bar />
+              </span>
+              <BlankPrice className="ez:text-site-item" />
+              <span className="ez:text-site-note">
+                <Bar size="long" />
+              </span>
+              <BlankButton>예약 문의</BlankButton>
+            </div>
+          ))}
+        </Cols>
+      </Block>
+    );
+  }
   return (
     <Block slot="package-cards">
       <Title>{data.title ?? "상품 · 가격"}</Title>
@@ -40,9 +83,19 @@ export function PackageCards({ data }: SectionProps<"package_cards">) {
   );
 }
 
-export function CaseGrid({ data }: SectionProps<"case_grid">) {
+export function CaseGrid({ data, blank }: SectionProps<"case_grid">) {
   const cases = data.cases ?? [];
-  if (!cases.length) return null;
+  if (!cases.length && !blank) return null;
+  if (!cases.length) {
+    return (
+      <Block slot="case-grid" blank>
+        <Title>{data.title ?? "작업 사례"}</Title>
+        <Cols m={2} pc={4}>
+          {blankCases(4, 0.75)}
+        </Cols>
+      </Block>
+    );
+  }
   return (
     <Block slot="case-grid">
       <Title>{data.title ?? "작업 사례"}</Title>
@@ -60,9 +113,19 @@ export function CaseGrid({ data }: SectionProps<"case_grid">) {
   );
 }
 
-export function CaseCards({ data }: SectionProps<"case_cards">) {
+export function CaseCards({ data, blank }: SectionProps<"case_cards">) {
   const cases = data.cases ?? [];
-  if (!cases.length) return null;
+  if (!cases.length && !blank) return null;
+  if (!cases.length) {
+    return (
+      <Block slot="case-cards" blank>
+        <Title>{data.title ?? "프로젝트"}</Title>
+        <Cols m={1} pc={3}>
+          {blankCases(3, 1.78)}
+        </Cols>
+      </Block>
+    );
+  }
   return (
     <Block slot="case-cards">
       <Title>{data.title ?? "프로젝트"}</Title>
@@ -81,10 +144,11 @@ export function CaseCards({ data }: SectionProps<"case_cards">) {
   );
 }
 
-export function BeforeAfter({ data }: SectionProps<"before_after">) {
-  if (!data.before && !data.after) return null;
+export function BeforeAfter({ data, blank }: SectionProps<"before_after">) {
+  const empty = !data.before && !data.after;
+  if (empty && !blank) return null;
   return (
-    <section data-slot="before-after" className="ez:grid ez:grid-cols-2 ez:gap-2 ez:text-fg">
+    <section data-slot="before-after" data-blank={empty ? "" : undefined} className="ez:grid ez:grid-cols-2 ez:gap-2 ez:text-fg">
       {(
         [
           ["BEFORE", data.before],

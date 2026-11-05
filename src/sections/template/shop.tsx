@@ -1,10 +1,28 @@
 import type { SectionProps } from "../../renderer/registry";
-import { Block, Card, Cols, Pic, Rows, Title } from "../kit";
+import { Bar, Block, Card, Cols, Pic, Rows, Title } from "../kit";
 import type { Tile } from "./data";
 
-export function CategoryTiles({ data, context }: SectionProps<"category_tiles">) {
+function blankTiles(count: number, ratio: number) {
+  return Array.from({ length: count }, (_, i) => (
+    <Card key={i}>
+      <Pic ratio={ratio} tone={i} />
+      <Bar />
+    </Card>
+  ));
+}
+
+export function CategoryTiles({ data, context, blank }: SectionProps<"category_tiles">) {
   const items: Tile[] = data.items?.length ? data.items : context.categories.map((c) => ({ title: c.name, href: `/products?category=${c.id}` }));
-  if (!items.length) return null;
+  if (!items.length && !blank) return null;
+  if (!items.length) {
+    return (
+      <section data-slot="category-tiles" data-blank="">
+        <Cols m={1} pc={3}>
+          {blankTiles(3, 1.8)}
+        </Cols>
+      </section>
+    );
+  }
   return (
     <section data-slot="category-tiles">
       <Cols m={1} pc={3}>
@@ -19,9 +37,19 @@ export function CategoryTiles({ data, context }: SectionProps<"category_tiles">)
   );
 }
 
-export function Curation({ data }: SectionProps<"curation">) {
+export function Curation({ data, blank }: SectionProps<"curation">) {
   const items = data.items ?? [];
-  if (!items.length) return null;
+  if (!items.length && !blank) return null;
+  if (!items.length) {
+    return (
+      <Block slot="curation" blank>
+        <Title>{data.title ?? "기획"}</Title>
+        <Cols m={2} pc={4}>
+          {blankTiles(4, 1)}
+        </Cols>
+      </Block>
+    );
+  }
   return (
     <Block slot="curation">
       {data.title && <Title>{data.title}</Title>}
@@ -40,18 +68,18 @@ export function Curation({ data }: SectionProps<"curation">) {
   );
 }
 
-export function StoreInfo({ data }: SectionProps<"store_info">) {
-  if (!data.address) return null;
+export function StoreInfo({ data, blank }: SectionProps<"store_info">) {
+  if (!data.address && !blank) return null;
   return (
-    <section data-slot="store-info" className="ez:grid ez:gap-4 ez:rounded-md ez:bg-surface-alt ez:p-4 ez:text-fg ez:md:grid-cols-[1.4fr_1fr] ez:md:items-center">
+    <section data-slot="store-info" data-blank={data.address ? undefined : ""} className="ez:grid ez:gap-4 ez:rounded-md ez:bg-surface-alt ez:p-4 ez:text-fg ez:md:grid-cols-[1.4fr_1fr] ez:md:items-center">
       <Pic src={data.image} ratio={1.7} tone={3} />
       <div className="ez:grid ez:gap-2">
         <strong className="ez:text-site-item">{data.title ?? "쇼룸"}</strong>
         <Rows
           rows={[
-            { label: "주소", value: data.address },
-            ...(data.hours ? [{ label: "영업시간", value: data.hours }] : []),
-            ...(data.phone ? [{ label: "전화", value: data.phone }] : []),
+            { label: "주소", value: data.address ?? <Bar size="long" /> },
+            ...(data.hours || !data.address ? [{ label: "영업시간", value: data.hours ?? <Bar /> }] : []),
+            ...(data.phone || !data.address ? [{ label: "전화", value: data.phone ?? <Bar /> }] : []),
           ]}
         />
       </div>

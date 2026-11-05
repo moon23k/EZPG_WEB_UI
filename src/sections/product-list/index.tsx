@@ -2,6 +2,7 @@ import { Link } from "../../components/link";
 import { ProductGrid } from "../../blocks/product-grid";
 import type { SectionProps } from "../../renderer/registry";
 import { CategoryChips } from "../category-menu";
+import { Bar, BlankPrice, Card, Cols, Pic, Title } from "../kit";
 
 const SHOWN = 8;
 
@@ -11,8 +12,24 @@ function fullRows(count: number, m: number, pc: number): number {
   return count < pc ? count : Math.floor(count / both) * both || Math.floor(count / pc) * pc;
 }
 
-export function ProductList({ data, context, grid, variant }: SectionProps<"product_grid">) {
-  if (!context.products.length) return null;
+export function ProductList({ data, context, grid, variant, blank }: SectionProps<"product_grid">) {
+  if (!context.products.length && !blank) return null;
+  if (!context.products.length) {
+    return (
+      <section data-slot="product-grid-section" data-blank="" className="ez:grid ez:gap-4 ez:text-fg">
+        <Title>{data.title ?? "상품"}</Title>
+        <Cols m={grid?.m ?? 2} pc={grid?.pc ?? 4}>
+          {Array.from({ length: grid?.pc ?? 4 }, (_, i) => (
+            <Card key={i}>
+              <Pic ratio={grid?.ratio ?? 1} tone={i} />
+              <Bar />
+              <BlankPrice />
+            </Card>
+          ))}
+        </Cols>
+      </section>
+    );
+  }
   const shown = context.products.slice(0, fullRows(Math.min(context.products.length, SHOWN), grid?.m ?? 2, grid?.pc ?? 4));
   return (
     <section data-slot="product-grid-section" className="ez:grid ez:gap-4 ez:text-fg">

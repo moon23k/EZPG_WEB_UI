@@ -31,7 +31,7 @@ export type SectionData = {
 
 export type SectionKind = keyof SectionData;
 
-export type SectionProps<K extends SectionKind = SectionKind> = { data: SectionData[K]; context: SiteContext; variant?: string; grid?: GridSpec; lead?: boolean };
+export type SectionProps<K extends SectionKind = SectionKind> = { data: SectionData[K]; context: SiteContext; variant?: string; grid?: GridSpec; lead?: boolean; blank?: boolean };
 
 export const sections: { [K in SectionKind]: ComponentType<SectionProps<K>> } = {
   hero: Hero,

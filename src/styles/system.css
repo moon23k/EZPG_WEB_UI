@@ -27,6 +27,8 @@
   --color-tile-strong-4: #7f8c7b;
   --color-tile-ink: rgb(28 26 23 / 0.62);
   --color-tile-ink-strong: rgb(255 255 255 / 0.85);
+  --color-tile-blank: rgb(28 26 23 / 0.13);
+  --color-tile-blank-strong: rgb(255 255 255 / 0.55);
   --text-site-page: 3rem;
   --text-site-page--line-height: 3.75rem;
   --text-site-page--font-weight: 700;

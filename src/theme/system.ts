@@ -61,3 +61,10 @@ export const SYSTEM_SITE = {
   "pad": 64
 };
 
+export const SYSTEM_BLANK = {
+  "short": "3em",
+  "mid": "6em",
+  "long": "10em",
+  "tail": "61%"
+};
+

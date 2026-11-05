@@ -4,7 +4,9 @@ import { Photo } from "../../components/photo";
 import { cn } from "../../utils/cn";
 import { focusRing } from "../../utils/styles";
 
-export type Row = { label: string; value?: string };
+export { Bar, BlankButton, BlankChips, BlankPrice, BlankStars, Lines } from "./blank";
+
+export type Row = { label: ReactNode; value?: ReactNode };
 
 export const line = "ez:border-solid ez:border-primary-border ez:[border-width:var(--ezd-line)]";
 
@@ -17,9 +19,9 @@ export function Title({ children, aside }: { children: ReactNode; aside?: ReactN
   );
 }
 
-export function Block({ slot, children, className }: { slot: string; children: ReactNode; className?: string }) {
+export function Block({ slot, children, className, blank }: { slot: string; children: ReactNode; className?: string; blank?: boolean }) {
   return (
-    <section data-slot={slot} className={cn("ez:grid ez:gap-4 ez:text-fg", className)}>
+    <section data-slot={slot} data-blank={blank ? "" : undefined} className={cn("ez:grid ez:gap-4 ez:text-fg", className)}>
       {children}
     </section>
   );
@@ -62,11 +64,15 @@ export function Rows({ rows }: { rows: Row[] }) {
   return (
     <table className="ez:w-full ez:border-collapse ez:text-site-note">
       <tbody>
-        {rows.map((r) => (
-          <tr key={r.label} className="ez:border-0 ez:border-b ez:border-solid ez:border-primary-border">
-            <th scope="row" className="ez:py-2.5 ez:pr-3 ez:text-left ez:font-normal ez:text-muted">
-              {r.label}
-            </th>
+        {rows.map((r, i) => (
+          <tr key={i} className="ez:border-0 ez:border-b ez:border-solid ez:border-primary-border">
+            {typeof r.label === "string" ? (
+              <th scope="row" className="ez:py-2.5 ez:pr-3 ez:text-left ez:font-normal ez:text-muted">
+                {r.label}
+              </th>
+            ) : (
+              <td className="ez:py-2.5 ez:pr-3">{r.label}</td>
+            )}
             {r.value !== undefined && <td className="ez:py-2.5 ez:text-right ez:tabular-nums">{r.value}</td>}
           </tr>
         ))}
@@ -75,11 +81,11 @@ export function Rows({ rows }: { rows: Row[] }) {
   );
 }
 
-export function Steps({ steps }: { steps: string[] }) {
+export function Steps({ steps }: { steps: ReactNode[] }) {
   return (
     <ol className="ez:m-0 ez:grid ez:list-none ez:grid-cols-2 ez:gap-2 ez:p-0 ez:md:auto-cols-fr ez:md:grid-flow-col ez:md:grid-cols-none">
       {steps.map((s, i) => (
-        <li key={s} className="ez:grid ez:gap-1 ez:rounded-md ez:bg-surface-alt ez:p-3 ez:text-site-note">
+        <li key={i} className="ez:grid ez:gap-1 ez:rounded-md ez:bg-surface-alt ez:p-3 ez:text-site-note">
           <strong className="ez:text-primary ez:tabular-nums">{i + 1}</strong>
           {s}
         </li>

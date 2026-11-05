@@ -88,6 +88,22 @@ function Page({ main, letter }: { main: TemplateMain; letter: string }) {
   );
 }
 
+function BlankPage({ main, letter }: { main: TemplateMain; letter: string }) {
+  const t = resolveTemplate(main, letter);
+  return (
+    <ThemeRoot template={t}>
+      <div style={{ background: "var(--ezd-surface)", color: "var(--ezd-text)", fontFamily: "var(--ezd-font-body)" }}>
+        <SiteHeader name="상점 이름" variant={t.header} cta={t.cta ? { label: t.cta, href: "/quote" } : null} />
+        <main className="ez:mx-auto ez:grid ez:w-full ez:max-w-wrap ez:gap-section ez:px-page ez:py-8">
+          <SiteRenderer page={{ sections: [] }} context={{ products: [], categories: [], faqs: [], shipping: null, flags: {} }} template={t} />
+        </main>
+      </div>
+    </ThemeRoot>
+  );
+}
+
+const blank = (main: TemplateMain, letter: string, name: string): StoryObj => ({ name, render: () => <BlankPage main={main} letter={letter} /> });
+
 const story = (main: TemplateMain, letter: string, name: string): StoryObj => ({ name, render: () => <Page main={main} letter={letter} /> });
 
 export const S1 = story("shop", "a", "쇼핑몰 · S1 테두리 칸 편집형");
@@ -104,3 +120,18 @@ export const Q1 = story("quote", "a", "견적 · Q1 사례 갤러리형");
 export const Q2 = story("quote", "d", "견적 · Q2 시공 견적 계산형");
 export const Q3 = story("quote", "b", "견적 · Q3 패키지 확정가형");
 export const Q4 = story("quote", "c", "견적 · Q4 프로젝트 문의형");
+
+export const S1Blank = blank("shop", "a", "공란 · S1");
+export const S2Blank = blank("shop", "b", "공란 · S2");
+export const S3Blank = blank("shop", "c", "공란 · S3");
+export const S4Blank = blank("shop", "d", "공란 · S4");
+export const C1Blank = blank("class", "a", "공란 · C1");
+export const C2Blank = blank("class", "b", "공란 · C2");
+export const C3Blank = blank("class", "c", "공란 · C3");
+export const T1Blank = blank("stay", "a", "공란 · T1");
+export const T2Blank = blank("stay", "b", "공란 · T2");
+export const T3Blank = blank("stay", "c", "공란 · T3");
+export const Q1Blank = blank("quote", "a", "공란 · Q1");
+export const Q2Blank = blank("quote", "d", "공란 · Q2");
+export const Q3Blank = blank("quote", "b", "공란 · Q3");
+export const Q4Blank = blank("quote", "c", "공란 · Q4");
